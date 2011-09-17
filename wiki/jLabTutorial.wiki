@@ -33,6 +33,8 @@ println("sm = "+sm)
 
 `We should paste the code in the jLab's programmer's editor and then select it, and press F6.`
 
-`Pressing ` *`F6 with no selected text, executes the current line`*
+`Pressing ` *`F6 with no selected text, executes the current line.`*
+
+`Also, another very useful keystroke is the ` *`F2 keystroke`* `that executes the code from the previously executed position up to the current position.`
 
  
