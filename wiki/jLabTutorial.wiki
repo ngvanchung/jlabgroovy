@@ -2,8 +2,7 @@
 
 = Introduction =
 
-Add your content here.
-
+`In this tutorial we demonstrate the more important parts of working with jLab. We concetrate on GroovySci mode which is much more powerful and promising than the j-Script mode.`
 
 = Details =
 
