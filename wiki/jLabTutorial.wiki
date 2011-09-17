@@ -28,5 +28,5 @@ t= inc(0, 0.01, 50); x = sin(0.5*t)+2.3*cos(2.3*t); plot(t,x)
 sm=0.0
 for (k in 0..2000)
  sm += k
-prinln("sm = "+sm)
+println("sm = "+sm)
 }}}
