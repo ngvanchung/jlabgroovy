@@ -11,3 +11,9 @@
 `The user can execute GroovySci scripts in two ways: `
   # `At the Command Console Window`
   # `With the jLab programmer's editor`
+
+`The command console window is convenient for single line command execution, i.e. we can write: `
+{{{
+t= inc(0, 0.01, 50); x = sin(0.5*t)+2.3*cos(2.3*t); plot(t,x)
+}}}
+`and execute directly this command by pasting it at the command window.`
