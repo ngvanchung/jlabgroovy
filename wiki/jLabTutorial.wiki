@@ -2,11 +2,8 @@
 
 = Introduction =
 
-`In this tutorial we demonstrate the more important parts of working with jLab. We concetrate on GroovySci mode which is much more powerful and promising than the j-Script mode.`
+`In this tutorial we demonstrate the more important parts of working with jLab. We concentrate on GroovySci mode which is much more powerful and promising than the j-Script mode.`
 
-= Details =
+= The essentials of the User Interface =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+`After initialization jLab presents two windows: ` *`a. The Programmer's editor window`* that provides a `*`specialized editor`*`, along with the `*`output console`*, and *`b. The Main User Interface window`* that provides things as the` *`command console window, the explorer, the history window, the main menu bar, and the toolbars*`. 
