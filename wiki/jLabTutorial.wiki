@@ -30,3 +30,9 @@ for (k in 0..2000)
  sm += k
 println("sm = "+sm)
 }}}
+
+`We should paste the code in the jLab's programmer's editor and then select it, and press F6.`
+
+`Pressing ` *`F6 with no selected text, executes the current line`*
+
+ 
