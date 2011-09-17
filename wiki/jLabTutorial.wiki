@@ -17,3 +17,7 @@
 t= inc(0, 0.01, 50); x = sin(0.5*t)+2.3*cos(2.3*t); plot(t,x)
 }}}
 `and execute directly this command by pasting it at the command window.`
+
+`Contrary the jLab programmer's editor allows to execute program text, while editing it. `
+
+`To execute program text: ` *`select the text and press F6.*`
