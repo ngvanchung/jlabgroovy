@@ -6,4 +6,4 @@
 
 = The essentials of the User Interface =
 
-`After initialization jLab presents two windows: ` *`a. The Programmer's editor window`* `that provides a `*`specialized editor`*`, along with the `*`output console`*, and *`b. The Main User Interface window`* `that provides things as the` *`command console window, the explorer, the history window, the main menu bar, and the toolbars*`. 
+`After initialization jLab presents two windows: ` *`a. The Programmer's editor window`* `that provides a `*`specialized editor`*`, along with the `*`output console`*, and *`b. The Main User Interface window`* `that provides things as the` *`command console window, the explorer, the history window, the main menu bar, and the toolbars`*. 
