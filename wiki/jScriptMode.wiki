@@ -32,3 +32,35 @@ y = yOut(3,:); z = yOut(4,:);
 
 fig3d(1); plot3d_line(x,y,z, "Double Scroll  attractor");
 }}
+
+
+== Example 2 ==
+
+{{{
+fName  = "jExec.Functions.Chaotic.LorenzDiffSys";
+ n= 3;
+ xStart = 0.0;
+ xEnd =  getNumberDialog("Enter up integration value");
+x0(1) = rand(1); 
+x0(2) = rand(1); 
+x0(3) = rand(1);
+
+ contFlag = "true"; tic;
+ tol = 0.4e-15;  aeta = tol;  reta = tol; 
+h0=0.000001;  tic; 
+
+yOut = jdiffsys(xStart, xEnd, n, x0, fName, aeta, reta,  h0); 
+
+ timeCompute = toc; 
+ plotTitle = "Lorenz attractor with Java code, time "+timeCompute+ " end point = "+xEnd; 
+ t = yOut(1,:);  x = yOut(2,:);
+y = yOut(3,:); z = yOut(4,:);
+  figure(1); plot3(x,y,z);  hold("on"); xlabel('x'); ylabel('y'); zlabel('z');
+  title(plotTitle);
+
+ fig3d(1);  plot3d_line(x,y,z, "Lorenz  attractor");
+
+}}}
+
+
+== Example 3 ==
