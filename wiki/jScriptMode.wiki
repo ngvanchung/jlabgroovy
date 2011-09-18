@@ -2,7 +2,9 @@
 
 = Introduction =
 
-`The jScript mode of jLab is switched with the ` *`F2`* `key. Although, is not as powerful as the GroovySci mode, it provides an easy Matlab-like syntax. We present some examples of jScripts.`
+`The jScript mode of jLab is switched with the ` *`F2`* ` key. Although, is not as powerful as the GroovySci mode, it provides an easy Matlab-like syntax.`
+
+`We present some examples of jScripts. In order to execute, assure that jLab is in jScript mode, by pressing F2.`
 
 
 = Example 1 =
