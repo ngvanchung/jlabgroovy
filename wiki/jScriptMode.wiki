@@ -33,7 +33,7 @@ y = yOut(3,:); z = yOut(4,:);
   title(plotTitle);
 
 fig3d(1); plot3d_line(x,y,z, "Double Scroll  attractor");
-}}
+}}}
 
 
 == Example 2 ==
