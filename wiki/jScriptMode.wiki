@@ -9,7 +9,7 @@
 `We present some examples of jScripts. In order to execute, assure that jLab is in jScript mode, by pressing F2.`
 
 
-= Example 1 =
+== Example 1 ==
 {{{
 fName  = "jExec.Functions.Chaotic.DoubleScrollDiffSys";
  n= 3;
