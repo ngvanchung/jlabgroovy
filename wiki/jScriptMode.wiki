@@ -69,7 +69,6 @@ y = yOut(3,:); z = yOut(4,:);
 
 {{{
 
-
 fName  = "jExec.Functions.Chaotic.LorenzMultiStep";
  n= 3;
  xStart = 0.0;
