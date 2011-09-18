@@ -2,6 +2,8 @@
 
 = Introduction =
 
+`The main default mode of jLab is the ` *`GroovySci`* `mode based on the Groovy language. However, jLab supports and an interpreted mode that interprets a subset of Matlab, the ` *`jScript`* `mode.`
+
 `The jScript mode of jLab is switched with the ` *`F2`* ` key. Although, is not as powerful as the GroovySci mode, it provides an easy Matlab-like syntax.`
 
 `We present some examples of jScripts. In order to execute, assure that jLab is in jScript mode, by pressing F2.`
@@ -167,4 +169,3 @@ y = yOut(3,:); z = yOut(4,:);
 fig3d(1); plot3d_line(x,y,z, "NScroll  attractor");
 
 }}}
-
