@@ -64,3 +64,107 @@ y = yOut(3,:); z = yOut(4,:);
 
 
 == Example 3 ==
+
+{{{
+
+
+fName  = "jExec.Functions.Chaotic.LorenzMultiStep";
+ n= 3;
+ xStart = 0.0;
+ xEnd =  getNumberDialog("Enter up integration value");
+
+x0(1) = 0.12;
+x0(2) = 0.1; 
+x0(3) = 0.8;
+
+     hmin = 1e-8;  // the minimum steplength 
+     eps = 1.0e-9;  // the relative local error bound 
+     hmax = 0.1;  // the maximum steplength 
+     ymax(1) = 0.0001;  ymax(2) = 1.0;  ymax(3)=1.0; // the absolute local error bound divided by eps  
+     first = "true";
+     stiff = "false";
+     tic; 
+     yOut = jmultistep(xStart, xEnd, x0, hmin, hmax, ymax, eps, first, fName, stiff, n); 
+    timeCompute = toc; 
+   
+  x1 = yOut(2,:);  x2 = yOut(3,:);  x3 = yOut(4,:);  plot3(x1,x2,x3);
+
+ fig3d(1); plot3d_line(x,y,z, "Lorenz attractor evaluated with a multistep method ");
+
+}}}
+
+== Example 4 ==
+
+{{{
+ fName  = "jExec.Functions.Chaotic.Lorenz";
+ n= 3;
+ xStart = 0.0;
+ xEnd =  24.0;
+x0(1) = 0.04840037112900297; 
+x0(2) = 0.13548442252861992; 
+x0(3) = 0.8792018004421086; 
+
+ contFlag = "true"; tic;
+ evalRKe = jrke(xStart, xEnd, n, x0, fName, contFlag);
+timeCompute = toc; 
+ plotTitle = "Lorenz attractor with Java code, time "+timeCompute+ " end point = "+xEnd; 
+ t = evalRKe(1,:); x = evalRKe(2,:);
+y = evalRKe(3,:);z = evalRKe(4,:);
+  figure(1); plot3(x,y,z);  hold("on"); xlabel('x'); ylabel('y'); zlabel('z');
+
+fig3d(1);  plot3d_line(x,y,z, "Lorenz  attractor");
+
+}}}
+
+== Example 5 ==
+{{{
+fName  = "jExec.Functions.Chaotic.LorenzRKE";
+ n= 3;
+ xStart = 0.0;
+ xEnd =  getNumberDialog("Enter up integration value");
+x0(1) = rand(1); 
+x0(2) = rand(1); 
+x0(3) = rand(1);
+
+ contFlag = "true"; tic;
+ evalRKe = jrke(xStart, xEnd, n, x0, fName, contFlag);
+timeCompute = toc; 
+ plotTitle = "Lorenz attractor with Java code, time "+timeCompute+ " end point = "+xEnd; 
+ t = evalRKe(1,:); x = evalRKe(2,:);
+y = evalRKe(3,:);z = evalRKe(4,:);
+  figure(1); plot3(x,y,z);  hold("on"); xlabel('x'); ylabel('y'); zlabel('z'); title(plotTitle);
+
+
+fig3d(1); plot3d_line(x,y,z, "Lorenz   attractor - RKE method");
+
+}}}
+
+== Example 6 ==
+
+{{{
+clear("all"); close("all");
+fName  = "jExec.Functions.Chaotic.NScrollDiffSys";
+ n= 3;
+ xStart = 0.0;
+ xEnd =  getNumberDialog("Enter up integration value");
+x0(1) = rand(1); 
+x0(2) = rand(1); 
+x0(3) = rand(1);
+
+ contFlag = "true"; tic;
+ tol = 0.4e-15;  aeta = tol;  reta = tol; 
+h0=0.000001;  tic; 
+
+yOut = jdiffsys(xStart, xEnd, n, x0, fName, aeta, reta,  h0); 
+
+ timeCompute = toc; 
+ plotTitle = "Double Scroll attractor with Java code, time "+timeCompute+ " end point = "+xEnd; 
+ t = yOut(1,:);  x = yOut(2,:);
+y = yOut(3,:); z = yOut(4,:);
+  figure(1); plot3(x,y,z);  hold("on"); xlabel('x'); ylabel('y'); zlabel('z');
+  title(plotTitle);
+
+fig3d(1); plot3d_line(x,y,z, "NScroll  attractor");
+
+}}}
+
