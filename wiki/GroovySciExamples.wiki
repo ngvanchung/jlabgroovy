@@ -11,6 +11,8 @@
 
 == Henon Chaotic Map ==
 
+`This small GroovySci script computes some iterations of the Henon chaotic map and plots them. `
+
 {{{
 x = 0d; y = 0d;
 niters = 10000; 
@@ -27,7 +29,7 @@ for (k=1; k<niters; k++)  {
   xy[1][k] = y;
 };
 
-scatterPlotsOn()
+scatterPlotsOn()    // plot points without connecting with lines
 plot(xy);
 
 
