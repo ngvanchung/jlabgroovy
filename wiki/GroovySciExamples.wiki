@@ -443,3 +443,42 @@ plot(t, x12, Color.BLUE, "x1 .* x2");
 
 }}}
 
+
+== Using the Groovy's SwingBuilder to specify signal parameters and then perform FFT of the signal ==
+
+{{{
+// demonstrates using swing builder for getting signal parameters 
+// and performing FFT on that signal
+
+
+swing = new SwingBuilder()
+  frame = swing.frame(title:'Parameter Screen for signal') {
+panel {     
+        label('Sine Frequency')
+        textField(id:'frequency',  columns:10)
+        label('Noisy energy')
+        textField(id:'noiseCoef', columns:10)
+
+        button(text: 'Get Parameters', actionPerformed: {
+        f1 =Double.valueOf(swing.frequency.text)
+        noiseCoeff = Double.valueOf(swing.noiseCoef.text)
+        closeAll()
+        figure(1)
+        t = inc(0, 0.02, 90)
+        n = pow(2, 12)
+        t = t[1..n]
+        x = sin(f1*t)+noiseCoeff*rand(1,n)
+        y = fft(x)
+        figure(1) 
+        title("signal and its FFT")
+        subplot(2,1,1); plot(x, Color.RED, "Signal"); 
+        subplot(2,1,2); plot(y, Color.BLUE, "FFT");
+
+      })
+  }
+}
+frame.pack()
+frame.show()
+
+
+}}}
