@@ -64,7 +64,7 @@ y = yOut(3,:); z = yOut(4,:);
 }}}
 
 
-== Lorenz system integrated with multistep NUMALL method ==
+== Lorenz system integrated with multistep NUMAL method ==
 {{{
 
 fName  = "jExec.Functions.Chaotic.LorenzMultiStep";
