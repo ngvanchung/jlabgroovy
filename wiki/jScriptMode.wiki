@@ -198,3 +198,27 @@ plot2d_scatter(xall, yall);
 }}}
 
 
+== A simple scatter plot ==
+
+{{{
+clear all;
+t = 0:0.01:100;
+x1 = sin(0.23*t)+cos(6.7*t);
+fig(1);
+plot2d_scatter(t,x1);
+}}}
+
+== A simple Gaussian density plot ==
+
+{{{
+             t=0:0.01:20;
+             x = sin(0.42*t);
+             values(1,:) = t;
+             values(2,:) = x;
+             values = values';
+             quantile = [-14, -2, -0.5, 0, 0.5, 2, 14];
+             plot2d_gaussianDensity(values, quantile, "density plot");
+         
+}}}
+
+
