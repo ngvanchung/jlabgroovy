@@ -9,7 +9,7 @@
 `We present some examples of jScripts. In order to execute, assure that jLab is in jScript mode, by pressing F2.`
 
 
-== Example 1 ==
+== Double Scroll Attractor ==
 {{{
 fName  = "jExec.Functions.Chaotic.DoubleScrollDiffSys";
  n= 3;
@@ -36,7 +36,7 @@ fig3d(1); plot3d_line(x,y,z, "Double Scroll  attractor");
 }}}
 
 
-== Example 2 ==
+== Lorenz system integrated with diffsys NUMAL routine ==
 {{{
 fName  = "jExec.Functions.Chaotic.LorenzDiffSys";
  n= 3;
@@ -64,7 +64,7 @@ y = yOut(3,:); z = yOut(4,:);
 }}}
 
 
-== Example 3 ==
+== Lorenz system integrated with multistep NUMALL method ==
 {{{
 
 fName  = "jExec.Functions.Chaotic.LorenzMultiStep";
@@ -92,7 +92,7 @@ x0(3) = 0.8;
 
 }}}
 
-== Example 4 ==
+== Lorenz system integrated with Runge-Kutta NUMAL method ==
 {{{
  fName  = "jExec.Functions.Chaotic.Lorenz";
  n= 3;
@@ -114,7 +114,7 @@ fig3d(1);  plot3d_line(x,y,z, "Lorenz  attractor");
 
 }}}
 
-== Example 5 ==
+== Lorenz system integrated with Runge-Kutta NUMAL method specifying  end integration value and starting in a random state ==
 {{{
 fName  = "jExec.Functions.Chaotic.LorenzRKE";
  n= 3;
@@ -137,7 +137,7 @@ fig3d(1); plot3d_line(x,y,z, "Lorenz   attractor - RKE method");
 
 }}}
 
-== Example 6 ==
+== N-Scroll attractor integrated with diffsys NUMAL method ==
 {{{
 clear("all"); close("all");
 fName  = "jExec.Functions.Chaotic.NScrollDiffSys";
@@ -250,5 +250,3 @@ fig3d(1); cloudPlot2D(xall, "test bar plot");
              values = values';
              plot3d_bar(values, "bar plot");
 }}}
-
-
