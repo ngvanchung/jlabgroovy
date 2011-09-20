@@ -222,3 +222,33 @@ plot2d_scatter(t,x1);
 }}}
 
 
+== A simple cloud plot ==
+{{{
+t=0:0.01:10; 
+xall(1,:) = sin(0.2*t);
+xall(2,:) = sin(0.6*t);
+xall(3,:) = sin(0.3334*t);
+[N M] =size(xall);
+xall = xall+rand(N, M);
+
+fig3d(1); cloudPlot2D(xall, "test bar plot");
+
+}}}
+
+
+
+== A simple 3-D Bar plot ==
+{{{
+
+             t=0:0.01:20;
+             x = sin(0.42*t);
+             N = length(x);
+             y = rand(1,N);
+             values(1,:) = t;
+             values(2,:) = x;
+             values(3,:) = y;
+             values = values';
+             plot3d_bar(values, "bar plot");
+}}}
+
+
