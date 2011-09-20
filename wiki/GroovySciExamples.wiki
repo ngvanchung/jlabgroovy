@@ -1,0 +1,17 @@
+#summary We provide some examples of working with GroovySci in jLab.
+
+= Introduction =
+
+`In this page we provide small examples of using GroovySci, the default jLab mode, in scientific applications. The code can be executed either:`
+
+  *  `by pasting it at the jLab's command console (it must be in GroovySci mode, not in jScript, F2 switches these modes)`
+  *  `by pasting the code within the jLab's programmer's editor, select the code and pressing F6`
+ 
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
