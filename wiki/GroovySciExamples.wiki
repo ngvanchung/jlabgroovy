@@ -15,8 +15,6 @@
 x = 0d; y = 0d;
 niters = 10000; 
 
-
-
 alpha = 1.4d;
 beta = 0.3d;
 tic();
