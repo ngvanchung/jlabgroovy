@@ -106,3 +106,58 @@ figure(1)
 plot(x, y, "time = "+tm)
 
 }}}
+
+
+== Demonstrating surface plots ==
+{{{
+
+// demonstrate a surface plot
+ // below is the script code. It is wrapped to a class of name surfPlot by Groovy
+ X = inc(-2, 0.2, 2);
+ Y = inc(-2, 0.2, 2);
+  
+ x = X.getArray()[0];
+ y = Y.getArray()[0];
+ 
+ 
+z1 = Functions.f1(x, y);
+z2 = Functions.f2(x, y);
+
+figure3d(1);  surf(x, y, z1, "Surface Plot");
+figure3d(2);  surf(x, y, z2, "Surface Plot 2");
+figure3d(3);  surf(x, y, z1, "Surface Plot"); surf(x, y, z2, "Surface Plot 2");
+
+class Functions {
+	// function definition: z=cos(PI*x)*sin(PI*y)
+	public static double f1(double x, double y) {
+		double z = Math.cos(x * Math.PI) * Math.sin(y *Math.PI);
+		return z;
+	}
+ 
+	// grid version of the function
+	public static double[][] f1(double[] x, double[] y) {
+		double[][] z = new double[y.length][x.length];
+		for (int i = 0; i < x.length; i++)
+			for (int j = 0; j < y.length; j++)
+				z[j][i] = f1(x[i], y[j]);
+		return z;
+	}
+ 
+	// another function definition: z=sin(PI*x)*cos(PI*y)
+	public static double f2(double x, double y) {
+		double z = Math.sin(x * Math.PI) * Math.cos(y * Math.PI);
+		return z;
+	}
+ 
+	// grid version of the function
+	public static double[][] f2(double[] x, double[] y) {
+		double[][] z = new double[y.length][x.length];
+		for (int i = 0; i < x.length; i++)
+			for (int j = 0; j < y.length; j++)
+				z[j][i] = f2(x[i], y[j]);
+		return z;
+	}
+  }
+
+ 
+}}}
