@@ -9,9 +9,28 @@
  
 
 
-= Details =
+== Henon Chaotic Map ==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+{{{
+x = 0d; y = 0d;
+niters = 10000; 
+
+
+
+alpha = 1.4d;
+beta = 0.3d;
+tic();
+xy=new double[2][niters];
+for (k=1; k<niters; k++)  {
+  xp = x;yp=y;
+  x = 1+yp-alpha *xp*xp;
+  y = beta*xp;
+  xy[0][k] = x;
+  xy[1][k] = y;
+};
+
+scatterPlotsOn()
+plot(xy);
+
+
+}}}
