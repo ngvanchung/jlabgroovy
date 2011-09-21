@@ -1,0 +1,13 @@
+#summary This page describes some aspects of using wavelets in jlabgroovy
+
+= Introduction =
+
+`The first step is to download the jWave.jar toolbox and to install as a jlabgroovy toolbox. `
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
