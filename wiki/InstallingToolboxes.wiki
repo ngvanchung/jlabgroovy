@@ -8,3 +8,5 @@
 = Example =
 
 `Suppose that we want to install the ` *`jWave.jar`* `toolbox. We proceed by opening the ` *`GroovySci Toolboxes`* `tab. A frame titled ` *`GroovySci toolboxes`* `is displayed that allows convenient installation of toolboxes.`
+
+`The ` *`Specify toolboxes`* `button allows to browse the file system and to specify our toolbox. The ` *`Append to classpath`* `button appends the toolbox to the classpath of the GroovyShell without attempting to scan its classes. It is sufficient for our purpose of using the classes of the toolbox, since in order to use a toolbox the only requirement is to be accessible from the GroovyShell's classpath. The `*`Import toolboxes`* `button in addition scans the toolbox classes and if the ` *`Retrieve also methods`* `checkbox is checked, acquires information about the toolbox classes with Java's reflection. That information is displayed graphically by means of a Swing's JTree. `  
