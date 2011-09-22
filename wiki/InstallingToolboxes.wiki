@@ -2,9 +2,9 @@
 
 = Introduction =
 
-`Installation of .jar toolboxes is very important and allows convenient access to Java scientific libraries. In jlabgroovy we can easily install .jar toolboxes that remain installed for later working sessions. We illustrate installation of a toolbox by means of an example.`
+`Installation of .jar toolboxes is very important and allows convenient access to Java scientific libraries. In ` *`jlabgroovy`* ` we can easily install .jar toolboxes that remain installed for later working sessions. We illustrate installation of a toolbox by means of an example.`
 
 
 = Example =
 
-`Suppose that we 
+`Suppose that we want to install the ` *`jWave.jar`* `toolbox. We proceed by opening the ` *`GroovySci Toolboxes`* `tab. A frame titled ` *`GroovySci toolboxes`* `is displayed that allows convenient installation of toolboxes.`
