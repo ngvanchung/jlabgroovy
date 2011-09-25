@@ -22,6 +22,15 @@ m=new Matrix(2, 3)
 
 {{{
 m = M([ [4.5, 5.6, -4], [ 4.5, 3, -3.4]]) 
+x1 = m[1][2]
+x2 = m[-1][2]		// where -1 stands for last row index
+x3 = m[1][-2]		// where -2 stands for last column index
+x4 = m[-1][2]		// where -1 stands for last row index
+x5 = m[-1][-2]		// where -1 stands for last row index, -2 stands for last column index
+x6 = m[1..4][2..3]
+x7 = M[4..1][2..3]	// thus reverting rows order
+x8 = M[1..-1][-2..3]
+		
 }}}
 
 
