@@ -2,8 +2,7 @@
 
 = Introduction =
 
-`This tutorial describes by means of examples the Matrix class of jlabgroovy.
-// not finished! `
+`This tutorial describes by means of examples the Matrix class of jlabgroovy. `
 
 
 = Tutorial on Matrix class =
@@ -59,3 +58,6 @@ x7 = m[4..1][2..3]	// thus reverting rows order
 x8 = m[1..-1][-2..3]
 		
 }}}
+
+
+` much remain to wrote later !! `
