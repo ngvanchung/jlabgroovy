@@ -7,7 +7,13 @@
 
 = Tutorial on Matrix class =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+`The Matrix class implements zero-indexed two-dimensional dense matrices in GroovySci. That matrices are mostly based on the JAMA library.`
+
+
+== Constructors ==
+
+`Matrix(rows: Integer, cols: Integer) // Creates a Matrix of size rows, cols initialized to zeros`
+
+{{{
+m=new Matrix(2, 3)
+}}}
