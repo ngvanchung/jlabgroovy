@@ -2,7 +2,8 @@
 
 = Introduction =
 
-`This tutorial describes by means of examples the Matrix class of jlabgroovy.`
+`This tutorial describes by means of examples the Matrix class of jlabgroovy.
+// not finished! `
 
 
 = Tutorial on Matrix class =
