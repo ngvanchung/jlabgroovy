@@ -37,4 +37,10 @@ mdd = new Matrix(dd)
 
 
 
-`
+`Construction with filling an initial value, Matrix(int N, int M, double value), e.g. `
+
+{{{
+m = new Matrix(6,8, 6.8)
+}}}
+
+
