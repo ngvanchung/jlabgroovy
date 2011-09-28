@@ -103,5 +103,10 @@ aai = inv(aa)  // compute the matrix inverse
 A = rand(5,5)
 b = rand(5,1)
 X = solve(A, b) //returns X Matrix verifying A*X = b. 
+rank(A)  // the rank of A
+trace(A)  // the trace of A
+det(A)  // the determinant of A
+
+
 
 }}}
