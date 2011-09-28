@@ -25,6 +25,7 @@ m = M([ [4.5, 5.6, -4], [ 4.5, 3, -3.4]])
 }}}
 
 
+
 `Construct a Matrix by copying the array values, Matrix(double [][] da ), Creates a Matrix initialized with the da array`
 {{{
 dd = new double[2][4]
@@ -62,3 +63,9 @@ a=rand(4,7)  // create a random matrix
 a[2,3]= 23.0  // sets the corresponding element
 println("element a[2, 3] is now "+a[2,3])
 }}}
+
+
+== Operators ==
+
+`The following operators are available:  Matrix + Matrix, Matrix + Number, 	Matrix - Matrix, Matrix - Number, Matrix * Matrix, Matrix * Number, 		Matrix / Matrix, Matrix / Number, Number + Matrix, Number * Matrix`
+
