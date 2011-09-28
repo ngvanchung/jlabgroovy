@@ -93,4 +93,10 @@ sum(sum(oo))   // total sum of the matrix elements
 oo2 = fill(4, 10, 2.0)  // a matrix filled with 2 values
 prod(oo2)  // perform product of the columns
 prod(prod(oo2))  // product of all the matrix elements
+
+csoo = cumsum(oo)  // perform a cummulative sum across columns
+cpoo2 = cumprod(oo2)   // perform a cummulative product across columns
+
+
+
 }}}
