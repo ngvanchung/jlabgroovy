@@ -69,3 +69,13 @@ println("element a[2, 3] is now "+a[2,3])
 
 `The following operators are available:  Matrix + Matrix, Matrix + Number, 	Matrix - Matrix, Matrix - Number, Matrix * Matrix, Matrix * Number, 		Matrix / Matrix, Matrix / Number, Number + Matrix, Number * Matrix`
 
+{{{
+a = rand(5, 8)
+aa = a+a
+a5 = a+5
+ap5 = 5+a
+a6= a*6.8
+a6m = 6.8*a
+a85 = rand(8, 5)
+ama = a*a85
+}}}
