@@ -100,5 +100,8 @@ cpoo2 = cumprod(oo2)   // perform a cummulative product across columns
 aa = rand(5,5)
 aai = inv(aa)  // compute the matrix inverse
 
+A = rand(5,5)
+b = rand(5,1)
+X = solve(A, b) //returns X Matrix verifying A*X = b. 
 
 }}}
