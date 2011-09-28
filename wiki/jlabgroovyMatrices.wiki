@@ -54,3 +54,11 @@ x2 = a[1, 2, 4, 2, 2, 10]  // like matlab's a(1:2:4, 2:2:10)
 x3 = a[1, 2, 4]  // like matlab's a(1:2:4, :)
 x4 = a[true, 2, 2, 10]  // like matlab's a(:, 2:2:10)
 }}}
+
+`Updating matrix elements `
+
+{{{
+a=rand(4,7)  // create a random matrix
+a[2,3]= 23.0  // sets the corresponding element
+println("element a[2, 3] is now "+a[2,3])
+}}}
