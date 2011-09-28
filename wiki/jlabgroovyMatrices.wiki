@@ -114,3 +114,7 @@ normInf(A)  // norm inf of A
 dot(A, A)  // the dot product of A by itself
 
 }}}
+
+== `Linear Algebra operations from JAMA`  ==
+
+`to be continued `
