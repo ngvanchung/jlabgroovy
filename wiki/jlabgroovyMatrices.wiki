@@ -111,11 +111,6 @@ norm1(A)  // norm 1 of A
 norm2(A)  // norm 2 of A
 normF(A)  // Frobenius norm of A
 normInf(A)  // norm inf of A
-
-
-
-
-
-
+dot(A, A)  // the dot product of A by itself
 
 }}}
