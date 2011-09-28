@@ -97,6 +97,8 @@ prod(prod(oo2))  // product of all the matrix elements
 csoo = cumsum(oo)  // perform a cummulative sum across columns
 cpoo2 = cumprod(oo2)   // perform a cummulative product across columns
 
+aa = rand(5,5)
+aai = inv(aa)  // compute the matrix inverse
 
 
 }}}
