@@ -79,3 +79,18 @@ a6m = 6.8*a
 a85 = rand(8, 5)
 ama = a*a85
 }}}
+
+== Static operations == 
+
+`The following static operations are available: `
+
+{{{
+oo = ones(4, 10)   // a matrix with all ones
+
+oo4 = sum(oo)   // perform sum of the columns
+sum(sum(oo))   // total sum of the matrix elements
+
+oo2 = fill(4, 10, 2.0)  // a matrix filled with 2 values
+prod(oo2)  // perform product of the columns
+prod(prod(oo2))  // product of all the matrix elements
+}}}
