@@ -37,7 +37,7 @@ println("sm = "+sm)
 
 `Also, another very useful keystroke is the ` *`F2 keystroke`* `that executes the code from the previously executed position up to the current position.`
 
-`Additionally, jlabgroovy supports` *`code completion`* `Code completion is activated with the ` *`F1`* `key. Pressing F1 at the command console tries to help about the current identifier. In order to use code completion within the programmer's editor we should select the text and then press F1. For example, we can select "ff" and then press F1. jlabgroovy presents a large list of related methods starting with "ff", e.g. "fft", "fft2" etc. With a second F1 at each item of that list we obtain further detail on the related class using Java's reflection` 
+`Additionally, jlabgroovy supports` *`code completion.`* ` Code completion is activated with the ` *`F1`* `key. Pressing F1 at the command console tries to help about the current identifier. In order to use code completion within the programmer's editor we should select the text and then press F1. For example, we can select "ff" and then press F1. jlabgroovy presents a large list of related methods starting with "ff", e.g. "fft", "fft2" etc. With a second F1 at each item of that list we obtain further detail on the related class using Java's reflection` 
 
  == Demo Programs ==
 
