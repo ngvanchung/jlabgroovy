@@ -1,8 +1,8 @@
-#summary This page describes some aspects of using wavelets in jlabgroovy
+#summary This page describes some aspects of using wavelets in GroovyLab
 
 = Introduction =
 
-`The first step is to download the jWave.jar toolbox and to install as a jlabgroovy toolbox. This is easily accomplished with the GroovySci toolboxes tab. In essence this step creates a new GroovyShell, that keeps the variable binding of the previous GroovyShell, while extending the classpath with the new toolboxes.`
+`The first step is to download the jWave.jar toolbox and to install as a GroovyLab toolbox. This is easily accomplished with the GroovySci toolboxes tab. In essence this step creates a new GroovyShell, that keeps the variable binding of the previous GroovyShell, while extending the classpath with the new toolboxes.`
 
 `We can now proceed in using the toolbox with some examples. `
 
