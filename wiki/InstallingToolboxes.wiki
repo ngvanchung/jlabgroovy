@@ -1,8 +1,8 @@
-#summary Installation of toolboxes in jlabgroovy.
+#summary Installation of toolboxes in GroovyLab.
 
 = Introduction =
 
-`Installation of .jar toolboxes is very important and allows convenient access to Java scientific libraries. In ` *`jlabgroovy`* ` we can easily install .jar toolboxes that remain installed for later working sessions. We illustrate installation of a toolbox by means of an example.`
+`Installation of .jar toolboxes is very important and allows convenient access to Java scientific libraries. In ` *`GroovyLab`* ` we can easily install .jar toolboxes that remain installed for later working sessions. We illustrate installation of a toolbox by means of an example.`
 
 
 = Example =
@@ -18,8 +18,8 @@
 
 `After installing the toolbox we can execute the example code for the jWave toolbox (see the Wiki page). `
 
-`Now we can exit jlabgroovy. A file ` *`jlabUserPaths.txt`* `is created on disk, that contains the line: `
+`Now we can exit GroovyLab. A file ` *`jlabUserPaths.txt`* `is created on disk, that contains the line: `
 
 *`/home/sp/Downloads/jWave.jar`*
 
-`This line specifies to jlabgroovy that on startup should init the GroovyShell's classloader to include also the jWave.jar toolbox. The next time we run jlabgroovy we can use jWave.jar without installation.`
+`This line specifies to GroovyLab that on startup should init the GroovyShell's classloader to include also the jWave.jar toolbox. The next time we run GroovyLab we can use jWave.jar without installation.`
