@@ -2,13 +2,13 @@
 
 = Introduction =
 
-`In this page we provide small examples of using GroovySci, the default jLab mode, in scientific applications. The code can be executed either:`
+`In this page we provide small examples of using GroovySci, in scientific applications. The code can be executed either:`
 
-  *  `by pasting it at the jLab's command console (it must be in GroovySci mode, not in jScript, F2 switches these modes)`
-  *  `by pasting the code within the jLab's programmer's editor, select the code and pressing F6`
+  *  `by pasting it at the GroovyLab's  command console `
+  *  `by pasting the code within the GroovyLab's programmer's editor, select the code and pressing F6`
  
 
-
+                                                                                           
 == Henon Chaotic Map ==
 
 `This small GroovySci script computes some iterations of the Henon chaotic map and plots them. `
