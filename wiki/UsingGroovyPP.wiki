@@ -31,5 +31,5 @@ class Loops {
     }
 }
 
- 
+ // Groovy time = 2548ms
 }}}
