@@ -53,7 +53,7 @@ x1 = m[0, 1]  // first row, second column
 a = rand(30, 40)   // a 30 rows by 40 cols random matrix
 x2 = a[1, 2, 4, 2, 2, 10]  // like matlab's a(1:2:4, 2:2:10)
 x3 = a[1, 2, 4]  // like matlab's a(1:2:4, :)
-x4 = a[true, 2, 2, 10]  // like matlab's a(:, 2:2:10)
+ x4 = a[ 2, 2, 10, true]  // column select, all rows, as matlab's a(:, 2:2:10)
 }}}
 
 `Updating matrix elements `
