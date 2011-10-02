@@ -15,7 +15,7 @@
 // trains a WEKA Multilayer Perceptron on the data of an .arff file
 
 dataFile =  getFile("Please specify your data file")
-data = groovySciCommands.BasicCommands.readARFFFile(dataFile)   // read the .arff file as a scalaSci Matrix
+data = groovySciCommands.BasicCommands.readARFFFile(dataFile)   // read the .arff file as a GroovySci Matrix
  N = data.darray.length   //  number of myInstances
  M = data.darray[0].length   //  number of attributes (i.e. dimensionality)
 //  use half of the data for training and half for testing
@@ -34,7 +34,7 @@ mlpNet.setMomentum(momentum)
 
 
    rinsts = new java.io.FileReader(dataFile)
-   myInstances = new weka.core.Instances(rinsts)   // construct WEKA Instances structure from the double[][] representation of ScalaSci's Mat  structure
+   myInstances = new weka.core.Instances(rinsts)   // construct WEKA Instances structure from the double[][] representation of GroovySci's Mat  structure
    myInstances.setClassIndex(ClassIdx-1)
    mlpNet.buildClassifier(myInstances)   // build the classifier
 
