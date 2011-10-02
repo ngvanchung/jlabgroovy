@@ -2,7 +2,34 @@
 
 = Introduction =
 
-`GroovyLab supports Groovy++. With Groovy++, computationally demanding parts can be executed with speed similar to Java/Scala. We provide some benchmarks adapted from:  https://github.com/alextkachman/` 
-
+`GroovyLab supports Groovy++. With Groovy++, computationally demanding parts can be executed with speed similar to Java/Scala. We provide some benchmarks.
 
 = Benchmarks =
+
+{{{
+
+class Loops {
+    static double compute () {
+        double sm = 0.0;
+        int i=0; int j=0;
+        while (i< 1000) {
+          j=0
+          while (j<2000) {
+           sm = 0.000000033434*i*j
+           j++
+         }
+        i++
+       }
+      return sm;     
+    }
+
+    
+    public static void main(String[] args) {
+        def start = System.currentTimeMillis()
+        compute()
+        println("Groovy: ${System.currentTimeMillis() - start}ms")
+    }
+}
+
+ 
+}}}
