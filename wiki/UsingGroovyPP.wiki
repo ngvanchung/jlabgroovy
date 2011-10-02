@@ -1,0 +1,8 @@
+#summary Fast Scientific Code in GroovyLab with Groovy++
+
+= Introduction =
+
+'GroovyLab supports Groovy++. With Groovy++, computationally demanding parts can be executed with speed similar to Java/Scala. We provide some benchmarks adapted from:  https://github.com/alextkachman/' 
+
+
+= Benchmarks =
