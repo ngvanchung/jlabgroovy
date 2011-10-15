@@ -1,8 +1,8 @@
-#summary We present benchmarking on Groovy/Groovy++ performance in GroovyLab.
+#summary We present benchmarking on Groovy/Groovy++ performance in jlabgroovy.
 
 = Introduction =
 
-`This page presents benchmarking code that can be executed in GroovyLab. Also, we give our execution times, for comparison. `
+`This page presents benchmarking code that can be executed in jlabgroovy. Also, we give our execution times, for comparison. `
 
 
 = Binary Trees - Groovy++ =
@@ -286,4 +286,3 @@ Groovy(instance if): 35751ms
 
 */
 }}}
-
