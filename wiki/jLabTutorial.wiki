@@ -1,16 +1,16 @@
-#summary A tutorial on learning the basics of GroovyLab
+#summary A tutorial on learning the basics of jlabgroovy
 
 = Introduction =
 
-`In this tutorial we demonstrate the more important parts of working with GroovyLab. `
+`In this tutorial we demonstrate the more important parts of working with jlabgroovy. `
 
 = The essentials of the User Interface =
 
-`After initialization GroovyLab presents two windows: ` *`a. The Programmer's editor window`* `that provides a `*`specialized editor`*`, along with the `*`output console`*, and *`b. The Main User Interface window`* `that provides things as the` *`command console window, the explorer, the history window, the main menu bar, and the toolbars`*. 
+`After initialization jlabgroovy presents two windows: ` *`a. The Programmer's editor window`* `that provides a `*`specialized editor`*`, along with the `*`output console`*, and *`b. The Main User Interface window`* `that provides things as the` *`command console window, the explorer, the history window, the main menu bar, and the toolbars`*. 
 
 `The user can execute GroovySci scripts in two ways: `
   # `At the Command Console Window`
-  # `With the GroovyLab programmer's editor`
+  # `With the jlabgroovy programmer's editor`
 
 `The command console window is convenient for single line command execution, i.e. we can write: `
 {{{
@@ -18,7 +18,7 @@ t= inc(0, 0.01, 50); x = sin(0.5*t)+2.3*cos(2.3*t); plot(t,x)
 }}}
 `and execute directly this command by pasting it at the command window.`
 
-`Contrary the GroovyLab programmer's editor allows to execute program text, while editing it. `
+`Contrary the jlabgroovy programmer's editor allows to execute program text, while editing it. `
 
 `To execute program text: ` *`select the text and press F6.`*
 
@@ -31,13 +31,13 @@ for (k in 0..2000)
 println("sm = "+sm)
 }}}
 
-`We should paste the code in the GroovyLab's programmer's editor and then select it, and press F6.`
+`We should paste the code in the jlabgroovy's programmer's editor and then select it, and press F6.`
 
 `Pressing ` *`F6 with no selected text, executes the current line.`*
 
 `Also, another very useful keystroke is the ` *`F2 keystroke`* `that executes the code from the previously executed position up to the current position.`
 
-`Additionally, GroovyLab supports` *`code completion.`* ` Code completion is activated with the ` *`F1`* `key. Pressing F1 at the command console tries to help about the current identifier. In order to use code completion within the programmer's editor we should select the text and then press F1. For example, we can select "ff" and then press F1. GroovyLab presents a large list of related methods starting with "ff", e.g. "fft", "fft2" etc. With a second F1 at each item of that list we obtain further detail on the related class using Java's reflection` 
+`Additionally, jlabgroovy supports` *`code completion.`* ` Code completion is activated with the ` *`F1`* `key. Pressing F1 at the command console tries to help about the current identifier. In order to use code completion within the programmer's editor we should select the text and then press F1. For example, we can select "ff" and then press F1. jlabgroovy presents a large list of related methods starting with "ff", e.g. "fft", "fft2" etc. With a second F1 at each item of that list we obtain further detail on the related class using Java's reflection` 
 
  == Demo Programs ==
 
