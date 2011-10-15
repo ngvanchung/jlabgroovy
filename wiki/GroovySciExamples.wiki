@@ -1,11 +1,11 @@
-#summary We provide some examples of working with GroovySci in jLab.
+#summary We provide some examples of working with GroovySci in jLabgroovy.
 
 = Introduction =
 
 `In this page we provide small examples of using GroovySci, in scientific applications. The code can be executed either:`
 
-  *  `by pasting it at the GroovyLab's  command console `
-  *  `by pasting the code within the GroovyLab's programmer's editor, select the code and pressing F6`
+  *  `by pasting it at the jlabgroovy's  command console `
+  *  `by pasting the code within the jlabgroovy's programmer's editor, select the code and pressing F6`
  
 
                                                                                            
