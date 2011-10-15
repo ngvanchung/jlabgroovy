@@ -1,8 +1,8 @@
-#summary This page presents examples of using WEKA machine learning framework from GroovyLab
+#summary This page presents examples of using WEKA machine learning framework from jlabgroovy
 
 = Introduction =
 
-`GroovyLab presents a higher level interface to WEKA algorithms than pure Java. The first step in using WEKA is to install the WEKA toolbox, that is provided with the GroovyLab's downloads. That step is very easy by means of the "GroovySci toolboxes" tab. Then we can execute the examples that we provide.`
+`jlabgroovy presents a higher level interface to WEKA algorithms than pure Java. The first step in using WEKA is to install the WEKA toolbox, that is provided with the jlabgroovy's downloads. That step is very easy by means of the "GroovySci toolboxes" tab. Then we can execute the examples that we provide.`
 
 
 = WEKA Examples =
