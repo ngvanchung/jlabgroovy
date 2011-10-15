@@ -1,8 +1,8 @@
-#summary Tutorial on the Matrix class of GroovyLab.
+                                                              #summary Tutorial on the Matrix class of jlabgroovy.
 
 = Introduction =
 
-`This tutorial describes by means of examples the Matrix class of GroovyLab. `
+`This tutorial describes by means of examples the Matrix class of jlabgroovy. `
 
 
 = Tutorial on Matrix class =
