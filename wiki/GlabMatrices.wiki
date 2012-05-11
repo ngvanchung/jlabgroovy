@@ -1,0 +1,116 @@
+#summary Tutorial on the Matrix class of Glab
+
+= Introduction =
+
+`This tutorial describes by means of examples the Matrix class of Glab. `
+
+
+= Tutorial on Matrix class =
+
+`The Matrix class implements zero-indexed two-dimensional dense matrices in GroovySci. That matrices are mostly based on the JAMA library.`
+
+
+== Constructors ==
+
+`Matrix(rows: Integer, cols: Integer) // Creates a Matrix of size rows, cols initialized to zeros`
+
+{{{
+m=new Matrix(2, 3)
+}}}
+
+
+
+
+`Construct a Matrix by copying the array values, Matrix(double [][] da ), Creates a Matrix initialized with the da array`
+{{{
+dd = new double[2][4]
+
+dd[1][1]=11
+
+mdd = new Matrix(dd)
+
+}}}
+
+
+
+`Construction with filling an initial value, Matrix(int N, int M, double value), e.g. `
+
+{{{
+m = new Matrix(6,8, 6.8)
+}}}
+
+
+`Accessing matrix elements `
+
+{{{
+md = [ [4.5, 5.6, -4], [ 4.5, 3, -3.4],  [14.5, 2.2, -2.4], [ 40.5, 2.2, -3.4]] as double[][]
+m = new Matrix(md)
+x1 = m[0, 1]  // first row, second column
+a = rand(30, 40)   // a 30 rows by 40 cols random matrix
+x2 = a[1, 2, 4, 2, 2, 10]  // like matlab's a(1:2:4, 2:2:10)
+x3 = a[1, 2, 4, true]  // like matlab's a(1:2:4, :)
+ x4 = a[ true, 2, 2, 10]  // column select, all rows, as matlab's a(:, 2:2:10)
+}}}
+
+`Updating matrix elements `
+
+{{{
+a=rand(4,7)  // create a random matrix
+a[2,3]= 23.0  // sets the corresponding element
+println("element a[2, 3] is now "+a[2,3])
+}}}
+
+
+== Operators ==
+
+`The following operators are available:  Matrix + Matrix, Matrix + Number, 	Matrix - Matrix, Matrix - Number, Matrix * Matrix, Matrix * Number, 		Matrix / Matrix, Matrix / Number, Number + Matrix, Number * Matrix`
+
+{{{
+a = rand(5, 8)
+aa = a+a
+a5 = a+5
+ap5 = 5+a
+a6 = a*6.8
+a6m = 6.8*a
+a85 = rand(8, 5)
+ama = a*a85
+}}}
+
+== Static operations == 
+
+`The following static operations are available: `
+
+{{{
+oo = ones(4, 10)   // a matrix with all ones
+
+oo4 = sum(oo)   // perform sum of the columns
+sum(sum(oo))   // total sum of the matrix elements
+
+oo2 = fill(4, 10, 2.0)  // a matrix filled with 2 values
+prod(oo2)  // perform product of the columns
+prod(prod(oo2))  // product of all the matrix elements
+
+csoo = cumsum(oo)  // perform a cummulative sum across columns
+cpoo2 = cumprod(oo2)   // perform a cummulative product across columns
+
+aa = rand(5,5)
+aai = inv(aa)  // compute the matrix inverse
+
+A = rand(5,5)
+b = rand(5,1)
+X = solve(A, b) //returns X Matrix verifying A*X = b. 
+rank(A)  // the rank of A
+trace(A)  // the trace of A
+det(A)  // the determinant of A
+cond(A)  // the condition number of A
+norm1(A)  // norm 1 of A
+norm2(A)  // norm 2 of A
+normF(A)  // Frobenius norm of A
+normInf(A)  // norm inf of A
+dot(A, A)  // the dot product of A by itself
+
+}}}
+
+== `Linear Algebra operations from JAMA`  ==
+
+`to be continued `
