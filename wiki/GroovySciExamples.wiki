@@ -1,11 +1,11 @@
-#summary We provide some examples of working with GroovySci in jLabgroovy.
+#summary We provide some examples of working with GroovySci in Glab.
 
 = Introduction =
 
 `In this page we provide small examples of using GroovySci, in scientific applications. The code can be executed either:`
 
-  *  `by pasting it at the jlabgroovy's  command console `
-  *  `by pasting the code within the jlabgroovy's programmer's editor, select the code and pressing F6`
+  *  `by pasting it at the Glab's  command console `
+  *  `by pasting the code within the Glab's programmer's editor, select the code and pressing F6`
  
 
                                                                                            
@@ -225,7 +225,6 @@ class Functions {
 == A Continuous Wavelet Transform example ==
 
 {{{
-
 clear("all");
 
 
@@ -236,9 +235,8 @@ t =  inc(1, dt, 4);
 PI2 = 2*PI;
 y = sin(PI2*10*t)+4*     cos(PI2*4*t);
 y = y+5*rand(y.size()[0], y.size()[1]);
-
-for (k in 1..1000) 
-  y[1][k] = y[1][k]+2*sin(PI2*2*k);
+y
+N = y.size()[1]
 
 fstart = 1;  // frequency to start
 fmax = (double)fs/2;
@@ -261,6 +259,7 @@ subplot(2,1,1);
 plot(y); title("signal");
 subplot(2,1,2);
 plot2d_scalogram(subsampledEdm, "scalogram");
+
 
 }}}
 
@@ -466,7 +465,7 @@ panel {
         figure(1)
         t = inc(0, 0.02, 90)
         n = pow(2, 12)
-        t = t[1..n]
+        t= t.getAt(true, 1, n )
         x = sin(f1*t)+noiseCoeff*rand(1,n)
         y = fft(x)
         figure(1) 
@@ -479,7 +478,6 @@ panel {
 }
 frame.pack()
 frame.show()
-
 
 }}}
 
