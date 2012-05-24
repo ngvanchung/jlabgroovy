@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`
+*`JTransforms`* `of Piotr Wendykier, is a powerful Java library for Fourier transforms, integrated within the source of GroovyLab. We present here some examples of its use. `
 
 
 = Real FFT Example =
