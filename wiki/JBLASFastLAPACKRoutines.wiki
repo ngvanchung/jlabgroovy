@@ -2,7 +2,10 @@
 
 = JBLAS fast routines =
 
-`JBLAS offers some useful LAPACK routines that are highly optimized and therefore for large matrices can run significantly faster than Java ones. This routines can be utilized from GroovyLab either with double[][] arrays or with the Matrix types. These routines are provided with the class: ` *`groovySci.math.array.Matrix:`*
+`JBLAS offers some useful LAPACK routines that are highly optimized and therefore for large matrices can run significantly faster than Java ones. This routines can be utilized from GroovyLab either with double[][] arrays or with the Matrix type. These routines are provided with the class: ` *`groovySci.math.array.Matrix:`*
+
+`We list below the relevant part.`
+
 
 {{{
 
