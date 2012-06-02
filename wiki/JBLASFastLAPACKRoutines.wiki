@@ -219,7 +219,7 @@ N = 200
 Mdd = new double[N][N]
 for (r in 0..N-1)
  for (c in 0..N-1) {
-   var denom = 1.0+r*c
+   denom = 1.0+r*c
    Mdd[r][c] = 1.0/ denom
 }
 
