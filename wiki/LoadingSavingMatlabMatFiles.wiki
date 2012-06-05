@@ -39,3 +39,10 @@
       save(varsFileName)
           
 }}}
+
+
+`We can load all the saved variables from a .mat file with the load command as the following example illustrates: `
+
+{{{
+load("testAllVars.mat")
+}}}
