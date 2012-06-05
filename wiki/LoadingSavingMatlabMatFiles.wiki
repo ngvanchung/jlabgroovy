@@ -23,3 +23,19 @@
       save(vecFileName, "vx")
           
 }}}
+
+`We can also save all the variables of types double[], double [][], Vec, Matrix to a .mat file. For example: `
+
+{{{
+      // define a Matrix
+       t = inc(1,1, 1000)
+       x = sin(0.12*t)
+      
+      // define a Vector
+      vt = vinc(0, 0.01, 10)
+      vx = sin(2.3*vt)
+
+      varsFileName = "testAllVars"
+      save(varsFileName)
+          
+}}}
