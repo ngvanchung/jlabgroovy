@@ -7,4 +7,19 @@
 
 = Examples  =
 
-`We can save individual GroovySci variables to .mat files. These variables should be of types double[], `
+`We can save individual GroovySci variables to .mat files. These variables should be of types double[], double [][], Vec, Matrix. For example: `
+
+{{{
+ //    save a Matrix    
+       t = inc(1,1, 1000)
+       x = sin(0.12*t)
+       matFileName = "testMatrixX"
+       save(matFileName, "x")
+      
+ //     save  a Vector
+      vt = vinc(0, 0.01, 10)
+      vx = sin(2.3*vt)
+      vecFileName = "testVecX"
+      save(vecFileName, "vx")
+          
+}}}
