@@ -5,6 +5,19 @@
 `The MTJ library is a well designed Java high-level object oriented wrapper around some of the functionality of JLAPACK. In this tutorial we present some examples of using MTJ from GroovyLab with a user-friendly scripting interface. `
 
 
-= Working with the MTJ library in GroovyLab =
+= `Working with the MTJ library in GroovyLab` =
 
 `The MTJ library is integrated in the default libraries of GroovyLab, therefore any separate installation is unecessary.`
+
+==  Creating a lower-symmetrical Dense Matrix ==
+
+{{{
+
+n = 5  // size of the matrix
+
+A = new no.uib.cipr.matrix.LowerSymmDenseMatrix(n)
+Ad = no.uib.cipr.matrix.Utilities.populate(A)
+no.uib.cipr.matrix.Utilities.lowerSymmetrice(Ad)   // create a lower symmetric matrix
+
+
+}}}
