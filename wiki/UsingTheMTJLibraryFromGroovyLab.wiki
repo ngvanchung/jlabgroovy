@@ -2,12 +2,9 @@
 
 = Introduction =
 
-Add your content here.
+`The MTJ library is a well designed Java high-level object oriented wrapper around some of the functionality of JLAPACK. In this tutorial we present some examples of using MTJ from GroovyLab with a user-friendly scripting interface. `
 
 
-= Details =
+= Working with the MTJ library in GroovyLab =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+`The MTJ library is integrated in the default libraries of GroovyLab, therefore any separate installation is unecessary.`
