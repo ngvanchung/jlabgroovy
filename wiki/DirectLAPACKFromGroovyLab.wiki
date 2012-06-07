@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`LAPACK/JLAPACK are powerful linear algebra packages. However, their routines have a complex and difficult to use interface. GroovyLab offers a simplified interface to some of the most useful routines. We describe here some examples. 
+`LAPACK/JLAPACK are powerful linear algebra packages. However, their routines have a complex and difficult to use interface. GroovyLab offers a simplified interface to some of the most useful routines. We describe here some examples. `
 
 
 
