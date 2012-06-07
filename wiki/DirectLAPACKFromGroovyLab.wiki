@@ -58,7 +58,7 @@ shouldBeZero = A*x-B  // verify
 
 }}}
 
-= Performing an SVD =
+== Performing an SVD ==
 
 {{{
 
