@@ -94,3 +94,28 @@ no.uib.cipr.matrix.Utilities.lowerSymmetrice(Ad)   // create a lower symmetric m
 
 
 }}}
+
+== `Script for testing the Performance of JLAPACK solver with code adapted from NR` ==
+
+`The following script uses both JLAPACK and code adapted from the Numerical Recipes book, to solve a linear system. We observe that JLAPACK outperforms for large systems.`
+
+{{{
+
+     N = 1500
+     A  = Rand(N, N)
+     B = Rand(N,1)
+
+     tic()
+     x = groovySci.directLAPACK.DLapack.dgesv(A, B)
+     tmLAPACK = toc()
+     B
+
+     shouldBeZero = A*x-B 
+
+	tic()
+     nx = groovySci.NR.LU.solveNR(A, B)
+     tmNR = toc()
+
+     shouldBeZeroNR = A*x-B 
+
+}}}
