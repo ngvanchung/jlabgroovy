@@ -45,7 +45,7 @@ tmjblassolve = toc()
 
 }}}      
 
-= `Solving a linear system `
+= `Solving a linear system ` =
 {{{
      
 A  = Rand(9, 9)
@@ -75,6 +75,7 @@ Sd = diag(S)
 shouldBeZero = U*Sd*t(V)-a
 
 }}}
+
 = `Working with the MTJ library in GroovyLab` =
 
 `The MTJ library is a well designed Java high-level object oriented wrapper around some of the functionality of JLAPACK. In this tutorial we present some examples of using MTJ from GroovyLab with a user-friendly scripting interface. `
