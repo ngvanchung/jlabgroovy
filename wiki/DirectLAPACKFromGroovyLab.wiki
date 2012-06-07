@@ -1,0 +1,26 @@
+#summary In this tutorial we present examples of working with LAPACK/JLAPACK in GroovyLab.
+
+= Introduction =
+
+`LAPACK/JLAPACK are powerful linear algebra packages. However, their routines have a complex and difficult to use interface. GroovyLab offers a simplified interface to some of the most useful routines. We describe here some examples. 
+
+
+
+= `Working with the MTJ library in GroovyLab` =
+
+`The MTJ library is a well designed Java high-level object oriented wrapper around some of the functionality of JLAPACK. In this tutorial we present some examples of using MTJ from GroovyLab with a user-friendly scripting interface. `
+
+`The MTJ library is integrated in the default libraries of GroovyLab, therefore any separate installation is unecessary.`
+
+==  Creating a lower-symmetrical Dense Matrix ==
+
+{{{
+
+n = 5  // size of the matrix
+
+A = new no.uib.cipr.matrix.LowerSymmDenseMatrix(n)
+Ad = no.uib.cipr.matrix.Utilities.populate(A)
+no.uib.cipr.matrix.Utilities.lowerSymmetrice(Ad)   // create a lower symmetric matrix
+
+
+}}}
