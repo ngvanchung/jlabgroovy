@@ -10,7 +10,7 @@
 
 `Then we can develop Java / Groovy applications that use groovySci. We present below a simple Java example. `
 
-`The archives contain also the sources of simple examples and a .jar executable that can be executed with "java -jar [jarFileName]" `
+`The archives contain also the sources of simple examples. `
 
 == Java groovySci example ==
 
