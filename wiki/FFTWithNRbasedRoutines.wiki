@@ -9,14 +9,6 @@
 
 {{{
 
-
-import groovySci.NR.NRFFT
-import static groovySci.NR.NRFFT.*
-
-
-import groovySci.NR.NRFFT
-import static groovySci.NR.NRFFT.*
-
   NN=32; NN2=NN+NN
   data = new double[NN2]
   dcmp = new double[NN2]
