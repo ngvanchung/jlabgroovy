@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`The ` *`Matrix.java`* `class of GroovyLab is very important. It is implemented in pure Java for speed. Since a few routines are yet documented in the .pdf manual, we present its source code, that can serve as documentation also.`
+`The ` *`Matrix.java`* `class of GroovyLab is very important. It is implemented in pure Java for speed. Since only a few routines are yet documented in the .pdf manual, we present its source code, that can serve as documentation also.`
 
 
 = Source Code of the Matrix.java class =
