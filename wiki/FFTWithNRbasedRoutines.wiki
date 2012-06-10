@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`The Numerical Recipes is a classic book, an excellent reference for any researcher and engineer in the field of numerical computation. GroovyLab present a Matlab-like interface to many routines from Numerical Recipes. Numerical Recipe routines are efficient and perhaps even more important they have extensive description in the book. We present some example code based on NR.
+`The Numerical Recipes is a classic book, an excellent reference for any researcher and engineer in the field of numerical computation. GroovyLab present a Matlab-like interface to many routines from Numerical Recipes. Numerical Recipe routines are efficient and perhaps even more important they have extensive description in the book. We present some example code based on NR.`
 
 
 = One-Dimensional FFT example =
