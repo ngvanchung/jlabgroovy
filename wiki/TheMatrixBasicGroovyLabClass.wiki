@@ -1,0 +1,4163 @@
+#summary The source code of the Matrix class of GroovyLab.
+
+= Introduction =
+
+`The ` *`Matrix.java`* `class of GroovyLab is very important. It is implemented in pure Java for speed. Since a few routines are yet documented in the .pdf manual, we present its source code, that can serve as documentation also.`
+
+
+= Source Code of the Matrix.java class =
+
+{{{
+
+// one-indexed matrix
+package groovySci.math.array;
+
+import Jama.CholeskyDecomposition;
+import Jama.LUDecomposition;
+import Jama.QRDecomposition;
+import Jama.LinearAlgebra;
+import Jama.jMatrix;
+import java.io.File;
+import java.util.ArrayList;
+/*import Jama.CholeskyDecomposition;
+import Jama.LUDecomposition;
+import Jama.QRDecomposition;
+*/
+import groovy.lang.GroovyObjectSupport;
+import gExec.Interpreter.GlobalValues;
+import groovySci.math.io.files.ASCIIFile;
+import java.text.DecimalFormat;
+import java.util.StringTokenizer;
+import java.util.Vector;
+import no.uib.cipr.matrix.DenseMatrix;
+import org.jblas.ComplexDoubleMatrix;
+import org.jblas.DoubleMatrix;
+
+
+/** Matrix class to provide similar behaviour that high level math languages like Matlab, Scilab, R, ...
+	
+	
+  Following operators are available: 
+        Matrix + Matrix
+        Matrix + Number
+        Matrix - Matrix
+        Matrix - Number
+        Matrix * Matrix
+        Matrix * Number
+        Matrix / Matrix
+        Matrix / Number
+        Matrix ** int"
+		
+    Following static operations are available:
+        sum(Matrix)
+        prod(Matrix)
+        cumsum(Matrix)
+        cumprod(Matrix)
+        inverse(Matrix)
+        inv(Matrix)
+        solve(Matrix A, Matrix b)	//returns X Matrix verifying A*X = b. 
+        rank(Matrix)	
+        trace(Matrix)
+        det(Matrix)
+        cond(Matrix)
+        norm1(Matrix)
+        norm2(Matrix)
+        normF(Matrix)
+        normInf(Matrix)
+        dot(Matrix A, Matrix b)  // dot product of the two matrices
+		
+    Following static Linear Algebra (from JAMA) are available:
+        Cholesky decomposition:
+        Cholesky_L(Matrix)
+        Cholesky_SPD(Matrix)
+        QR decomposition:
+        QR_Q(Matrix)
+        QR_H(Matrix)
+        QR_R(Matrix)
+        LU decomposition:
+        LU_L(Matrix)
+        LU_U(Matrix)
+        LU_P(Matrix)
+
+ Singular values decomposition:
+        svd_S(Matrix)
+        svd_U(Matrix)
+        svd_V(Matrix)
+        svd_values(Matrix)
+
+ Eigenvalues decomposition:
+        eig_D(Matrix)
+        eig_V(Matrix)
+
+ //  computes the eigenvalues and eigenvectors of a real matrix
+        //  the return matrix is as follows:
+        //       column 0:    the real parts of the eigenvalues
+        //       column 1:    the imaginary parts of the eigenvalues
+        //       columns   n..2+n-1   :  the real parts of the eigenvectors
+        //       columns   2+n..2+n+n  : the imaginary parts of the eigenvectors
+        public static Matrix eig(Matrix M)
+
+	
+                    The following static constructors are available:
+    Matrix(double[][])
+    Matrix(double[])	// one row Matrix constructor
+    Matrix(ArrayList)	// compatible with ArrayList of Numbers or ArrayList of ArrayList of Numbers
+	
+    identity(int n)                  // identity Matrix of size n*n alias to id(int n)
+    diagonal(int, double)	// diagonal Matrix of constant values, alias to diag(int, double)
+    diagonal(double[])	// diagonal Matrix with given diagonal values, alias to diag(double[])
+    one(int, int)		// constant Matrix of given size, filled with 1.0 values 
+    ones(int, int)	// constant Matrix of given size, filled with 1.0 values 
+    ones(int)		// constant Matrix of given size, filled with 1.0 values 
+    zeros(int, int)	// constant Matrix of given size, filled with 0.0 values 
+    zeros(int, int)	// constant Matrix of given size, filled with 0.0 values 
+    zeros(int)          	// constant Matrix of given size, filled with 0.0 values 
+	
+    fill(int, int, double)	// constant Matrix of given size, filled with given values 
+    increment(int, int, double begin, double pitch) // Matrix of given size with row incrementing values from given beginning value wsith given pitch increment
+    increment(int, int, double[] begin, double[] pitch) // Matrix of given size with row incrementing values from given beginning values with given pitchs increment
+
+ Following statistic sample constructors are available (random generator from RngPack):
+    random(int, int)								// independent random values (between 0.0 and 1.0) Matrix of given size, alias to rand(int, int)
+    random(int, int, double min, double max)		// independent random values (between min and max) Matrix of given size, alias to rand(int, int, double min, double max)
+    randomUniform(int m, int n, double min, double max)  
+    randomDirac(int m, int n, double[] values, double[] prob)  
+    randomNormal(int m, int n, double mu, double sigma)  
+    randomChi2(int m, int n, int d)  
+    randomLogNormal(int m, int n, double mu, double sigma)  
+    randomExponential(int m, int n, double lambda)  
+    randomTriangular(int m, int n, double min, double max)  
+    randomTriangular(int m, int n, double min, double med, double max)  
+    randomBeta(int m, int n, double a, double b)  
+    randomCauchy(int m, int n, double mu, double sigma)  
+    randomWeibull(int m, int n, double lambda, double c)  
+	
+Following static sort/find methods are available:
+    sort(Matrix)
+    sort(Matrix, int columnIndex)
+    min(Matrix)
+    max(Matrix)
+	
+Following static transformation methods are available:
+    transpose(Matrix)	// alias to t(Matrix)
+    resize(Matrix, int, int)
+    rowsMatrix >> Matrix	// appends rowsMatrix to Matrix at last position (i.e. add last row)
+    columnsMatrix >>> Matrix	// appends columnsMatrix to Matrix at last position (i.e. add last column)
+    Matrix << rowsMatrix	// appends rowsMatrix to Matrix at first position (i.e. add first row)
+	
+ Following static statistic sample methods are available:
+    mean(Matrix)
+    variance(Matrix)
+    covariance(Matrix,Matrix)
+    correlation(Matrix,Matrix)
+ * 
+ * 
+*/
+
+public class Matrix  extends GroovyObjectSupport implements  groovySciMatrix<Matrix> {
+	
+     /** Tag to control if we are searching for column index in A[][] calls */
+        static public boolean columnExtractFromRowSubmatrix=false;
+
+        public boolean columnExtractFromRowSubmatrixLocal = false;
+	     
+    /**Internal storage of data. NO DIRECT ACCESS: use get* and set* methods instead*/
+	public    double[][] darray;
+
+        public 	double [][] getArray() { return darray; }
+
+        public double [] getv() {
+            int ncol = darray[0].length; // number of columns
+            double [] firstRow =  new double[ncol];
+            for (int c=0; c<ncol; c++)
+                firstRow[c] = darray[0][c];
+            
+            return firstRow;
+        }
+	
+public int numRows()  { return darray.length; }
+public int Nrows() { return darray.length; }
+
+
+public int numCols() { return darray[0].length; }
+public int Ncols() { return darray[0].length; }
+public int numColumns() { return darray[0].length; }
+
+        
+public Matrix(double[][] _a, boolean isRef) {
+     if (isRef)
+        darray=_a;
+    else 
+darray=DoubleArray.copy(_a);
+}
+		
+public  Matrix(double[][] _a) {
+  darray= DoubleArray.copy(_a);
+ }
+
+
+public Matrix(int n, int m)  {  // creates a zero Matrix 
+    darray = DoubleArray.zero(n, m);
+}
+
+public Matrix(int n, int m, double v)  {  // creates a Matrix filled with the value
+    darray = DoubleArray.fill(n, m, v);
+}
+
+public Matrix(Matrix m) {    // matrix to copy
+ darray = DoubleArray.copy(m.darray);   
+}
+
+// inVec elements are zero-indexed arrays of doubles
+public  Matrix(int vecDim, Vector  inVec)  {
+    int npoints = inVec.size();  // dimension of vector elements
+    double [][] values = new double[vecDim][npoints];
+    for (int xv=0; xv<npoints; xv++)   
+        for (int yv=0; yv<vecDim; yv++)
+            values[yv][xv] =( (double [])  (inVec.elementAt(xv)))[yv];
+    
+    darray = values;    
+}
+
+// construct a Matrix to keep a Vector of zero-indexed point coordinates. Each column of the Matrix keeps a point
+public  Matrix(Vector  inVec)  {
+    int npoints = inVec.size();
+    Object  vecElem = inVec.get(0);  // get a vector element in order to find its dimension
+    int vecDim = ((double [])vecElem).length;
+    double [][] values = new double[vecDim][npoints];
+    for (int xv=0; xv<npoints; xv++)   
+        for (int yv=0; yv<vecDim; yv++)
+            values[yv][xv] =( (double [])  (inVec.elementAt(xv)))[yv];
+    
+    darray = values;    
+}
+
+
+public  Matrix(int vecDim, Vector  xOut, Vector yOut)  {
+    int npoints = xOut.size();
+    double [][] values = new double[vecDim+1][npoints];
+    for (int xv=0; xv<npoints; xv++)   {
+        values[0][xv] = ( (double[] ) xOut.elementAt(xv))[0];
+        for (int yv=0; yv<vecDim; yv++)
+            values[yv+1][xv] =( (double [])  (yOut.elementAt(xv)))[yv+1];
+    }
+        
+    darray = values;    
+    
+}
+
+public Matrix(double [] _a,  boolean isRef)  {
+     darray = new double[1][1];
+     if (isRef) {
+         darray[0] = _a;
+     }
+     else
+         darray[0] = DoubleArray.copy(_a);
+}
+
+// max(1, M)  provided as a convenience for 'leading dimension' calculations.
+static int ld(int n) {
+   return Math.max(1, n);
+}
+
+public Matrix(double [] _a)  {
+    darray = new double[1][1]; 
+    darray[0] = DoubleArray.copy(_a);
+}
+
+// resamples the Matrix every n rows and every m cols
+public Matrix resample(int n, int m) {
+    double [][] matArr = getArray();
+    int rows = matArr.length;
+    int cols = matArr[0].length;
+    int rRows =  (int)(rows/n);
+    int rCols = (int) (cols/m);
+    double [][] newMatArr = new double[rRows][rCols];
+    for (int r=0; r<rRows; r++)
+        for (int c=0; c<rCols; c++)
+            newMatArr[r][c] = matArr[r*n][m*c];
+    
+    Matrix resampledMat = new Matrix(newMatArr);
+    return resampledMat;
+}
+
+
+
+  public Matrix (double vals[], int m) {
+      int n = (m != 0 ? vals.length/m : 0);
+      if (m*n != vals.length) {
+         throw new IllegalArgumentException("Array length must be a multiple of m.");
+      }
+      darray = new double[m][n];
+      for (int i = 0; i < m; i++) {
+         for (int j = 0; j < n; j++) {
+            darray[i][j] = vals[i+j*m];
+         }
+      }
+   }
+
+// construct a Matrix from a double []  array
+  public Matrix Matrix(double[] _a) { 
+    return new Matrix(_a, false);
+}
+	
+// construct a Matrix from a double value        
+public Matrix(double _a) {
+    darray = new double [1][1];
+    darray[0][0]=_a;
+}
+	
+public  Matrix Matrix(double _a) {
+ return new Matrix(_a);
+}
+
+
+public  Matrix(ArrayList _al) {
+    if (_al.get(0) instanceof ArrayList) {  // two dimensional array
+        ArrayList  arObj = (ArrayList) _al.get(0);
+        darray =new double[_al.size()][arObj.size()];
+        for (int i=1; i <=_al.size(); i++)   {
+            ArrayList  arObjRow = (ArrayList) _al.get(i-1);
+            for ( int j = 1; j <= arObjRow.size(); j++)  
+	set(i, j,  (Number) arObjRow.get(j-1));
+              }
+    } else {
+    darray= new double[1][_al.size()];
+    for (int i=1; i <= _al.size(); i++) {
+    Number  arObjRow = (Number) _al.get(i-1);
+    set(1, i, arObjRow);
+    }	
+ }
+}
+	  
+	
+public static Matrix read(File f)  {
+    return new Matrix(ASCIIFile.readDoubleArray(f) );
+}
+	
+public static Matrix read(String filename)  {
+    return read(new File(filename));
+}
+	
+public static void write(File f, Matrix M)  {
+    ASCIIFile.writeDoubleArray(f, M.darray);
+}
+	
+public static void write(String filename,Matrix M)  {
+    write(new File(filename), M);
+}
+
+public double get(int i, int j) {
+   return  darray[i][j];
+}
+	
+public double[][] getRef() {
+   return darray;
+}
+	
+public  double[][] getColumnCopy(int j) {
+    return DoubleArray.getColumnsCopy(darray,j-1);
+}
+	
+public double[] getColumnCopyasRow(int j) {
+ return DoubleArray.getColumnCopy(darray,j-1);
+}
+	
+public  double[] getRowRef(int i) {
+    return darray[i-1];
+}
+	
+public int getRowsNumber() {
+    return darray.length;
+}
+	
+public int getColumnsNumber() {
+    return darray[0].length;
+}
+	
+public void set(int i, int j, Number v) {
+    darray[i][j] = v.doubleValue();
+}
+	
+public void set(int i, int j, Integer v) {
+    darray[i-1][j-1] = (double)v.intValue();
+}
+	
+public void setRef(double[][] a) {
+    darray = a;
+}
+	
+public  void setRowRef(int i,double[] row) {
+    darray[i-1] = row;
+}
+	
+// resize the array (i.e. shrink or grow it)
+public void resize( int m, int n) {
+    darray = DoubleArray.resize(darray, m, n);
+}
+	
+public  String toString() {
+    String mstr = "Matrix["+Nrows()+","+Ncols()+"] =\n";
+    return mstr+DoubleArray.toString(darray);
+}
+
+// appends the String s to the String representation of the matrix returned with toString()
+public String  plus(String s) {
+    return DoubleArray.toString(darray) + s;
+}
+	
+
+public double  getAt(int row, int col) {
+    return darray[row][col];
+        }
+        
+public double  apply(int row, int col) {
+    return  getAt(row, col);
+}
+
+public Matrix  getAt( int rowL,  int  rowH, String ch)  {
+    return getAt(rowL, rowH, true);
+}
+
+public Matrix  apply( int rowL,  int  rowH, String ch)  {
+         return getAt(rowL, rowH, true);
+}
+
+ public Matrix  getAt( int rowL,  int inc, int  rowH, boolean rowSelect)   {
+     return getAt(rowL, inc, rowH, 0, 1, this.Ncols());
+ }
+ 
+ public Matrix  getAt( boolean colSelect, int colL,  int inc, int  colH)   {
+     return getAt( 0, 1, this.Nrows(), colL, inc, colH);
+ }
+ 
+ 
+ public Matrix  apply( int rowL,  int inc, int  rowH, boolean rowSelect)   {
+     return getAt(rowL, inc, rowH,  rowSelect);
+ }
+ 
+ public Matrix  apply( boolean colSelect, int colL,  int inc, int  colH)   {
+     return getAt( 0, 1, this.Nrows(), colL, inc, colH);
+ }
+ 
+ public Matrix  apply( String colSelect, int colL,  int inc, int  colH)   {
+     return apply(true, colL, inc, colH);
+ }
+ 
+ 
+ public Matrix  apply( int rowL,  int inc, int  rowH, String rowSelect)   {
+     return apply(rowL, inc, rowH, true);
+ }
+ 
+ 
+// extracts a submatrix specifying rows only, take all columns, e.g. m[2, 3] corresponds to Matlab's m(2:3, :)'
+
+ public Matrix  getAt( int rowL,  int  rowH, boolean rowSelect)  {
+     int Nrows = darray.length; int Ncols = darray[0].length;
+     int  rowStart = rowL;  int  rowEnd = rowH;
+     int  colStart = 0;   int  colEnd =  Ncols - 1;   // all columns
+     int  colNum = Ncols;
+     int  colInc = 1;
+     
+
+if (rowStart <= rowEnd) {   // positive increment
+    int  rowInc = 1;
+    if (rowEnd == -1) { rowEnd = Nrows-1; }  // if -1 is specified take all the rows
+    int  rowNum = rowEnd-rowStart+1;
+    Matrix  subMatr = new Matrix(rowNum, colNum);   // create a Mat to keep the extracted range
+      // fill the created matrix with values
+    int  crow = rowStart;  // indexes current row
+    int  ccol = colStart;
+    int rowIdx =0;  int  colIdx = 0;  // indexes at the new Matrix
+    while  ( crow <= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol <= colEnd )   { 
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+       } // crow <= rowEnd
+return subMatr;   // return the submatrix
+
+} // rowStart <= rowEnd
+else { // rowStart > rowEnd
+    int  rowInc = -1;
+    int  rowNum = rowStart-rowEnd+1;
+    Matrix  subMatr = new Matrix(rowNum, colNum);   // create a Mat to keep the extracted range
+      // fill the created matrix with values
+    int  crow = rowStart;  // indexes current row at the source matrix
+    int  ccol = colStart;
+    int  rowIdx =0;  int  colIdx = 0;  // indexes at the new Mat
+    while  ( crow >= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol <= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+       }
+
+return subMatr;   // return the submatrix
+
+} // rowStart > rowEnd
+
+}
+
+public Matrix  getAt(String columnSelect, int  colLow, int  colHigh)  {
+   return getAt(true, colLow, colHigh);
+}
+
+public Matrix  apply(String columnSelect, int  colLow, int  colHigh)  {
+   return getAt(columnSelect, colLow, colHigh);
+}
+
+// extracts a submatrix, e.g. m( ":", 2,  12 ) corresponds to Matlab's m(:, 2:12)'
+  public Matrix  getAt(boolean columnSelect, int  colLow, int  colHigh)  {
+     int Nrows = darray.length; int Ncols = darray[0].length;
+     int rowStart = 0;     int rowEnd =  Nrows-1;   // all rows
+     int colStart = colLow;  int  colEnd = colHigh;
+     int rowInc = 1;
+     int colInc = 1;
+     int rowNum = Nrows;    // take all the rows
+
+    if  (colStart <= colEnd)   {    // positive increment
+        if (colEnd == -1)  { colEnd = Ncols-1; } // if -1 is specified take all the columns
+        int colNum = colEnd-colStart+1;
+        Matrix  subMatr = new Matrix(rowNum, colNum);   // create a Matrix to keep the extracted range
+      // fill the created matrix with values
+    int  crow = rowStart;  // indexes current row
+    int  ccol = colStart;  // indexes current column
+    int  rowIdx = 0;  int colIdx = 0;  // indexes at the new Matrix
+
+           while  ( crow <= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol <= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx += rowInc;
+            crow += rowInc;
+     } // crow <= rowEnd
+ return subMatr;
+} // positive increment
+  else {  // negative increment
+    int  colNum = colEnd-colStart+1;
+    Matrix  subMatr = new Matrix(rowNum, colNum);   // create a Matrix to keep the extracted range
+      // fill the created matrix with values
+    int  crow = rowStart;  // indexes current row
+    int  ccol = colStart;  // indexes current column
+    int  rowIdx = 0;  int  colIdx = 0;  // indexes at the new Matrix
+
+           while  ( crow <= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol >= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+     } // crow <= rowEnd
+ return subMatr;   // return the submatrix
+   }
+   }
+
+
+
+public Matrix  apply(int rowLow, int  rowInc,  int rowHigh,  int  colLow,  int  colInc, int  colHigh)  {
+    return getAt(rowLow, rowInc, rowHigh, colLow, colInc, colHigh);
+}
+
+// extracts a submatrix, e.g. m[ 2, 3, 12, 4, 2,  8 ] corresponds to Matlab's m(2:3:12, 4:2:8)'
+  public Matrix  getAt(int rowLow, int  rowInc,  int rowHigh,  int  colLow,  int  colInc, int  colHigh)  {
+    int Nrows = darray.length; int Ncols = darray[0].length;
+    int  rowStart = rowLow;     int  rowEnd =  rowHigh;
+    int  colStart = colLow;   int colEnd = colHigh;
+
+        int   rowNum = (int) Math.floor((rowEnd-rowStart) / rowInc) + 1;
+        int   colNum = (int) Math.floor( (colEnd-colStart) / colInc) + 1;
+    double remainder  = (rowHigh-rowLow)/rowInc;
+    int iremainder = (int)remainder;
+    double diff = remainder  - iremainder;
+    if (diff>0.0)
+        rowNum--;
+    
+    remainder  = (colHigh-colLow)/colInc;
+    iremainder = (int)remainder;
+    diff = remainder  - iremainder;
+    if (diff>0.0)
+        colNum--;
+    
+        
+        Matrix   subMatr = new Matrix(rowNum, colNum);   // create a Matrix to keep the extracted range
+
+    if  (rowStart <= rowEnd && colStart <= colEnd)   {    // positive increment at rows and columns
+        int   crow = rowStart;  // indexes current row
+        int   ccol = colStart;  // indexes current column
+        int   rowIdx = 0;  int  colIdx = 0;  // indexes at the new Matrix
+            while  ( crow <= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol <= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+     } // crow <= rowEnd
+ return subMatr;
+} // positive increment
+  else if  (rowStart >= rowEnd && colStart <= colEnd)   {
+      // fill the created matrix with values
+    int  crow = rowStart;  // indexes current row
+    int  ccol = colStart;  // indexes current column
+    int  rowIdx = 0; int  colIdx = 0;  // indexes at the new Matrix
+
+           while  ( crow >= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol <= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+     } // crow <= rowEnd
+ return subMatr;   // return the submatrix
+   }
+else if  (rowStart <= rowEnd && colStart >= colEnd)   {
+      // fill the created matrix with values
+    int   crow = rowStart;  // indexes current row
+    int   ccol = colStart;  // indexes current column
+    int   rowIdx = 0;  int  colIdx = 0;  // indexes at the new Matrix
+
+           while  ( crow <= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol >= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+     } // crow <= rowEnd
+ return subMatr;   // return the submatrix
+   }
+else {
+      // fill the created matrix with values
+    int   crow = rowStart;  // indexes current row
+    int   ccol = colStart;   // indexes current column
+    int   rowIdx = 0;  int  colIdx = 0;  // indexes at the new Matrix
+
+           while  ( crow >= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol >= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+     } // crow > rowEnd
+ return subMatr;   // return the submatrix
+   }
+
+   }
+
+public Matrix  getAt(int row, String ch)  {
+    return getAt(row, true);
+}
+
+public Matrix apply(int row, String ch) {
+    return getAt(row, ch);
+}
+
+
+// extracts a specific row, take all columns, e.g. m[2, true] corresponds to Matlab's m(2, :)'
+  public Matrix  getAt(int row, boolean allColSelect)  {
+     int Nrows = darray.length; int Ncols = darray[0].length;
+    
+      int   colStart = 0;     int  colEnd =  Ncols-1;   // all columns
+      int   rowNum = 1;    int  colNum = colEnd-colStart+1;
+    Matrix   subMatr = new Matrix(rowNum, colNum);   // create a Matrix to keep the extracted range
+      // fill the created matrix with values
+    int  ccol = colStart;
+    while  (ccol <= colEnd)   {
+          subMatr.darray[0][ccol] = darray[row][ccol];
+          ccol++;
+         }
+
+     return subMatr;
+}
+
+
+// extracts a specific column, take all rows, e.g. m[ true, 2] corresponds to Matlab's m(:,2:)'
+  public Matrix  getAt( String ColumnSelect, int  col)  {
+      return getAt(true, col);
+  }
+  public Matrix  apply( String ColumnSelect, int  col)  {
+      return getAt(true, col);
+  }
+  
+  public Matrix  getAt( boolean ColumnSelect, int  col)  {
+      int Nrows = darray.length; int Ncols = darray[0].length;
+    
+     int  rowStart = 0;     int  rowEnd =  Nrows-1;   // all rows
+     int  colNum = 1;      int   rowNum = rowEnd-rowStart+1;
+    Matrix   subMatr = new Matrix(rowNum, colNum);   // create a Matrix to keep the extracted range
+      // fill the created matrix with values
+    int  crow = rowStart;
+    while  (crow <= rowEnd)   {
+          subMatr.darray[crow-rowStart][0] = darray[crow][col];
+          crow++;
+         }
+
+     return subMatr;
+}
+
+public Matrix  apply(int rowLow,  int rowHigh, int  colLow,  int  colHigh)  {
+  return getAt(rowLow, rowHigh, colLow, colHigh);
+}
+
+// extracts a submatrix, e.g. m[ 2,  12, 4,   8 ] corresponds to Matlab's m(2:12, 4:8)'
+public  Matrix  getAt(int rowLow,  int rowHigh, int  colLow,  int  colHigh)  {
+     int  Nrows = darray.length; int Ncols = darray[0].length;
+     int  rowStart = rowLow;     int  rowEnd =  rowHigh;
+     int  colStart = colLow;    int  colEnd = colHigh;
+     int  rowInc = 1;
+     if  (rowHigh < rowLow) rowInc = -1;
+     int colInc = 1;
+     if (colHigh < colLow) colInc = -1;
+
+        int  rowNum = (int)Math.floor((rowEnd-rowStart) / rowInc)+1;
+        int  colNum = (int) Math.floor( (colEnd-colStart) / colInc)+1;
+        Matrix  subMatr = new Matrix(rowNum, colNum);   // create a Matrix to keep the extracted range
+
+    if  (rowStart <= rowEnd && colStart <= colEnd)   {    // positive increment at rows and columns
+        int  crow = rowStart;  // indexes current row
+        int  ccol = colStart;  // indexes current column
+        int  rowIdx = 0;  int  colIdx = 0;  // indexes at the new Matrix
+            while  ( crow <= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol <= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+     } // crow <= rowEnd
+  return subMatr;
+} // positive increment
+  else if  (rowStart >= rowEnd && colStart <= colEnd)   {
+      // fill the created matrix with values
+    int  crow = rowStart;  // indexes current row
+    int  ccol = colStart;  // indexes current column
+    int  rowIdx = 0;  int colIdx = 0;  // indexes at the new Matrix
+
+           while  ( crow >= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol <= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+     } // crow <= rowEnd
+ return subMatr;   // return the submatrix
+   }
+else if  (rowStart <= rowEnd && colStart >= colEnd)   {
+      // fill the created matrix with values
+    int  crow = rowStart;  // indexes current row
+    int  ccol = colStart;  // indexes current column
+    int  rowIdx = 0; int  colIdx = 0;  // indexes at the new Matrix
+
+           while  ( crow <= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol >= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+     } // crow <= rowEnd
+ return subMatr;   // return the submatrix
+   }
+else {
+      // fill the created matrix with values
+    int  crow = rowStart;  // indexes current row
+    int  ccol = colStart;  // indexes current column
+    int  rowIdx = 0;  int  colIdx = 0;  // indexes at the new Matrix
+
+           while  ( crow >= rowEnd )   {
+          ccol = colStart;  colIdx = 0;
+          while  (ccol >= colEnd)   {
+                subMatr.darray[rowIdx][colIdx] = darray[crow][ccol];
+                colIdx++;
+                ccol += colInc;
+               }
+            rowIdx++;
+            crow += rowInc;
+     } // crow > rowEnd
+ return subMatr;   // return the submatrix
+   }
+
+   }
+
+
+public Matrix  getAt( int rowLow,  int  rowInc,  int rowHigh, String rowSelect) {
+   return getAt( rowLow, rowInc, rowHigh, true);
+}
+
+/*
+ a = rand(8,9)
+ gg = [4,6]
+ a[gg ]  = 46  // sets a[4,6] = 46 
+ */
+        
+  public void   putAt( java.util.ArrayList  paramList,  double value)  {
+    int row = (Integer) paramList.get(0);
+    int col = (Integer) paramList.get(1);
+    darray[row][col] = value;
+}
+
+  
+/*
+ a = rand(5,9)
+ a[1..2] = 8    // sets rows 1 and 2 to 8
+ */
+ public void  putAt(groovy.lang.IntRange rowRange, double value)  {
+    int rowS = rowRange.get(0);
+    int rowE  = rowRange.get(1);
+    for  (int cols=0; cols < darray[0].length; cols++)
+    for (int rows=rowS; rows <= rowE; rows++ )
+       darray[rows][cols] = value;
+    }
+
+        public void  putAt(boolean colsRange, groovy.lang.IntRange colRange, double value)  {
+            
+            int colsS = colRange.get(0);
+            int colsE  = colRange.get(1);
+            
+            for  (int rows=0; rows < darray[0].length; rows++)
+                for (int cols=colsS; cols <= colsS; cols++ )
+                    darray[rows][cols] = value;
+        }
+
+        public void  putAt(int rowS, int rowE, int colsS, int colsE, double value)  {
+            for  (int rows=rowS; rows <= rowE; rows++)
+                for (int cols=colsS; cols <= colsE; cols++ )
+                    darray[rows][cols] = value;
+        }
+
+        public void putAt(int r, int c, double value)  {
+            darray[r][c] = value;
+        }
+        
+        public Matrix  subm(int i1, int i2, int j1, int j2)
+        {
+            double [][] M = getArray();
+
+             double [][] subm = DoubleArray.getSubMatrixRangeCopy( M,  i1,  i2,  j1,  j2);
+             return new Matrix(subm);
+        }
+        
+
+	public void rightShift(Matrix M) {		
+		if (getColumnsNumber() != M.getColumnsNumber())
+	 throw
+ new IllegalArgumentException("Rows append needs same number of columns. Upper (=right) Matrix has "+M.getColumnsNumber()+" columns, while left Matrix has "+getColumnsNumber()+" columns");
+				
+		M.setRef(DoubleArray.insertRows(M.getRef(),M.getRowsNumber(),getRef()));
+	}
+	
+	public void leftShift(Matrix M) {
+		if (getColumnsNumber() != M.getColumnsNumber())
+	throw new IllegalArgumentException("Rows append needs same number of columns. Upper (=right) Matrix has "+M.getColumnsNumber()+" columns, while left Matrix has "+getColumnsNumber()+" columns");
+			
+	  setRef(DoubleArray.insertRows(M.getRef(),M.getRowsNumber(),getRef()));
+		
+	  setRef(DoubleArray.insertColumns(getRef(),getColumnsNumber(),M.getRef()));
+	}
+	
+	public  void rightShiftUnsigned(Matrix M) {
+		if (getRowsNumber() != M.getRowsNumber())
+	throw new IllegalArgumentException("Columns append needs same number of rows. Right Matrix has "+M.getRowsNumber()+" rows, while left Matrix has "+getRowsNumber()+" rows");
+
+	M.setRef(DoubleArray.insertColumns(M.getRef(),M.getColumnsNumber(),t(this).getRef()));
+	}
+	
+	public  static void eachValue(Matrix M, groovy.lang.Closure c) {
+		M.eachValue(c);
+	}
+	
+	public void eachValue(groovy.lang.Closure c) {
+	   for (int i = 0; i < getRowsNumber(); i++)
+		for (int j=0; j < getColumnsNumber(); j++)
+	  	 set(i, j, (Number)c.call(get(i,j)));
+	}
+	
+        public void map(groovy.lang.Closure c) {
+            eachValue(c);
+        }
+        
+        public  static void map(Matrix M, groovy.lang.Closure c) {
+            M.map(c);
+	}
+	
+        
+        // clone the Matrix object
+        public Matrix clone() {
+            Matrix newMatrix = new Matrix(darray);
+            return newMatrix;
+        }
+
+	public boolean equals(Object M) {
+	   if (!(M instanceof Matrix)) 
+		return false;
+	else {
+                Matrix MM = (Matrix) M;
+                if (MM.getRowsNumber() != getRowsNumber()) return false;
+                if (MM.getColumnsNumber() != getColumnsNumber()) return false;
+		for (int i=1; i<= getRowsNumber(); i++)
+		  for (int j=1; j <= getColumnsNumber(); j++)
+                        if (MM.get(i,j) != get(i,j)) return false;
+			return true;
+		}
+	}
+	
+
+        public int  [] size() {
+            int [] siz = new int[2];
+		if (getRowsNumber()==1) {
+                    siz[0] = 1;
+                    siz[1] = getColumnsNumber();
+                }
+		else {
+                  siz[0] = getRowsNumber();
+                  siz[1] = getColumnsNumber();
+                }
+                return  siz;
+	}
+	
+	public  static int[] size(Matrix M) {
+		return M.size();
+	}
+	
+	public static void resize(Matrix M, int m, int n) {
+		M.resize(m, n);
+	}
+	
+        
+        public static int  any(Matrix M) {
+            double [][] vals = M.getArray();
+            for (int r=0; r<vals.length; r++)
+                for (int c=0; c<vals[0].length; c++)
+                    if (vals[r][c] != 0.0) return 1;
+            return 0;
+        }
+	
+
+        public static Matrix find(Matrix M) {
+          double [][] vals = M.getArray();
+          int Rows = vals.length;
+          int Cols = vals[0].length;
+          // find number of nonzero elements
+		int no = 0;
+		for (int yi=0; yi<Rows ; yi++)
+			for (int xi=0; xi<Cols ; xi++)
+				if (vals[yi][xi] != 0.0)
+					no++;
+
+		// build return vector
+		double[][] values = new double[no][1];
+		int i = 0;
+		for (int xi=0; xi<Cols; xi++)
+			for (int yi=0; yi<Rows; yi++)
+				if (vals[yi][xi] != 0.0)
+				{
+					// nonzero element found
+					// put element position into return column vector
+					values[i][0] = yi + xi*Rows;
+					i++;
+				}
+                
+                return new Matrix(values);
+        }
+                
+            
+		
+        
+        public  static Matrix sum(Object vals) {
+           Matrix Matr = new Matrix((double [][] )vals, false);
+            return sum(Matr);
+}
+
+	public  static Matrix sum(Matrix M)  {
+		if (M.getRowsNumber()==1)
+			return new Matrix(DoubleArray.sum(M.getRowRef(1)));
+		else
+			return new Matrix(DoubleArray.sum( M.getRef()), false );
+	}
+
+public static Matrix sin(Matrix M) {
+      	return new Matrix(DoubleArray.sin( M.getRef() ), false);
+}
+
+
+ public  Matrix sin() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.sin(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+ 
+ public  Matrix cos() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.cos(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+ 
+ 
+ public  Matrix tan() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.tan(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+ 
+ public  Matrix asin() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.asin(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+ 
+ public  Matrix acos() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.acos(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+ 
+ public  Matrix atan() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.atan(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+  
+ public  Matrix sinh() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.sinh(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+ 
+ public  Matrix cosh() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.cosh(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+  
+ public  Matrix tanh() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.tanh(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+ 
+ public  Matrix pow(double v) {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.pow(this.darray[k][c], v);
+     
+     return this;
+}   
+  
+ public  Matrix log() {
+      int N = this.darray.length;
+     int M = this.darray[0].length;
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.log(this.darray[k][c]);
+     
+     return this;
+}   
+ 
+ 
+ public  Matrix log2() {
+     int N = this.darray.length;
+     int M = this.darray[0].length;
+     double  conv = Math.log(2.0);
+     
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.log(this.darray[k][c]/conv);
+     
+     return this;
+}   
+ 
+ public  Matrix log10() {
+     int N = this.darray.length;
+     int M = this.darray[0].length;
+     double  conv = Math.log(10.0);
+     
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.log(this.darray[k][c]/conv);
+     
+     return this;
+}   
+ 
+ public  Matrix ceil() {
+     int N = this.darray.length;
+     int M = this.darray[0].length;
+     double  conv = Math.log(10.0);
+     
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.ceil(this.darray[k][c]/conv);
+     
+     return this;
+}   
+ 
+ 
+ public  Matrix floor() {
+     int N = this.darray.length;
+     int M = this.darray[0].length;
+     double  conv = Math.log(10.0);
+     
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.floor(this.darray[k][c]/conv);
+     
+     return this;
+}   
+ 
+ public  Matrix round() {
+     int N = this.darray.length;
+     int M = this.darray[0].length;
+     double  conv = Math.log(10.0);
+     
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.round(this.darray[k][c]/conv);
+     
+     return this;
+}   
+ 
+ public  Matrix sqrt() {
+     int N = this.darray.length;
+     int M = this.darray[0].length;
+     double  conv = Math.log(10.0);
+     
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           this.darray[k][c] = Math.sqrt(this.darray[k][c]/conv);
+     
+     return this;
+}   
+ 
+  
+ public static double [] sin(double [] x)
+ {
+     int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.sin(x[k]);
+     
+     return r;
+ }
+ 
+public static double [][] sin(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.sin(x[k][c]);
+     
+     return r;
+ }
+ 
+  public  static double  sin(double d) {
+      	return Math.sin(d);
+}   
+
+  public static Matrix cos(Matrix M) {
+      	return new Matrix(DoubleArray.cos( M.getRef() ), false);
+}   
+
+  public static double  cos(double d) {
+      	return Math.cos(d);
+}   
+
+  
+ public static double [] cos(double [] x) {
+     int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.cos(x[k]);
+   return r;
+ }
+   
+ 
+ public static double [][] cos(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.cos(x[k][c]);
+     
+     return r;
+ }
+ 
+  public static Matrix tan(Matrix M) {
+     	return new Matrix(DoubleArray.tan( M.getRef() ), false);
+}   
+
+  public  static double  tan(double d) {
+	return Math.tan(d);
+}   
+
+ public static double []  tan(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.tan(x[k]);
+   return r;
+ }
+         
+
+ public static double [][] tan(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.tan(x[k][c]);
+     
+     return r;
+ }
+   public  static Matrix atan(Matrix M) {
+   	return new Matrix(DoubleArray.atan( M.getRef() ), false);
+}   
+
+   public  static double  atan(double d) {
+      	return Math.atan(d);
+}   
+    
+  public static double []  asin(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.asin(x[k]);
+     
+     return r;
+ }
+
+  
+ public static double [][] asin(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.asin(x[k][c]);
+     
+     return r;
+ }
+ 
+ public static Matrix asin(Matrix M) {
+      	return new Matrix(DoubleArray.asin( M.getRef() ), false);
+}   
+
+ public  static double  asin(double d) {
+      	return Math.asin(d);
+}   
+  
+public  static Matrix acos(Matrix M) {
+      	return new Matrix(DoubleArray.acos( M.getRef() ), false);
+}   
+
+ public static double []  acos(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.acos(x[k]);
+     
+     return r;
+ }
+
+ 
+ public static double [][] acos(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.acos(x[k][c]);
+     
+     return r;
+ }
+ 
+public static double  acos(double d) {
+      	return Math.acos(d);
+}   
+  
+ 
+public static Matrix  sinh(Matrix M) {
+      	return new Matrix(DoubleArray.sinh( M.getRef() ), false);
+}   
+
+ public static double []  sinh(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.sinh(x[k]);
+     
+     return r;
+   
+ }
+ 
+ 
+ public static double [][] sinh(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.sinh(x[k][c]);
+     
+     return r;
+ }
+
+public  static double  sinh(double d) {
+      	return Math.sinh(d);
+}   
+   
+public  static Matrix cosh(Matrix M) {
+      	return new Matrix(DoubleArray.cosh( M.getRef() ), false);
+}   
+
+ public static double []  cosh(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.cosh(x[k]);
+   
+     return r;
+ }
+         
+ 
+ public static double [][] cosh(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.cosh(x[k][c]);
+     
+     return r;
+ }
+ 
+public static double  cosh(double d) {
+      	return Math.cosh(d);
+}   
+  
+public  static Matrix tanh(Matrix M) {
+      	return new Matrix(DoubleArray.tanh( M.getRef() ), false);
+}   
+
+ public static double []  tanh(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.tanh(x[k]);
+     
+     return r;
+ }
+ 
+ 
+ public static double [][] tanh(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.tanh(x[k][c]);
+     
+     return r;
+ }
+ 
+         
+public static double  tanh(double d) {
+      	return Math.tanh(d);
+}   
+  
+ public static Matrix exp(Matrix M) {
+      	return new Matrix(DoubleArray.exp( M.getRef() ), false);
+}   
+
+ public static double [] exp(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.exp(x[k]);
+     
+     return r;
+ }
+
+ 
+ public static double [][] exp(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.exp(x[k][c]);
+     
+     return r;
+ }
+ 
+public  static double  exp(double d) {
+      	return Math.exp(d);
+}   
+ 
+public static Matrix log(Matrix M) {
+      	return new Matrix(DoubleArray.log( M.getRef() ), false);
+}   
+
+public static double []  log(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.log(x[k]);
+   
+     return r;
+ }
+
+
+ public static double [][] log(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.log(x[k][c]);
+     
+     return r;
+ }
+
+public static double  log(double d) {
+      	return Math.log(d);
+}   
+ 
+public static Matrix log2(Matrix M) {
+      	return new Matrix(DoubleArray.log2( M.getRef() ), false);
+}   
+
+public static double []  log2(double [] x) {
+    int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.log(x[k])/GlobalValues.log2Conv;
+   
+     return r;
+ }
+
+
+ public static double [][] log2(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.log(x[k][c])/GlobalValues.log2Conv;
+     
+     return r;
+ }
+
+public static double  log2(double d) {
+      	return Math.log(d)/GlobalValues.log2Conv;
+}   
+ 
+
+public static Matrix log10(Matrix M) {
+      	return new Matrix(DoubleArray.log10( M.getRef() ), false);
+}   
+
+ public static double []  log10(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.log10(x[k]);
+   
+     return r;
+ }
+         
+ 
+ public static double [][] log10(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.log10(x[k][c]);
+     
+     return r;
+ }
+ 
+public static double  log10(double d) {
+      	return Math.log10(d);
+}   
+     
+public static Matrix  abs(Matrix M) {
+      	return new Matrix(DoubleArray.abs( M.getRef() ), false);
+}   
+
+ public static double [] abs(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.abs(x[k]);
+   return r;
+ }
+ 
+ 
+ public static double [][] abs(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.abs(x[k][c]);
+     
+     return r;
+ }
+         
+public static double  abs(double d) {
+      	return Math.log10(d);
+}   
+
+
+public static Matrix  ceil(Matrix M) {
+      	return new Matrix(DoubleArray.ceil( M.getRef() ), false);
+}   
+
+ public static double [] ceil(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.ceil(x[k]);
+   return r;
+ }
+ 
+ 
+ public static double [][] ceil(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.ceil(x[k][c]);
+     
+     return r;
+ }
+         
+public static int  ceil(double d) {
+      		return (int)Math.ceil(d);
+}   
+
+public static Matrix  floor(Matrix M) {
+      return new Matrix(DoubleArray.floor( M.getRef() ), false);
+}   
+
+ public static double []   floor(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.floor(x[k]);
+   return r;
+ }
+         
+ 
+ public static double [][] floor(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.floor(x[k][c]);
+     
+     return r;
+ }
+ 
+public static int  floor(double d) {
+      	return (int)Math.floor(d);
+}   
+
+public static Matrix  round(Matrix M) {
+      	return new Matrix(DoubleArray.round( M.getRef() ), false);
+}   
+
+ public static double []  round(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.round(x[k]);
+  return r; 
+ }
+ 
+ 
+ public static double [][] round(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.round(x[k][c]);
+     
+     return r;
+ }
+         
+public static int  round(double d) {
+      	return (int)Math.round(d);
+}   
+
+
+public static Matrix  sqrt(Matrix M) {
+      	return new Matrix(DoubleArray.sqrt( M.getRef() ), false);
+}   
+
+ public static double [] sqrt(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.sqrt(x[k]);
+   return r;
+ }
+         
+ 
+ 
+ public static double [][] sqrt(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.sqrt(x[k][c]);
+     
+     return r;
+ }
+ 
+ 
+public static double  sqrt(double d) {
+   return Math.sqrt(d);   
+}
+
+public  static Matrix  toDegrees(Matrix M) {
+      	return new Matrix(DoubleArray.toDegrees( M.getRef() ), false);
+}   
+
+ public static double [] toDegrees(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.toDegrees(x[k]);
+   return r;
+ }
+ 
+ 
+ public static double [][] toDegrees(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.toDegrees(x[k][c]);
+     
+     return r;
+ }
+         
+public static double   toDegrees(double d) {
+      	return Math.toDegrees(d);
+}   
+
+
+public static Matrix  toRadians(Matrix M) {
+      	return new Matrix(DoubleArray.toRadians( M.getRef() ), false);
+}   
+
+ public static double [] toRadians(double [] x) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.toRadians(x[k]);
+   return r;
+ }
+         
+ 
+ 
+ public static double [][] toRadians(double [] []x)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.toRadians(x[k][c]);
+     
+     return r;
+ }
+
+public static double  toRadians(double d) {
+      	return Math.toRadians(d);
+}   
+
+public static Matrix  pow(Matrix M, double exponent) {
+      	return new Matrix(DoubleArray.pow( M.getRef(), exponent ), false);
+}   
+
+ public static double []  pow(double [] x, double exponent) {
+       int N = x.length;
+     double [] r = new double[N];
+     for (int k=0; k<N; k++)
+         r[k] = Math.pow(x[k],exponent);
+   return r;
+ }
+
+ 
+ 
+ public static double [][] pow(double [] []x, double exponent)
+ {
+     int N = x.length;
+     int M = x[0].length;
+     double [][] r = new double[N][M];
+     for (int k=0; k<N; k++)
+         for (int c=0; c<M; c++)
+           r[k][c] = Math.pow(x[k][c], exponent);
+     
+     return r;
+ }
+        
+         
+public  static double  pow(double val, double exponent) {
+      	return Math.pow(val, exponent);
+}   
+
+public  static Matrix prod(Matrix M)  {
+	if (M.getRowsNumber()==1)
+		return new Matrix(DoubleArray.product( M.getRowRef(1)));
+	else
+		return new Matrix(DoubleArray.product( M.getRef()), false );
+}
+
+ public static Matrix  prod(double [] x)  {
+     Matrix m = new Matrix(x);
+     return  prod(m);
+ }
+
+public static Matrix cumsum(Matrix M)  {
+	if (M.getRowsNumber()==1)
+		return new Matrix(DoubleArray.cumSum( M.getRowRef(1)), false );
+	else
+		return new Matrix(DoubleArray.cumSum( M.getRef()), false );
+	}
+
+
+ public static Matrix  cumsum(double [] x)  {
+     Matrix m = new Matrix(x);
+     return  cumsum(m);
+ }
+
+public static Matrix cumprod(Matrix M)  {
+	if (M.getRowsNumber()==1)
+		return new Matrix(DoubleArray.cumProduct( M.getRowRef(1)), false );
+	else
+		return new Matrix(DoubleArray.cumProduct( M.getRef()), false );
+	}
+
+ public static Matrix  cumprod(double [] x)  {
+     Matrix m = new Matrix(x);
+     return  cumprod(m);
+ }
+
+	
+public static Matrix sort(Matrix M)  {
+	if (M.getRowsNumber()==1)
+		return new Matrix(DoubleArray.sort( M.getRowRef(1)), false );
+	else
+		return new Matrix(DoubleArray.sort( M.getRef(), 0), false );
+	}
+	
+
+public  static Matrix sort(Matrix M, int column)  {
+	return new Matrix(DoubleArray.sort( M.getRef(), column), false );
+	}
+	
+	
+public  static Matrix transpose(Matrix M)  {
+	return new Matrix(DoubleArray.transpose( M.getRef()), false );
+	}
+
+ public static Matrix  transpose(double [][] x)  {
+     Matrix m = new Matrix(x);
+     return transpose(m);
+ }
+ 
+ public static Matrix  transpose(double [] x)  {
+     Matrix m = new Matrix(x);
+     return transpose(m);
+ }
+	
+ public static Matrix t(Matrix M)  {
+	return transpose(M);
+	}
+
+ public static Matrix t(double [] x)  {
+	return transpose(x);
+	}
+ 
+ public static Matrix t(double [] [] x)  {
+	return transpose(x);
+	}
+
+ public static Object  min(Matrix M)  {
+	if (M.getRowsNumber()==1)
+		return DoubleArray.min( M.getRowRef(1));
+	else 
+            if (M.getColumnsNumber()==1)
+	return DoubleArray.min( M.getColumnCopy(1));
+	 	else
+	return new Matrix(DoubleArray.min( M.getRef()), false );
+	}
+	
+	
+ public static Object  max(Matrix M)  {
+	if (M.getRowsNumber()==1)
+		return DoubleArray.max( M.getRowRef(1));
+	else if (M.getColumnsNumber() == 1)
+		return DoubleArray.max( M.getColumnCopy(1));
+	else
+		return new Matrix(DoubleArray.max( M.getRef()), false );
+}
+	
+public static Matrix identity(int m)  {
+    return new Matrix(DoubleArray.identity(m), false );
+}
+	
+public  static Matrix id(int m)  {
+    return identity(m);
+}
+
+public static double [][]  Identity(int m)  {
+    return  DoubleArray.identity(m);
+}
+	
+public  static double[][]  Id(int m)  {
+    return Identity(m);
+}
+	
+public  static Matrix diagonal(int m, double c)  {
+    return new Matrix(DoubleArray.diagonal(m, c), false );
+}
+	
+public  static Matrix diag(int m, double c)  {
+    return diagonal( m,  c);
+}
+        
+public static Matrix diag(int m) {
+    return diagonal(m, m);
+}
+	
+public static Matrix diag(double [] c) {
+    return diagonal(c);
+ }
+	
+public static Matrix diag(Matrix diagm) {
+    int Nrows = diagm.Nrows();
+    int Ncols = diagm.Ncols();
+    if (Nrows != 1 && Ncols != 1) 
+        return diagm;
+    if (Nrows==1) {
+        Matrix diagmr = new Matrix(Ncols, Ncols);
+        for (int c = 0; c < Ncols; c++)
+            diagmr.putAt(c, c, diagm.getAt(0, c));
+        return diagmr;
+    }
+    else {
+        Matrix diagmr = new Matrix(Nrows, Nrows);
+        for (int r = 0; r< Nrows; r++)
+            diagmr.putAt(r, r, diagm.getAt(r, 0));
+       return diagmr;
+    }
+}
+        
+
+public  static Matrix diagonal(double[] c)  {
+    return new Matrix(DoubleArray.diagonal( c) , false);
+}
+	
+	
+public  static Matrix diagonal(Matrix M, int m)  {
+    return new Matrix(DoubleArray.getDiagonal( M.darray, m), false );
+}
+	
+  public  static Matrix diag(Matrix M, int m)  {
+    return diagonal( M, m);
+}
+	
+public  static double [][] Diagonal(int m, double c)  {
+    return DoubleArray.diagonal(m, c);
+}
+	
+public  static double [][] Diag(int m, double c)  {
+    return Diagonal( m,  c);
+}
+        
+public static double [][] Diag(int m) {
+            return Diagonal(m, m);
+        }
+	
+	public  static double [][] Diagonal(double[] c)  {
+		return DoubleArray.diagonal( c);
+	}
+	
+	public  static double [][] Diag(double[] c)  {
+		return Diagonal( c);
+	}
+	
+	
+        public  static Matrix one(int m, int n)  {
+		return new Matrix(DoubleArray.one(m, n), false );
+	}
+	
+	public  static Matrix ones(int m, int n)  {
+		return new Matrix(DoubleArray.one(m, n), false );
+	}
+	
+          public  static Matrix ones(int n)  {
+		return new Matrix(DoubleArray.one(n, n), false );
+	}
+	
+        public  static double [][] Ones(int m, int n)  {
+		return DoubleArray.one(m, n);
+	}
+	
+          public  static double [][]  Ones(int n)  {
+		return DoubleArray.one(n, n);
+	}
+	
+          public  static double [][]  One(int m, int n)  {
+		return DoubleArray.one(m, n);
+	}
+	
+	
+        
+          public  static Matrix zero(int m, int n)  {
+		return new Matrix(DoubleArray.zero(m, n), false );
+	}
+	
+	
+   public  static Matrix zeros(int m, int n)  {
+		return new Matrix(DoubleArray.zero(m, n), false );
+	}
+	
+   public  static Matrix zeros(int  n)  {
+		return new Matrix(DoubleArray.zero(n, n), false );
+	}
+        
+  public  static double [][]  Zero(int m, int n)  {
+		return DoubleArray.zero(m, n);
+	}
+		
+     public  static double [][] Zeros(int m, int n)  {
+	 return DoubleArray.zero(m, n);
+ }
+	
+     public  static double [] Zeros(int  n)  {
+	double [] vec = new double[n];
+        return vec;
+     }
+        
+     public static Matrix eye(int m, int n) {
+            Matrix mat = new Matrix(DoubleArray.zero(m,n), false);
+            for (int r=0; r<m; r++) {
+                if (r>n) break;
+                  mat.darray[r][r] = 1;
+             }
+        return mat;
+        }
+                
+        public static Matrix eye(int m) {
+            return eye(m, m);
+        }
+     
+        public static double [][]  Eye(int m, int n) {
+            double [][]  mat = DoubleArray.zero(m,n);
+            for (int r=0; r<m; r++) {
+                if (r>n) break;
+                  mat[r][r] = 1;
+             }
+        return mat;
+        }
+                
+        public static double [][] Eye(int m) {
+            return Eye(m, m);
+        }
+     
+        
+	public  static Matrix fill(int m, int n, double c)  {
+		return new Matrix(DoubleArray.fill(m, n, c), false );
+	}
+	
+        public  static double [][] Fill(int m, int n, double c)  {
+          return DoubleArray.fill(m, n, c);
+	}
+
+       public  static double [] Fill(int m,  double c)  {
+          double [] vec = new double[m];
+          for (int k=0; k<m; k++)   vec[k] = c;
+           return vec;
+	}
+
+	public   static Matrix random(int m)  {
+		return random(m, m);
+	}
+	
+	public  static Matrix rand(int m)  {
+		return  random(m);
+	}
+	
+        
+	public  static Matrix random(int m, int  n)  {
+           return new Matrix(DoubleArray.random(m, n), false );
+	}
+	
+        public static Matrix rand( int [] dims) {
+            return new Matrix(DoubleArray.random(dims[0], dims[1]), false);
+        }
+        
+        public static Matrix random( int [] dims) {
+            return new Matrix(DoubleArray.random(dims[0], dims[1]), false);
+        }
+        public  static Matrix rand(int m,int  n)  {
+		return random( m,  n);
+	}
+	
+    public static Matrix random(int m, int n, double min, double max)  {
+        return new Matrix(DoubleArray.random(m, n, min, max), false );
+    }
+	
+    public static Matrix rand(int m, int n, double min, double max)  {
+        return random( m,  n,  min,  max);
+    }
+	
+    public static Matrix random(int m, int n, double[] min, double[] max)  {
+        return new Matrix(DoubleArray.random(m, n, min, max), false );
+    }
+	
+    public static Matrix rand(int m, int n, double[] min, double[] max)  {
+        return random( m,  n,  min,  max);
+    }
+	
+        
+    public   static double [][] Random(int m)  {
+        return Random(1, m);
+    }
+	
+    public  static double [][] Rand(int m)  {
+        return  Random(m, m);
+    }
+    
+    public  static double [][] Random(int m, int  n)  {
+           return DoubleArray.random(m, n);
+    }
+	
+     public static double [][] Rand( int [] dims) {
+            return DoubleArray.random(dims[0], dims[1]);
+        }
+        
+     public static double [][] Random( int [] dims) {
+            return DoubleArray.random(dims[0], dims[1]);
+        }
+    
+     public  static double [][] Rand(int m,int  n)  {
+            return Random( m,  n);
+	}
+	
+     public static double [][] Random(int m, int n, double min, double max)  {
+            return DoubleArray.random(m, n, min, max);
+    }
+	
+      public static double [][] Rand(int m, int n, double min, double max)  {
+        return Random( m,  n,  min,  max);
+    }
+	
+    public static double [][] Random(int m, int n, double[] min, double[] max)  {
+        return DoubleArray.random(m, n, min, max);
+    }
+	
+    public static double [][] Rand(int m, int n, double[] min, double[] max)  {
+        return Random( m,  n,  min,  max);
+    }
+	
+    public static Matrix increment(int m, int n, double begin, double pitch)  {
+        return new Matrix(DoubleArray.increment(m, n, begin, pitch), false );
+    }
+        
+        
+                
+    public static Matrix inc(double begin, double pitch, double end)  {
+           if (begin > end && pitch >0)
+               return new Matrix(DoubleArray.increment(end, pitch, begin));
+           if (begin < end && pitch < 0)
+               return new Matrix(DoubleArray.increment(end, pitch, begin));
+	   return new Matrix(DoubleArray.increment(begin, pitch, end ));
+    }
+        
+       
+     public static double [] Inc(double begin, double pitch, double end)  {
+           if (begin > end && pitch >0)
+               return  DoubleArray.increment(end, pitch, begin);
+           if (begin < end && pitch < 0)
+               return DoubleArray.increment(end, pitch, begin);
+	   return  DoubleArray.increment(begin, pitch, end );
+    }
+     
+     public static Matrix increment(double begin, double pitch, double end)  {
+        return inc(begin, pitch, end );
+    }
+    	
+    public static Matrix inc(int m, int n, double begin, double pitch)  {
+            return increment( m,  n,  begin,  pitch);
+    }
+	
+    public static Matrix increment(int m, int n, double[] begin, double[] pitch)  {
+            return new Matrix(DoubleArray.increment(m, n, begin, pitch), false );
+    }
+	
+    public static Matrix inc(int m, int n, double[] begin, double[] pitch)  {
+        return increment( m,  n,  begin,  pitch); 
+    }
+	
+        
+public static Matrix  linspace(double startv,  double endv)   {
+    int  nP = 100;  // use 100 as default number of points
+    double []  v = new double [nP];
+    double  dx = (startv-endv)/(nP-1);
+    for (int i = 0; i< nP; i++)
+	v[i] = startv +  i * dx;
+
+    return new Matrix(v, true);
+}
+
+public static Matrix  linspace(double startv,  double endv, int nP)   {
+    double []  v = new double [nP];
+    double  dx = (startv-endv)/(nP-1);
+    for (int i = 0; i< nP; i++)
+	v[i] = startv +  i * dx;
+
+    return new Matrix(v, true);
+}
+
+
+// use by default logspace=10
+public static Matrix  logspace(double  startOrig,  double endOrig,  int nP) {
+    return logspace(startOrig, endOrig, nP, 10.0);
+}
+
+public  static Matrix  logspace(double startOrig,  double endOrig, int  nP,  double  logBase)  {
+    boolean  positiveTransformed = false;
+    double    transformToPositive = 0.0;
+                
+    double  start = startOrig;  double   end=endOrig;   // use these values to handle negative values
+    boolean  axisReversed = false;
+    if (start > end)   {   // reverse axis
+            start = endOrig; end = startOrig; axisReversed = true;
+        }
+                
+     if (start <= 0)  {  // make values positive
+             transformToPositive = -start+1;  start = 1;     
+             end = end+transformToPositive;  positiveTransformed = true;
+        }
+     double    logBaseFactor = 1.0/java.lang.Math.log10(logBase);
+     double    start_tmp = java.lang.Math.log10(start)*logBaseFactor;
+     double    end_tmp = java.lang.Math.log10(end)*logBaseFactor;
+     //println("logBaseFactor = "+logBaseFactor+"  start_tmp = "+start_tmp+"  end_tmp = "+end_tmp)
+                
+    double  []   values = new double [nP];
+    double  dx     = (end_tmp-start_tmp) / (nP-1);
+    for (int i=0; i<nP; i++) 
+        values[i] = java.lang.Math.pow( logBase, (start_tmp +  i * dx));
+		
+        if  (positiveTransformed)    // return to the original range of values
+                {
+              for ( int i=0; i<nP; i++)
+		  values[ i ]  -=  -transformToPositive;
+		  start -= transformToPositive;
+                }
+
+                if (axisReversed)  {
+                    double [] valuesNew = new double [nP];
+                    valuesNew[0] = values[nP-1];
+                    for ( int i = 1; i<nP; i++)  {
+                        valuesNew[i]  = valuesNew[ i-1]-(values[i]-values[i-1]);
+                    }
+                    return new Matrix(valuesNew, true);
+                }
+                          
+     return new Matrix(values, true);
+}
+
+    public static Matrix copy(Matrix M)  {
+        return new Matrix(DoubleArray.copy( M.getRef()), false );
+}
+	
+	///////////////////////////////////////////////////////////////////
+	// Linear algebra methods, coming from JMathArray, based on JAMA // 
+	///////////////////////////////////////////////////////////////////
+	
+    public Matrix minus( Matrix v2)  {
+        return new Matrix(LinearAlgebra.minus( getRef(),  v2.getRef()), false );
+    }
+	
+    public Matrix minus( double [][] v2)  {
+        return new Matrix(LinearAlgebra.minus( getRef(),  v2), false );
+    }
+	
+    public Matrix minus(Number v2)  {
+        return new Matrix(LinearAlgebra.minus( getRef(), v2.doubleValue()), false );
+    }
+	
+    public Matrix plus( Matrix v2)  {
+        return new Matrix(LinearAlgebra.plus( getRef(),  v2.getRef()), false );
+    }
+	
+    public Matrix plus( double [][] v2)  {
+       return new Matrix( DoubleArray.Add(this.darray, v2));
+    }
+
+    public Matrix plus(double [] v2) {
+        int nrows = this.Nrows();
+        int ncols = this.Ncols();
+        double [][]res = new double[nrows][ncols];
+        for (int col=0; col<ncols; col++)
+          for (int row=0; row<nrows; row++)
+             res[row][col] = darray[row][col]+v2[row];
+        
+        return new Matrix(res, true);
+    }
+                
+    public Matrix minus(double [] v2) {
+        int nrows = this.Nrows();
+        int ncols = this.Ncols();
+        double [][]res = new double[nrows][ncols];
+        for (int col=0; col<ncols; col++)
+          for (int row=0; row<nrows; row++)
+             res[row][col] = darray[row][col]-v2[row];
+        
+        return new Matrix(res, true);
+    }
+                
+        
+    public static Matrix plus(Matrix v,  double [][] v2)  {
+       return v.plus(v2);
+    }
+	
+  public static Matrix plus(double [][] v2, Matrix v)  {
+       return v.plus(v2);
+    }
+  
+  
+  public static Matrix minus(double [][] v2, Matrix v)  {
+       return new Matrix(LinearAlgebra.minus( v2, v.darray), false );
+    }
+
+
+  public Matrix negative(Matrix v)  {
+          return  multiply(-1);
+    }
+
+  public static Matrix neg(Matrix v)  {
+          return  v.negative(v);
+    }
+
+  public Matrix plus( Number v2)  {
+        return new Matrix(LinearAlgebra.plus( getRef(), v2.doubleValue()), false );
+    }
+	
+    public Matrix multiply( Number v)  {
+        return new Matrix(LinearAlgebra.times( getRef(), v.doubleValue()), false );
+    }
+
+        
+    public Matrix div( Number v)  {
+        return new Matrix(LinearAlgebra.divide( getRef(), v.doubleValue()), false );
+    }
+	
+       
+public Matrix power(int n, Matrix m)  {
+    if (n < 0)
+        return power(-n, inv(m));
+    else if (n == 1) 
+        return copy(m); 
+    else {
+        Matrix  recurMat = power(n-1, m); 
+        jMatrix  thisMatrix = new jMatrix(recurMat.darray);
+        jMatrix  mMatrix = new jMatrix(m.darray);
+        jMatrix  product = thisMatrix.times(mMatrix);   
+        Matrix   matProd = new Matrix(product.getArray());
+        return matProd;
+     }
+   }
+	
+        
+    public Matrix power( Number n)  {
+        double nv = n.doubleValue();
+        int  niv = n.intValue();
+            if (niv - nv  == 0)
+                return power(n.intValue(), this);
+                else 
+            throw new IllegalArgumentException("Value "+n+" no yet supported for power method");
+}
+	
+    public Matrix raise( Number n)  {
+        return new Matrix(LinearAlgebra.raise( getRef(), n.doubleValue()), false );
+        }
+
+        public int length() {
+            int r = this.size()[0];
+            int c = this.size()[1];
+            if (r==1) return c;
+            if (c==1) return r;
+            return r;
+        }
+        
+    public int  rows() {
+            return this.size()[0];
+        }
+        
+    public int cols() {
+            return this.size()[1];
+        }
+        
+    public Matrix multiply( Matrix v2)  {
+            return new Matrix(LinearAlgebra.times( getRef(),  v2.getRef()), false );
+	}
+
+    public Matrix multiply( double [][] v2)  {
+            return new Matrix(LinearAlgebra.times( getRef(),  v2), false );
+	}
+    
+    public Matrix multiply( double [] v2)  {
+        int nrows = v2.length;
+        double [][] vc = new double [nrows][1];
+        for (int r=0; r<nrows; r++)
+            vc[r][0] = v2[r];
+        
+          return new Matrix(LinearAlgebra.times( getRef(),  vc), false );
+	}
+    
+    public Vec  multiply( Vec that) {
+        int  rN = this.Ncols();   int  rM = this.Ncols();  // receiver's dimensions
+        int  sN = that.length();
+        double  sm = 0.0;
+   
+    if (rN == sN) {  // multiply column-wise
+     Vec  rv = new Vec(rM);
+      for (int c=0; c<rM; c++)  {
+           sm = 0.0;
+         for (int r=0; r<rN; r++) 
+             sm += (darray[r][c]*that.v[r]);
+          rv.set(c,  sm);
+        }
+     return  rv;
+ }
+ else if (rM == sN) { // multiply row-wise
+     Vec rv = new Vec(rN);
+       for (int r=0; r < rN; r++) {
+           sm = 0.0;
+          for (int c=0; c<sN; c++)
+            sm += (darray[r][c]*that.v[c]);
+          rv.set(r, sm);
+       }
+         return rv;
+ }
+ else
+    return new Vec(1);
+  
+        
+    }
+		
+    
+    public static Matrix multiply( Matrix mat, double [][] v2)  {
+           return mat.multiply(v2);
+	}
+        
+    public Matrix mult( Matrix v2)  {
+            return multiply(v2);
+	}
+	
+    public Matrix divide_LU( Matrix v2)  {
+        return new Matrix(LinearAlgebra.divideLU( getRef(), v2.getRef()), false );
+}
+	
+public Matrix divide_QR( Matrix v2)  {
+        return new Matrix(LinearAlgebra.divideQR( getRef(), v2.getRef()), false );
+}
+	
+public Matrix divide( Matrix v2)  {
+        return new Matrix(LinearAlgebra.divide(getRef(),  v2.getRef()), false );
+}
+	
+public Matrix div( Matrix v2)  {
+        return divide(v2);
+}
+	
+public static Matrix inverse_LU(Matrix M)  {
+        return new Matrix(LinearAlgebra.inverseLU( M.getRef()), false );
+}
+	
+        
+public static double [][]  inverse_LU(double [][]  dM)  {
+        return  LinearAlgebra.inverseLU( dM);
+}
+	
+public static Matrix inverse_QR(Matrix M)  {
+        return new Matrix(LinearAlgebra.inverseQR( M.getRef()), false );
+}
+	
+public static double [][] inverse_QR(double [][] dM)  {
+        return LinearAlgebra.inverseQR( dM );
+}
+	        
+public static Matrix inverse(Matrix M)  {
+        return new Matrix(LinearAlgebra.inverse( M.getRef()), false );
+}
+	
+public static Matrix inv(Matrix M)  {
+        return inverse(M);
+}
+	
+	
+public static double [][]  inverse(double [][]  dM)  {
+    return LinearAlgebra.inverse( dM );
+}
+	
+public static double [][] inv(double [][] dM)  {
+    return inverse(dM);
+}
+
+public static Matrix and(Matrix a, Matrix b) {
+    double [][]am = a.getArray();
+    int a_dx = am.length;
+    int a_dy = am[0].length;
+    double [][]bm = b.getArray();
+    int b_dx = bm.length;
+    int b_dy = bm[0].length;
+            
+	// both matrices must have the same size
+    if ( (a_dy != b_dy) || (a_dx != b_dx) ) return null; 
+     // create matrix
+    double[][] values = new double[a_dy][a_dx];
+    for (int xi=0; xi<a_dx ; xi++)
+        for (int yi=0; yi<a_dy ; yi++)
+                if ( (am[yi][xi] != 0.0) && (bm[yi][xi] != 0.0) )
+                    values[yi][xi] = 1.0;
+		else
+                    values[yi][xi] = 0.0;
+        
+        return new Matrix(values);
+        }
+
+
+        public static Matrix or(Matrix a, Matrix b) {
+            double [][]am = a.getArray();
+            int a_dx = am.length;
+            int a_dy = am[0].length;
+            double [][]bm = b.getArray();
+            int b_dx = bm.length;
+            int b_dy = bm[0].length;
+            
+	// both matrices must have the same size
+	if ( (a_dy != b_dy) || (a_dx != b_dx) ) return null; 
+                // create matrix
+	double[][] values = new double[a_dy][a_dx];
+	for (int xi=0; xi<a_dx ; xi++)
+	   for (int yi=0; yi<a_dy ; yi++)
+                if ( (am[yi][xi] != 0.0) || (bm[yi][xi] != 0.0) )
+                    values[yi][xi] = 1.0;
+		else
+		   values[yi][xi] = 0.0;
+        
+        return new Matrix(values);
+        }
+        
+        public static Matrix xor(Matrix a, Matrix b) {
+            double [][]am = a.getArray();
+            int a_dx = am.length;
+            int a_dy = am[0].length;
+            double [][]bm = b.getArray();
+            int b_dx = bm.length;
+            int b_dy = bm[0].length;
+            
+	// both matrices must have the same size
+	if ( (a_dy != b_dy) || (a_dx != b_dx) ) return null; 
+                // create matrix
+	double[][] values = new double[a_dy][a_dx];
+	for (int xi=0; xi<a_dx ; xi++)
+	   for (int yi=0; yi<a_dy ; yi++)
+        	if (   ((am[yi][xi] != 0.0) && (bm[yi][xi] != 0.0))
+				    || ((am[yi][xi] == 0.0) && (bm[yi][xi] == 0.0)) )
+				{
+					values[yi][xi] = 0.0;
+				}
+				else
+				{
+					values[yi][xi] = 1.0;
+				}
+	
+        return new Matrix(values);
+        }
+        
+        
+        
+        
+public static Matrix Cholesky_L(Matrix M) {
+    CholeskyDecomposition choleskDec = LinearAlgebra.cholesky(M.getRef());
+    Matrix choleskMat = new Matrix(choleskDec.getL().getArray());
+    return choleskMat;
+}
+	
+public static double [][] Cholesky_L(double [][] dM) {
+    CholeskyDecomposition choleskDec = LinearAlgebra.cholesky(dM);
+    return choleskDec.getL().getArray();
+}
+	
+public static Matrix Cholesky_SPD(Matrix M) {
+    CholeskyDecomposition choleskDec = LinearAlgebra.cholesky(M.getRef());
+    Matrix choleskMat = new Matrix(choleskDec.getL().getArray());
+    return choleskMat;
+}
+	
+public static double [][] Cholesky_SPD(double [][] dM) {
+    CholeskyDecomposition choleskDec = LinearAlgebra.cholesky(dM);
+    double [][]  choleskMat = choleskDec.getL().getArray();
+    return choleskMat;
+}
+        
+public static Matrix Cholesky_solve(Matrix A,Matrix b) {
+    CholeskyDecomposition choleskDec = LinearAlgebra.cholesky(A.getRef());
+    jMatrix jb = new jMatrix(b.darray);
+    jMatrix solvedMat = choleskDec.solve(jb);
+    return new Matrix(solvedMat.getArray());
+}
+	
+public static double [][] Cholesky_solve(double [][] dA, double [][] db) {
+    CholeskyDecomposition choleskDec = LinearAlgebra.cholesky(dA);
+    jMatrix jb = new jMatrix(db);
+    jMatrix solvedMat = choleskDec.solve(jb);
+    return solvedMat.getArray();
+}
+	
+public static Matrix LU_L(Matrix M) {
+    return new Matrix(LinearAlgebra.LU( M.getRef()).getL().getArray(), false );
+}
+	
+public static double [][] LU_L(double [][] dM) {
+    return LinearAlgebra.LU( dM).getL().getArray();
+}
+        
+public static Matrix L(Matrix M) {
+    return LU_L( M);
+    }
+
+public static double [][]  L(double [][] M) {
+    return LU_L( M);
+    }
+        
+public static Matrix LU_P(Matrix M) {
+    return new Matrix(LinearAlgebra.LU( M.getRef()).getL().getArray(), false );
+}
+	
+public static double [][] LU_P(double [][] dM) {
+    return LinearAlgebra.LU( dM).getL().getArray();
+}
+	
+public static Matrix LU_U(Matrix M) {
+    return new Matrix(LinearAlgebra.LU( M.getRef()).getU().getArray(), false );
+}
+	
+public static double [][] LU_U(double [][] dM) {
+    return  LinearAlgebra.LU( dM).getU().getArray();
+}
+	
+public static Matrix U(Matrix M) {
+    return LU_U( M);
+}
+	
+public static double [][]  U(double [][] M) {
+    return LU_U( M);
+}
+	
+public static double LU_det(Matrix M) {
+    return LinearAlgebra.LU( M.getRef()).det();
+}
+	
+public static double LU_det(double [][] dM) {
+    return LinearAlgebra.LU( dM).det();
+}
+        
+public static double det(Matrix M) {
+    return LinearAlgebra.det(M.getRef());
+}
+        
+ public static double det(double [][] Ma) {
+    return LinearAlgebra.det(Ma);
+  }
+	
+ public static Matrix LU_solve(Matrix A, Matrix b) {
+    LUDecomposition LUDec = LinearAlgebra.LU(A.getRef());
+    jMatrix jb = new jMatrix(b.darray);
+    jMatrix solvedMat = LUDec.solve(jb);
+    return new Matrix(solvedMat.getArray());
+}
+	
+public static double [][] LU_solve(double [][] A, double [][] b) {
+    LUDecomposition LUDec = LinearAlgebra.LU(A);
+    jMatrix jb = new jMatrix(b);
+    jMatrix solvedMat = LUDec.solve(jb);
+    return solvedMat.getArray();
+}
+	
+public static Matrix QR_H(Matrix M) {
+    return new Matrix(LinearAlgebra.QR( M.getRef()).getH().getArray(), false );
+}
+	
+public static double [][] QR_H(double [][] M) {
+    return LinearAlgebra.QR( M).getH().getArray();
+}
+	
+public static Matrix QR_Q(Matrix M) {
+    return new Matrix(LinearAlgebra.QR( M.getRef()).getQ().getArray(), false );
+}
+	
+public static double [][] QR_Q(double [][] M) {
+    return LinearAlgebra.QR( M).getQ().getArray();
+}
+	
+public static Matrix Q(Matrix M) {
+    return QR_Q( M);
+}
+	
+public static double [][] Q(double [][] M) {
+    return QR_Q( M);
+}
+	
+public static Matrix QR_R(Matrix M) {
+    return new Matrix(LinearAlgebra.QR( M.getRef()).getR().getArray(), false);
+}
+
+public static double [][] QR_R(double [][] M) {
+    return LinearAlgebra.QR( M).getR().getArray();
+}
+	
+public static Matrix R(Matrix M) {
+    return QR_R( M); 
+}
+	
+public static double [][] R(double [][] M) {
+    return QR_R( M); 
+}
+	
+public static Matrix QR_solve(Matrix A, Matrix b) {
+    QRDecomposition QRDec = LinearAlgebra.QR(A.getRef());
+    jMatrix jb = new jMatrix(b.darray);
+    jMatrix solvedMat = QRDec.solve(jb);
+    return new Matrix(solvedMat.getArray());
+}
+	        
+public static double [][]  QR_solve(double [][] dA, double [][] db) {
+    QRDecomposition QRDec = LinearAlgebra.QR(dA);
+    jMatrix jb = new jMatrix(db);
+    jMatrix solvedMat = QRDec.solve(jb);
+    return solvedMat.getArray();
+}
+        
+public static Matrix solve(Matrix A, Matrix b) {
+    return new Matrix(LinearAlgebra.solve( A.getRef(),b.getRef()), false);
+}
+	
+public static double [][]  solve(double [][]  dA,  double [][] db) {
+    return LinearAlgebra.solve( dA, db);
+}
+	
+public static double svd_cond(Matrix M) {
+    return LinearAlgebra.singular( M.getRef()).cond();
+}
+	
+public static double svd_cond(double [][] dM) {
+    return LinearAlgebra.singular( dM).cond();
+}
+	
+public static double cond(Matrix M) {
+    return LinearAlgebra.cond( M.getRef());
+}
+	
+public static double cond(double [][] dM) {
+    return LinearAlgebra.cond( dM);
+}
+	
+public static Matrix svd_S(Matrix M) {
+    return new Matrix(LinearAlgebra.singular(M.getRef()).getS().getArray(), false);
+}
+	
+public static double [][] svd_S(double [][] dM) {
+    return  LinearAlgebra.singular(dM).getS().getArray();
+}
+	
+public static Matrix S(Matrix M) {
+    return  svd_S( M);
+}
+	
+public static double [][] S(double [][] dM) {
+    return  svd_S( dM);
+}
+	
+public static Matrix svd_values(Matrix M) {
+    return new Matrix(LinearAlgebra.singular(M.getRef()).getSingularValues(), false);
+}
+	
+public static Matrix svd(Matrix M) {
+    return new Matrix(LinearAlgebra.singular(M.getRef()).getSingularValues(), false);
+}
+
+public static double [] svd_values(double [][] dM) {
+    return LinearAlgebra.singular(dM).getSingularValues();
+}
+
+public static double [] svd(double [][] dM) {
+    return LinearAlgebra.singular(dM).getSingularValues();
+}
+
+public static Matrix svd_U(Matrix M) {
+    return new Matrix(LinearAlgebra.singular(M.getRef()).getU().getArray(), false);
+}	
+	
+public static double [][] svd_U(double [][] M) {
+    return  LinearAlgebra.singular(M).getU().getArray();
+}	
+	
+public static Matrix svd_V(Matrix M) {
+    return new Matrix(LinearAlgebra.singular(M.getRef()).getV().getArray(), false);
+}
+	
+public static double [][] svd_V(double [][] M) {
+    return  LinearAlgebra.singular(M).getV().getArray();
+}
+        
+public static double svd_norm2(Matrix M) {
+    return LinearAlgebra.singular( M.getRef()).norm2();
+}
+	        
+public static double svd_norm2(double [][] M) {
+    return LinearAlgebra.singular( M).norm2();
+	}
+        
+	
+
+// One norm:  maximum column sum
+public static double norm1(Matrix M) {
+    return LinearAlgebra.norm1( M.getRef());
+}
+	
+
+public static double norm1(double [][] dM) {
+    return LinearAlgebra.norm1(dM);
+}
+
+// Two norm:  maximum singular value.
+public static double norm2(Matrix M) {
+    return LinearAlgebra.norm2( M.getRef());
+}
+	
+public static double norm2(double [][] dM) {
+    return LinearAlgebra.norm2(dM);
+}
+	
+//  Frobenius norm:    sqrt of sum of squares of all elements.
+public static double  normF(Matrix M)  {
+    return LinearAlgebra.normF( M.getRef());
+}
+	
+public static double normF(double [][] dM) {
+    return LinearAlgebra.normF( dM);
+}
+
+        
+public static int svd_rank(Matrix M) {
+    return LinearAlgebra.singular( M.getRef()).rank();
+}
+	
+public static int svd_rank(double [][] dM) {
+    return LinearAlgebra.singular( dM).rank();
+}
+	
+public static int rank(Matrix M) {
+    return LinearAlgebra.rank( M.getRef());
+}
+	        
+public static int rank(double [][] dM) {
+    return LinearAlgebra.rank( dM);
+}
+	
+public static double  trace(Matrix M) {
+    return LinearAlgebra.trace( M.getRef());
+}
+
+public static double  trace(double [][] dM) {
+    return LinearAlgebra.trace( dM);
+}
+
+public static Matrix eig_V(Matrix M) {
+    return new Matrix(LinearAlgebra.eigen(M.getRef()).getV().getArray(), false);
+}
+
+public static double [][] eig_V(double [][] dM) {
+    return LinearAlgebra.eigen(dM).getV().getArray();
+}
+	
+public static Matrix eigV(Matrix M) {
+    return eig_V( M); 
+}
+	
+public static double [][] eigV(double [][] dM) {
+    return eig_V(dM); 
+}
+	
+public static Matrix eig_D(Matrix M) {
+    return new Matrix(LinearAlgebra.eigen(M.getRef()).getD().getArray(), false);
+}
+	
+public static double [][] eig_D(double [][] dM) {
+    return LinearAlgebra.eigen(dM).getD().getArray();
+}
+	
+/* test example:  Compute eigenvalues with JAMA and Native BLAS and compare times
+ N = 10
+ A = Rand(N, N)
+ tic()
+ eigJama = eig_D(A)
+ tmJama = toc()
+ tic()
+ eigJBLAS = jblas_eigenvalues(A)
+ tmJBLAS = toc()
+ * 
+ */
+
+    //  Computes the eigenvalues of a general matrix.
+public static ComplexDoubleMatrix jblas_eigenvalues(double [][]dM) {
+    return org.jblas.Eigen.eigenvalues(new DoubleMatrix(dM));
+}
+
+
+
+public static ComplexDoubleMatrix jblas_eigenvalues(Matrix dM) {
+     return jblas_eigenvalues(dM.getArray());
+}
+
+
+   //   Computes the eigenvalues and eigenvectors of a general matrix.
+   //   returns an array of ComplexDoubleMatrix objects containing the eigenvectors
+   //          stored as the columns of the first matrix, and the eigenvalues as the
+   //         diagonal elements of the second matrix.
+public static ComplexDoubleMatrix [] jblas_eigenvectors(double [][]dM) {
+    return org.jblas.Eigen.eigenvectors(new DoubleMatrix(dM));
+}
+
+   
+public static ComplexDoubleMatrix [] jblas_eigenvectors(Matrix dM) {
+     return jblas_eigenvectors(dM.getArray());
+}
+
+
+//  Compute the eigenvalues for a symmetric matrix.
+public static DoubleMatrix  jblas_symmetricEigenvalues(double [][]dM) {
+    return org.jblas.Eigen.symmetricEigenvalues(new DoubleMatrix(dM));
+}
+
+public static DoubleMatrix  jblas_symmetricEigenvalues(Matrix dM) {
+    return jblas_symmetricEigenvalues(dM.getArray());
+}
+
+
+//  Computes the eigenvalues and eigenvectors for a symmetric matrix.
+//  returns an array of DoubleMatrix objects containing the eigenvectors
+//         stored as the columns of the first matrix, and the eigenvalues as
+//         diagonal elements of the second matrix.
+public static DoubleMatrix []  jblas_symmetricEigenvectors(double [][]dM) {
+    return org.jblas.Eigen.symmetricEigenvectors(new DoubleMatrix(dM));
+}
+
+public static DoubleMatrix  [] jblas_symmetricEigenvectors(Matrix dM) {
+    return  jblas_symmetricEigenvectors(dM.getArray());
+}
+
+//  Computes generalized eigenvalues of the problem A x = L B x.
+// @param A symmetric Matrix A. Only the upper triangle will be considered.
+//  @param B symmetric Matrix B. Only the upper triangle will be considered.
+//  @return a vector of eigenvalues L.
+public static DoubleMatrix jblas_symmetricGeneralizedEigenvalues( double [][] A, double [][] B) {
+    return org.jblas.Eigen.symmetricGeneralizedEigenvalues(new DoubleMatrix(A), new DoubleMatrix(B));
+}
+
+public static DoubleMatrix jblas_symmetricGeneralizedEigenvalues( Matrix A, Matrix B) {
+    return jblas_symmetricGeneralizedEigenvalues(A.getArray(), B.getArray());
+}
+
+
+public static DoubleMatrix [] jblas_symmetricGeneralizedEigenvectors( double [][] A, double [][] B) {
+    return org.jblas.Eigen.symmetricGeneralizedEigenvectors(new DoubleMatrix(A), new DoubleMatrix(B));
+}
+
+public static DoubleMatrix [] jblas_symmetricGeneralizedEigenvectors( Matrix A, Matrix B) {
+    return jblas_symmetricGeneralizedEigenvectors(A.getArray(), B.getArray());
+}
+
+ /**
+     * Compute Cholesky decomposition of A
+     *
+     * @param A symmetric, positive definite matrix (only upper half is used)
+     * @return upper triangular matrix U such that  A = U' * U
+     */
+public static  DoubleMatrix  jblas_cholesky(double [][]A) {
+  return org.jblas.Decompose.cholesky(new DoubleMatrix(A));
+}
+
+public static  DoubleMatrix  jblas_cholesky(Matrix A) {
+  return jblas_cholesky(A.getArray());
+}
+
+
+    /**
+     * Solve a general problem A x = L B x.
+     *
+     * @param A symmetric matrix A
+     * @param B symmetric matrix B
+     * @return an array of matrices of length two. The first one is an array of the eigenvectors X
+     *         The second one is A vector containing the corresponding eigenvalues L.
+     */
+
+public static DoubleMatrix jblas_solve(double [][]A, double [][] B) {
+    return org.jblas.Solve.solve(new DoubleMatrix(A),  new DoubleMatrix(B));
+}
+
+public static DoubleMatrix jblas_solve(Matrix A, Matrix B) {
+    return jblas_solve(A.getArray(),  B.getArray());
+}
+
+public static DoubleMatrix jblas_solveSymmetric(double [][]A, double [][] B) {
+    return org.jblas.Solve.solveSymmetric(new DoubleMatrix(A),  new DoubleMatrix(B));
+}
+
+public static DoubleMatrix jblas_solveSymmetric(Matrix A, Matrix B) {
+    return jblas_solveSymmetric(A.getArray(),  B.getArray());
+}
+
+
+public static DoubleMatrix jblas_solvePositive(double [][]A, double [][] B) {
+    return org.jblas.Solve.solvePositive(new DoubleMatrix(A),  new DoubleMatrix(B));
+}
+
+public static DoubleMatrix jblas_solvePositive(Matrix A, Matrix B) {
+    return jblas_solvePositive(A.getArray(),  B.getArray());
+}
+
+/**
+     * Compute a singular-value decomposition of A.
+     *
+     * @return A DoubleMatrix[3] array of U, S, V such that A = U * diag(S) * V'
+     */
+public static DoubleMatrix []  jblas_fullSVD( double [][]A) {
+    return org.jblas.Singular.fullSVD(new DoubleMatrix(A));
+}
+
+public static DoubleMatrix []  jblas_fullSVD( Matrix  A) {
+    return  jblas_fullSVD(A.getArray());
+}
+
+
+    /**
+     * Compute a singular-value decomposition of A (sparse variant).
+     * Sparse means that the matrices U and V are not square but
+     * only have as many columns (or rows) as possible.
+     * 
+     * @param A
+     * @return A DoubleMatrix[3] array of U, S, V such that A = U * diag(S) * V'
+     */
+
+public static DoubleMatrix []  jblas_sparseSVD( double [][]A) {
+    return org.jblas.Singular.sparseSVD(new DoubleMatrix(A));
+}
+
+public static DoubleMatrix []  jblas_sparseSVD( Matrix  A) {
+    return  jblas_sparseSVD(A.getArray());
+}
+
+
+public static ComplexDoubleMatrix []  jblas_sparseSVD( double [][]Areal, double [][] Aimag) {
+    return org.jblas.Singular.sparseSVD(
+            new ComplexDoubleMatrix(new DoubleMatrix(Areal),  new DoubleMatrix(Aimag)));
+}
+
+public static ComplexDoubleMatrix []  jblas_sparseSVD( Matrix Areal, Matrix Aimag) {
+    return jblas_sparseSVD(Areal.getArray(), Aimag.getArray());
+}
+
+
+  /**
+     * Compute the singular values of a matrix.
+     *
+     * @param A DoubleMatrix of dimension m * n
+     * @return A min(m, n) vector of singular values.
+     */
+public static DoubleMatrix jblas_SPDValues(double [][]A) {
+    return  org.jblas.Singular.SVDValues(new DoubleMatrix(A));
+}
+
+public static DoubleMatrix jblas_SPDValues(Matrix A) {
+    return jblas_SPDValues(A.getArray());
+}
+
+public static DoubleMatrix jblas_SPDValues(double [][]Areal, double [][]Aimag) {
+    return  org.jblas.Singular.SVDValues(
+            new ComplexDoubleMatrix(new DoubleMatrix(Areal), new DoubleMatrix(Aimag)));
+}
+
+   /**
+     * Compute the singular values of a complex matrix.
+     *
+     * @param Areal, Aimag : the real and imaginary components of a  ComplexDoubleMatrix of dimension m * n
+     * @return A real-valued (!) min(m, n) vector of singular values.
+     */
+
+public static DoubleMatrix jblas_SPDValues(Matrix Areal, Matrix Aimag) {
+    return jblas_SPDValues(Areal.getArray(), Aimag.getArray());
+}
+
+public static Matrix D(Matrix M) {
+    return eig_D( M);
+}
+	
+public static double [][] D(double [][] dM) {
+    return eig_D( dM);
+}
+	
+        
+        //  computes the eigenvalues and eigenvectors of a real matrix
+        //  the return matrix is as follows:
+        //       column 0:    the real parts of the eigenvalues
+        //       column 1:    the imaginary parts of the eigenvalues
+        //       columns   n..2+n-1   :  the real parts of the eigenvectors
+        //       columns   2+n..2+n+n  : the imaginary parts of the eigenvectors
+        public static Matrix eig(Matrix M) {
+            double [][] ar = M.getArray();   // the real values
+            
+            int n = ar.length;
+            int m = ar[0].length;
+            if (n != m)  return null;
+        
+            // take the matrix indexes to start at 1
+            double [][] ar1=new double[n+1][m+1];
+            for (int r=0; r<n; r++)
+                for (int c=0; c<n; c++)
+                    ar1[r+1][c+1] = ar[r][c];
+            
+            double [][] ai = DoubleArray.zero(n+1, m+1);  // imaginary values zero
+            double [] valr = new double[n+1];
+            double [] vali = new double[n+1];
+            double [][] vr = new double[n+1][n+1];
+            double [][] vi = new double[n+1][n+1];
+            double [] em = new double[8];
+            em[0]=5.0e-6;  em[2]=1.0e-5;  em[4]=10.0;  em[6]=10.0;
+            
+            numal.Linear_algebra.eigcom(ar1, ai ,n, em, valr, vali, vr, vi);
+    
+            double [][] rVals = new double[n][2*n+2];
+            for (int k=1; k<=n; k++)  { // copy eigenvalues
+                rVals[k-1][0] = valr[k];   // real parts of eigenvalues: first column of return matrix
+                rVals[k-1][1] = vali[k];  // imaginary parts of eigenvalues: second column of return matrix
+            }
+              // copy real parts of eigenvectors : columns 2:2+n-1 of return matrix
+            for (int c=0; c<n; c++) {
+                int col = c+2;
+             for (int r=1; r<=n; r++)   // columns are eigenvectors
+                rVals[r-1][col] = vr[c+1][r];
+            }
+              // copy imaginary parts of eigenvectors : columns 2+n:2+n+n of return matrix
+            int n2 = 2+n;
+            for (int c=0; c<n; c++) {
+                int col = c+n2;
+             for (int r=1; r<=n; r++)   // columns are eigenvectors
+                rVals[r-1][col] = vi[c+1][r];
+            }
+             
+            Matrix eigs = new Matrix(rVals); // returns the real parts of the eigenvalues
+           
+            return eigs;
+            
+        }
+        
+        public static double [][]  eig(double [][]ar) {
+            
+            int n = ar.length;
+            int m = ar[0].length;
+            if (n != m)  return null;
+        
+            // take the matrix indexes to start at 1
+            double [][] ar1=new double[n+1][m+1];
+            for (int r=0; r<n; r++)
+                for (int c=0; c<n; c++)
+                    ar1[r+1][c+1] = ar[r][c];
+            
+            double [][] ai = DoubleArray.zero(n+1, m+1);  // imaginary values zero
+            double [] valr = new double[n+1];
+            double [] vali = new double[n+1];
+            double [][] vr = new double[n+1][n+1];
+            double [][] vi = new double[n+1][n+1];
+            double [] em = new double[8];
+            em[0]=5.0e-6;  em[2]=1.0e-5;  em[4]=10.0;  em[6]=10.0;
+            
+            numal.Linear_algebra.eigcom(ar1, ai ,n, em, valr, vali, vr, vi);
+    
+            double [][] rVals = new double[n][2*n+2];
+            for (int k=1; k<=n; k++)  { // copy eigenvalues
+                rVals[k-1][0] = valr[k];   // real parts of eigenvalues: first column of return matrix
+                rVals[k-1][1] = vali[k];  // imaginary parts of eigenvalues: second column of return matrix
+            }
+              // copy real parts of eigenvectors : columns 2:2+n-1 of return matrix
+            for (int c=0; c<n; c++) {
+                int col = c+2;
+             for (int r=1; r<=n; r++)   // columns are eigenvectors
+                rVals[r-1][col] = vr[c+1][r];
+            }
+              // copy imaginary parts of eigenvectors : columns 2+n:2+n+n of return matrix
+            int n2 = 2+n;
+            for (int c=0; c<n; c++) {
+                int col = c+n2;
+             for (int r=1; r<=n; r++)   // columns are eigenvectors
+                rVals[r-1][col] = vi[c+1][r];
+            }
+             
+            return rVals;
+            
+        }
+        
+        
+	public static Object  mean(Matrix v)  {
+		if (v.getRowsNumber()==1)
+			return StatisticSample.mean(v.getRowRef(1));
+		else if (v.getColumnsNumber()==1)
+			return StatisticSample.mean(v.getColumnCopy(1))[0];
+		else
+			return new Matrix(StatisticSample.mean( v.getRef()), false );
+	}
+        
+        public static double []  mean(double [][] dv)  {
+		return  StatisticSample.mean( dv);
+	}
+	
+	public static Object  variance(Matrix v)  {
+		if (v.getRowsNumber()==1)
+			return StatisticSample.variance(v.getRowRef(1));
+		else if (v.getColumnsNumber()==1)
+			return StatisticSample.variance(v.getColumnCopy(1))[0];
+		else
+			return new Matrix(StatisticSample.variance( v.getRef()), false );
+	}
+	
+        public static double []  variance(double [][] dv)  {
+		return  StatisticSample.variance( dv);
+	}
+	
+        public static Object  std(Matrix v)  {
+		if (v.getRowsNumber()==1)
+			return StatisticSample.stddeviation(v.getRowRef(1));
+		else if (v.getColumnsNumber()==1)
+			return StatisticSample.stddeviation(v.getColumnCopy(1))[0];
+		else
+			return new Matrix(StatisticSample.stddeviation( v.getRef()), false );
+	}
+        
+        public static double []  std(double [][] dv)  {
+		return  StatisticSample.stddeviation( dv);
+	}
+		
+	public static Object var(Matrix v)  {
+		return variance( v);
+	}
+	
+        public static double []  var(double [][] dv)  {
+		return  StatisticSample.variance(dv);
+	}
+	        
+	public static Object   covariance(Matrix v1, Matrix v2)  {
+		if (v1.getRowsNumber()==1 && v2.getRowsNumber()==1)
+			return StatisticSample.covariance(v1.getRowRef(1),v2.getRowRef(1));
+		else if (v1.getColumnsNumber()==1 && v2.getColumnsNumber()==1)
+			return StatisticSample.covariance(v1.getColumnCopy(1),v2.getColumnCopy(1))[0];
+		else
+			return new Matrix(StatisticSample.covariance( v1.getRef(),  v2.getRef()), false );
+	}
+	
+        public static double [][]  covariance(double [][] dv1, double [][] dv2)  {
+		return  StatisticSample.covariance( dv1, dv2);
+	}
+	
+	public static Object cov(Matrix v1, Matrix v2)  {
+		return covariance( v1,  v2);
+	}
+	        
+        public static double [][]  cov(double [][] dv1, double [][] dv2)  {
+		return  covariance( dv1, dv2);
+	}
+	
+	public static Object  covariance(Matrix v)  {
+		return covariance( v,  v);
+	}
+	        
+	public static double [][]  covariance(double [][] dv)  {
+		return cov( dv, dv);
+	}
+        
+	public static Object  cov(Matrix v)  {
+		return covariance( v); 
+	}
+	
+        public static double [][]  cov(double [][] dv)  {
+		return covariance( dv); 
+	}
+	
+	public static Object  correlation(Matrix v1, Matrix v2)  {
+		if (v1.getRowsNumber()==1 && v2.getRowsNumber()==1)
+			return StatisticSample.correlation(v1.getRowRef(1),v2.getRowRef(1));
+		else if (v1.getColumnsNumber()==1 && v2.getColumnsNumber()==1)
+			return StatisticSample.correlation(v1.getColumnCopy(1),v2.getColumnCopy(1));
+		else
+			return new Matrix(StatisticSample.correlation( v1.getRef(),  v2.getRef()), false );
+	}
+	        
+	public static double [][]  correlation(double [][] dv1, double [][] dv2)  {
+		return  StatisticSample.correlation( dv1,  dv2);
+	}
+        
+	public static Object  corr(Matrix v1, Matrix v2)  {
+		return correlation( v1,  v2);
+	}
+	        
+	public static double [][]  corr(double [][] dv1, double [][] dv2)  {
+		return  correlation( dv1,  dv2);
+	}
+	
+        public static Object  correlation(Matrix v)  {
+		return correlation( v,v);
+	}
+	
+        public static double [][]  correlation(double [][] v)  {
+		return correlation( v,v);
+	}
+        
+	public static Object  corr(Matrix v)  {
+		return correlation( v);
+	}
+	        
+        public static double [][]  corr (double [][] v)  {
+		return correlation( v,v);
+	}
+                
+        
+        public static Object  mean(double [] v)  {
+            return StatisticSample.mean(v);
+	}
+        
+        
+        public static Object  variance(double [] v)  {
+            return StatisticSample.variance(v);
+	}
+        
+	
+	public static Object var(double [] v)  {
+		return variance( v);
+	}
+	
+        public static Object  std(double [] v)  {
+            return StatisticSample.stddeviation(v);
+	}
+        
+        public static Object   covariance(double [] v1, double [] v2)  {
+		return StatisticSample.covariance(v1, v2);
+	}
+	
+        
+	public static Object cov(double [] v1, double [] v2)  {
+		return covariance( v1,  v2);
+	}
+	
+		
+	public static Object   correlation(double [] v1, double [] v2)  {
+		return StatisticSample.correlation(v1, v2);
+	}
+	
+        
+	public static Object corr(double [] v1, double [] v2)  {
+		return correlation( v1,  v2);
+	}
+	
+	
+	
+	public static Matrix randomUniform(int m, int n, double min, double max)  {
+		return new Matrix(StatisticSample.randomUniform(m, n, min, max), false );
+	}
+	
+	public static Matrix randomDirac(int m, int n, double[] values, double[] prob)  {
+		return new Matrix(StatisticSample.randomDirac(m, n, values, prob), false );
+	}
+	
+	public static Matrix randomNormal(int m, int n, double mu, double sigma)  {
+		return new Matrix(StatisticSample.randomNormal(m, n, mu, sigma), false );
+	}
+	
+	public static Matrix randomChi2(int m, int n, int d)  {
+		return new Matrix(StatisticSample.randomChi2(m, n, d), false );
+	}
+	
+	public static Matrix randomLogNormal(int m, int n, double mu, double sigma)  {
+		return new Matrix(StatisticSample.randomLogNormal(m, n, mu, sigma), false );
+	}
+	
+	public static Matrix randomExponential(int m, int n, double lambda)  {
+		return new Matrix(StatisticSample.randomExponential(m, n, lambda), false );
+	}
+	
+	public static Matrix randomTriangular(int m, int n, double min, double max)  {
+		return new Matrix(StatisticSample.randomTriangular(m, n, min, max), false );
+	}
+	
+	public static Matrix randomTriangular(int m, int n, double min, double med, double max)  {
+		return new Matrix(StatisticSample.randomTriangular(m, n, min, med, max), false );
+	}
+	
+	public static Matrix randomBeta(int m, int n, double a, double b)  {
+		return new Matrix(StatisticSample.randomBeta(m, n, a, b), false );
+	}
+	
+	public static Matrix randomCauchy(int m, int n, double mu, double sigma)  {
+		return new Matrix(StatisticSample.randomCauchy(m, n, mu, sigma), false );
+	}
+	
+	public static Matrix randomWeibull(int m, int n, double lambda, double c)  {
+		return new Matrix(StatisticSample.randomWeibull(m, n, lambda, c), false );
+	}
+        
+        
+	public static double [][]  RandomUniform(int m, int n, double min, double max)  {
+		return StatisticSample.randomUniform(m, n, min, max);
+	}
+	
+	public static double [][] RandomDirac(int m, int n, double[] values, double[] prob)  {
+		return StatisticSample.randomDirac(m, n, values, prob);
+	}
+	
+	public static double [][]  RandomNormal(int m, int n, double mu, double sigma)  {
+		return StatisticSample.randomNormal(m, n, mu, sigma);
+	}
+	
+	public static double [][]  RandomChi2(int m, int n, int d)  {
+		return StatisticSample.randomChi2(m, n, d);
+	}
+	
+	public static double [][] RandomLogNormal(int m, int n, double mu, double sigma)  {
+		return StatisticSample.randomLogNormal(m, n, mu, sigma);
+	}
+	
+	public static double [][] RandomExponential(int m, int n, double lambda)  {
+		return StatisticSample.randomExponential(m, n, lambda);
+	}
+	
+	public static double [][] RandomTriangular(int m, int n, double min, double max)  {
+		return StatisticSample.randomTriangular(m, n, min, max);
+	}
+	
+	public static double [][] RandomTriangular(int m, int n, double min, double med, double max)  {
+		return StatisticSample.randomTriangular(m, n, min, med, max);
+	}
+	
+	public static double [][] RandomBeta(int m, int n, double a, double b)  {
+		return StatisticSample.randomBeta(m, n, a, b);
+	}
+	
+	public static double [][] RandomCauchy(int m, int n, double mu, double sigma)  {
+		return StatisticSample.randomCauchy(m, n, mu, sigma);
+	}
+	
+	public static double [][]  RandomWeibull(int m, int n, double lambda, double c)  {
+		return StatisticSample.randomWeibull(m, n, lambda, c);
+	}
+        
+        public static Matrix dot(Matrix X, Matrix Y) {
+            double [][] xvals = X.getArray();
+            double [][] yvals = Y.getArray();
+            double [][] res = DoubleArray.dot(xvals, yvals);
+            return new Matrix(res);
+        }
+
+// reshape(M: matrix to reshape, n: no of rows,m: no of columns)
+//  Reshapes a matrix.
+ public static Matrix reshape(Matrix M, int n, int m)
+   {
+		// get data from arguments
+		double[][] x =      M.getArray();
+
+		int x_dy     = x.length;
+        int x_dx     = x[0].length;
+	// size(x) == n*m
+		if ((x_dy * x_dx) != (n*m)) 		{			return null;		}
+
+		// create matrix
+		double[][] values = new double[n][m];
+		int yii=0;
+		int xii=0;
+		for (int xi=0; xi<m ; xi++) {
+			for (int yi=0; yi<n ; yi++)		{ 			// reshape
+				values[yi][xi] = x[yii][xii];
+	          // read original matrix columnwise
+				yii++;
+				if (yii >= x_dy) 				{
+					yii=0;
+					xii++;
+				}
+			}
+        }
+		return new Matrix(values);
+	} 
+
+ 
+ 
+// reshape(dM: double [][] to reshape, n: no of rows,m: no of columns)
+//  Reshapes a double [][] array.
+ public static double [][] reshape(double [][] x, int n, int m)
+   {
+		int x_dy     = x.length;
+        int x_dx     = x[0].length;
+	// size(x) == n*m
+		if ((x_dy * x_dx) != (n*m)) 		{			return null;		}
+
+		// create matrix
+		double[][] values = new double[n][m];
+		int yii=0;
+		int xii=0;
+		for (int xi=0; xi<m ; xi++) {
+			for (int yi=0; yi<n ; yi++)		{ 			// reshape
+				values[yi][xi] = x[yii][xii];
+	          // read original matrix columnwise
+				yii++;
+				if (yii >= x_dy) 				{
+					yii=0;
+					xii++;
+				}
+			}
+        }
+		return values;
+	} 
+
+ 
+/* 
+ n = 8;
+ am = rand(n, n);
+ om = dec(am);
+ */
+ /* Decomposes the nXn matrix A in the form LU = PA, where L is lower triangular,
+  * U is unit upper traingular, and P is a permutation matrix
+  * 
+  * Procedure parameters: 
+  *    Matrix dec( Matrix am)
+  */
+public static Matrix  dec( Matrix am )  {
+     double [][] a = am.getArray();
+     int  n = a.length;  // the order of the Matrix
+     int  m = a[0].length;
+     if (n != m)  {
+         System.out.println("Matrix dec(Matrix am)  only possible for square matrices");
+         return null;
+     }
+     double [][] ac = new double[n][n]; 
+     for (int r=0; r<n; r++)
+         for (int c=0; c<n; c++)
+             ac[r][c] = a[r][c];
+     
+     double [] aux = new double [4];
+     aux[2] =  0.000001;  // a default relative tolerance
+     int [] p = new int[n];
+     numal.Linear_algebra.dec(ac, n-1, aux, p);
+     
+     Matrix outMat = new Matrix(ac);   // construct an output Matrix 
+     return  outMat;  
+   }
+
+  
+/* 
+ * solves a well-conditioned linear system of equations Ax=b whose order is small relative to the number of 
+ * binary digits in the number representation
+ * */
+public  Matrix  decsol(double [] aux, double [] b)  {
+    double [][] a = this.getArray();
+    
+    int n=b.length;
+    double [] sol = new double[n+1];   // will hold the solution vector
+    for (int k=0; k<n+1; k++)   sol[k] = b[k];
+    
+    n = a.length;
+    int m = a[0].length;
+    if (n !=m)  {
+        System.out.println("Use sol() only for square matrices");
+        return null;
+    }
+    numal.Linear_algebra.decsol(a, n-1, aux , sol);
+    
+    return new Matrix(sol);
+}
+
+
+/*
+ * Determines the least squares solution of the overdetermined system A*x = b, where A is an nXm matrix (n >= m).
+ *  (n linear equations in m unknowns), and computes the principal diagonal elements of the inverse of A^T*A.
+ * 
+ * Procedure parameters:
+ *      void  lsqortdecsol( a, n, m, aux, diag, b)
+ 
+ *   a:   double a[1:n, 1:m];
+ *        entry:   the coefficient matrix of the linear least squares problem;
+ *        exit:     in the upper triangle of a (the elements a[i,j] with i<j) the superdiagonal elements of the upper triangular matrix produced by the Householder transformation;
+ *                   in the other part of the columns of a the significant elements of the generating vectors of the Householder matrices used for the Householder triangularization
+ *   aux:  double aux[2:5];
+ *      entry:  aux[2]:    contains a relative tolerance used for calculating the diagonal elements of the upper triangular matrix
+ *                aux[3]:    delivers the number of the diagonal elements of the upper triangular matrix which are found not negligible, normal exit aux[3]=m
+ *                aux[5]:    the maximum of the Euclidean norms of the columns of the given matrix
+ *   diag:   double diag[1:m];
+ *                exit:  the diagonal elements of the inverse of A^T * A, where A is the matrix of the linear least squares problem
+       b:   double  b[1:n];
+ *         entry:   contains the right-hand side of a linear least squares problem
+ *         exit:  b[1:m]   contains the solution to the problem
+ *                 b[m+1:n]  contains a vector with Euclidean length equal to the Euclidean length of the residual vector
+ * */
+public  Matrix  lsqortdecsol(double [] aux,  double [] diag, double []b )  {
+    double [][] a = this.getArray();
+    
+    int n = a.length;
+    int m = a[0].length;
+    
+    double [] sol = new double[n];   // will hold the solution vector
+    for (int k=0; k<n; k++)   sol[k] = b[k];
+    
+    numal.Linear_algebra.lsqortdecsol(a, n-1, m-1, aux, diag, sol);
+    
+    return new Matrix(sol);
+}
+
+
+/*
+ *   Calculates the inverse of the matrix A^T*A, where A is the coefficient matrix of a linear least squares problem.
+ *   lsqinv can be used for the calculation of the covariance matrix of a linear least squares problem.
+ * 
+ *     void  lsqinv(a, m, aid, c)
+ *  
+ *   a:     double a[1:m, 1:m];
+ *          entry:  in the upper triangle of a (the elements a[i,j] with 1<=i<j<=m) the superdiagonal elements should be given of the upper 
+ *                    triangular matrix (U above) that is produced by the Householder triangularization in a call of the procedure lsqortdec with normal exit (aux[3]=m)
+ *          exit:    the upper triangle of the symmetric inverse matrix is delivered in the upper triangular elements of the array a (a[i,j], 1<=i<=j<=m)
+ *   m:   int: 
+ *         entry:  the number of columns of the matrix of the linear least squares problem
+ *   aid:  contains the diagonal elements of the upper triangular matrix produced by lsqortdec
+ *   ci:  int ci[1:m];
+ *         entry:  contains the pivotal indices produced by a call of lsqortdec
+ * 
+ * */
+// SOS - not checked
+public  Matrix lsqinv( int m, double [] aid, int [] c )  {
+    double [][] a = this.getArray();
+    
+    
+    numal.Linear_algebra.lsqinv(a, m, aid, c);
+    
+    return new Matrix(a);
+}
+    
+/*
+ A = rand(4, 4)
+ b = rand(4, 1)
+ xl = A.lsolve(b)  // solve with LAPACK
+ 
+ 
+ xlu = LU_solve(A, b)  // solve with LU of JAMA
+ 
+ xqr = QR_solve(A, b)  // solve with QR of JAMA
+ */
+// MTJ routines
+    
+public static Matrix Lsolve(Matrix A, Matrix b) {
+    return A.lsolve(b);
+}
+
+public Matrix lsolve(Matrix B) {
+        DenseMatrix Adm = new DenseMatrix(this.darray);
+        DenseMatrix bdm = new DenseMatrix(B.darray);
+        DenseMatrix xdm = new DenseMatrix(B.darray);
+        DenseMatrix X =  Adm.solve(bdm, xdm);
+        
+        return new Matrix(xdm.toDoubleArray());
+    }
+
+
+// compute LQ decomposition using LAPACK
+/*
+ a = [[3.4, 6.7, -4.5], [3.4, -3.4, 9], [-1.2, 3.4, 6.7]] as double [][]
+ ma = new Matrix(a)
+ lqa = lLQ(ma)
+ // check
+ residual = lqa.L*lqa.Q-ma  // should be zero
+ */
+public LQResults  lLQ() {  
+  LQResults lqA = JILapack.LQ(this.getArray());
+  return lqA;
+}
+
+public static LQResults  lLQ(Matrix A) {  
+  LQResults lqB = JILapack.LQ(A.getArray());
+  return lqB;
+}
+
+
+// compute eigenvalue decomposition using LAPACK
+/*
+ a = [[3.4, 6.7, -4.5], [3.4, -3.4, 9], [-1.2, 3.4, 6.7]] as double [][]
+ ma = new Matrix(a)
+ eiga = leig(ma)
+ // check
+ realEvs = eiga.realEvs
+ imEvs = eiga.imEvs
+ leftEvecs = eiga.leftEvecs
+ rightEvecs = eiga.rightEvecs
+
+ */
+
+public EigResults  leig() {  
+  EigResults eigA = JILapack.jEig(this.getArray());
+  return eigA;
+}
+
+public static EigResults  leig(Matrix A) {  
+  EigResults eigA = JILapack.jEig(A.getArray());
+  return eigA;
+}
+
+
+/* EJML based routines */
+
+
+public static double [][]  EJMLDenseMatrixtoDoubleArray(org.ejml.data.DenseMatrix64F dm)  {
+  double [][]  da = new double [dm.numRows][dm.numCols];
+  for (int r=0; r < dm.numRows; r++)
+    for (int c=0; c <dm.numCols; c++)
+      da[r][c] = dm.get(r,c);
+  
+  return da;
+} 
+  
+// get the inverse using EJML (slightly faster than inv())
+public static Matrix einv(Matrix A) {
+  org.ejml.data.DenseMatrix64F da = new org.ejml.data.DenseMatrix64F(A.getArray());
+  org.ejml.ops.CommonOps.invert(da);
+  return new Matrix( EJMLDenseMatrixtoDoubleArray(da));
+  
+}
+
+/*
+ a = rand(3,5)
+ b = new Matrix(5,3)
+ c = epinv(a, b)
+ 
+ */
+
+// get the pseudo-inverse using EJML 
+public static Matrix epinv(Matrix A, Matrix invA) {
+  org.ejml.data.DenseMatrix64F da = new org.ejml.data.DenseMatrix64F(A.getArray());
+  org.ejml.data.DenseMatrix64F dinva = new org.ejml.data.DenseMatrix64F(invA.getArray());
+  
+  org.ejml.ops.CommonOps.pinv(da, dinva);
+  invA.darray = EJMLDenseMatrixtoDoubleArray(dinva);
+  
+  return invA;
+}
+
+
+// NUMAL based routines
+// convert a zero indexed array to a one-indexed one 
+  static double [][]  AA1( double [][] a)  {
+     int   N = a.length;
+     int   M = a[0].length;
+     double [][]  a1 = new double [N+1][M+1];
+     for (int r=0; r < N; r++)
+       for (int c=0;  c < M; c++)
+         a1[r+1][c+1] = a[r][c];
+     
+   return a1;
+   }
+   
+    static double [] A1( double []  a)   {
+     int   N = a.length;
+     double []   a1 = new double [N+1];
+     for (int k=0; k<N; k++)
+         a1[k+1] = a[k];
+     
+    return a1;
+   }
+
+
+  // Solves a well-conditioned linear system of equations Ax = b whose order is small relative to the number 
+  // of binary digits in the number representation
+   /*
+     a=rand(3,3)
+     b = AD("6 7 8")
+     aa = decsol0(a,b)
+     vr = a*aa-b // verify
+    */
+  public static double [] decsol0(Matrix a,  double [] b)   {
+    double []  aux = new double [4];
+    aux[2] = 1.0e-5;   // relative tolerance
+    
+    double [] [] a1 = AA1(a.getArray());  // convert array to 1-indexed
+    int  n = a.numRows();
+    
+    double [] b1 = A1(b);
+    
+    numal.Linear_algebra.decsol(a1, n, aux, b1);    //  call the NUMAL routine
+    
+   double [] rb = new double [n];
+    for (int r=0; r<n; r++)
+      rb[r] = b1[r+1];
+      
+    return rb;
+  }
+  
+  /*
+     a=rand(3,3)
+     b = AD("6 7 8")
+     aa = gsssol0(a,b)
+     vr = a*aa-b // verify
+    */
+  // Solves a linear system of equations Ax = b 
+  public static double []  gsssol0(Matrix a, double []  b)  {
+    double []  aux = new double [8];
+    aux[2] = 1.0e-5;   // relative tolrerance
+    aux[4] = 8; 
+    
+    double [][]  a1 = AA1(a.getArray());  // convert array to 1-indexed
+    int  n = a.length();
+    
+    double []  b1 =  A1(b);
+    
+    numal.Linear_algebra.gsssol(a1, n, aux, b1);    //  call the NUMAL routine
+    
+   double [] rb = new double [n];
+    for (int r=0; r<n; r++)
+      rb[r] = b1[r+1];
+      
+  return  rb;
+  }
+  
+  
+  // Solves the nXn system of equations Ax=b, and provides an upper bound
+  // for the relative error in x
+  
+  /*
+     a = rand(3,3)
+     b = AD("6 7 8")
+     estimatedErrorBound = new double[1]
+     aa = gsssolerb0(a,b, estimatedErrorBound)
+     vr = a*aa-b // verify
+    */
+  public static double []  gsssolerb0(Matrix a, double [] b, double [] estimatedErrorBound)  {
+    double [] aux = new double [12];
+    aux[0] = 1.0e-14;   // the machine's precision'
+    aux[2] = 1.0e-14;   //  a relative tolerance
+    aux[4] = 8;   // a value used for controling pivoting. usually aux(4)=8 will give good results
+    aux[6] = 1.0e-14;   // an upper bound for the relative precision of the given matrix elements
+    
+    double [][]  a1 = AA1(a.getArray());  // convert array to 1-indexed
+    int  n = a.length();
+    
+    double []  b1 =  A1(b);
+    
+    numal.Linear_algebra.gsssolerb(a1, n, aux, b1);    //  call the NUMAL routine
+    
+   double [] rb = new double [n];
+    for (int r=0; r<n; r++)
+      rb[r] = b1[r+1];
+      
+    estimatedErrorBound[0]  = aux[11];
+    return  rb; 
+  }
+  
+// construct a zero-indexed Matrix from a String, e.g. 
+//  m = M("3.4 -6.7; -1.2 5.6")
+public static Matrix  M(String s)   {
+    int nRows = 1;
+    int nCols = 0;
+    for (int i=0; i<s.length(); i++)   // count how many rows are specified
+      if  (s.charAt(i)==';')
+        nRows++;
+
+  // seperate rows to an ArrayBuffer
+   Vector <String>   buf = new Vector<String> ();
+   StringTokenizer  strtok = new java.util.StringTokenizer(s, ";");  // rows are separated by ';'
+   while (strtok.hasMoreElements()) {
+         String  tok = strtok.nextToken();
+         buf.add(tok);
+      }    
+
+// count how many numbers each row has. Assuming that each line has the same number of elements
+ String  firstLine = buf.firstElement();
+ strtok = new java.util.StringTokenizer(firstLine, ", ");  // elements are separated by ',' or ' '
+ while (strtok.hasMoreTokens()) {
+   String  tok = strtok.nextToken();
+   nCols++;
+}
+
+ double [][]  numbersArray =  new double[nRows][nCols];
+    
+    for (int k=0; k<nRows; k++)  {  // read array
+      String   currentLine = buf.elementAt(k);
+   strtok = new java.util.StringTokenizer(currentLine, ", ");  // elements are separated by ',' or ' '
+int c=0;
+while (strtok.hasMoreTokens()) {  // read row
+   String  tok = strtok.nextToken();
+   numbersArray[k][c] =  Double.parseDouble(tok);
+    c++;
+     }   // read row
+   }  // read array
+   return new Matrix(numbersArray);
+ }  
+
+// construct a zero-indexed double [][] from a String, e.g. 
+//   dd = AAD("3.4 -6.7; -1.2 5.6")
+public static double [][]  AAD(String s)   {
+    int nRows = 1;
+    int nCols = 0;
+    for (int i=0; i<s.length(); i++)   // count how many rows are specified
+      if  (s.charAt(i)==';')
+        nRows++;
+
+  // seperate rows to an ArrayBuffer
+   Vector <String>   buf = new Vector<String> ();
+   StringTokenizer  strtok = new java.util.StringTokenizer(s, ";");  // rows are separated by ';'
+   while (strtok.hasMoreElements()) {
+         String  tok = strtok.nextToken();
+         buf.add(tok);
+      }    
+
+// count how many numbers each row has. Assuming that each line has the same number of elements
+ String  firstLine = buf.firstElement();
+ strtok = new java.util.StringTokenizer(firstLine, ", ");  // elements are separated by ',' or ' '
+ while (strtok.hasMoreTokens()) {
+   String  tok = strtok.nextToken();
+   nCols++;
+}
+
+ double [][]  numbersArray =  new double[nRows][nCols];
+    
+    for (int k=0; k<nRows; k++)  {  // read array
+      String   currentLine = buf.elementAt(k);
+   strtok = new java.util.StringTokenizer(currentLine, ", ");  // elements are separated by ',' or ' '
+int c=0;
+while (strtok.hasMoreTokens()) {  // read row
+   String  tok = strtok.nextToken();
+   numbersArray[k][c] =  Double.parseDouble(tok);
+    c++;
+     }   // read row
+   }  // read array
+   return numbersArray;
+ }  
+
+// construct a zero-indexed double [] from a String, e.g. 
+//   ad = AD("3.4 -6.7; -1.2 5.6")
+public static double []  AD(String s)   {
+    
+// count how many numbers 
+StringTokenizer  strtok = new java.util.StringTokenizer(s, ", ");  // elements are separated by ',' or ' '
+int  nCols = 0;
+while (strtok.hasMoreTokens()) {
+   strtok.nextToken();
+   nCols++;
+}
+
+double []  numbersArray = new double[nCols];
+strtok = new java.util.StringTokenizer(s,  ", ");  // elements are separated by ',' or ' '
+int c=0; 
+while (strtok.hasMoreTokens()) {  // read row
+   String  tok = strtok.nextToken();
+   numbersArray[c] = Double.valueOf(tok);
+   c++;
+}
+
+ return numbersArray;
+ }  
+
+
+public static void main(String args[]) {
+
+    int i,j;
+    double b[] = new double[5];
+    double aux[] = new double[4];
+    double a[][] = new double[5][5];
+    
+    for (i=1; i<=4; i++) {
+      for (j=1; j<=4; j++) a[i][j]=1.0/(i+j-1);
+      b[i]=a[i][3];
+    }
+    aux[2]=1.0e-5;
+    Matrix  A = new Matrix(a);
+    Matrix newMatrix = A.decsol(aux, b);
+    
+    DecimalFormat fiveDigit = new DecimalFormat("0.00000E0");
+    System.out.println("Solution:  " + fiveDigit.format(b[1]) +
+      "  " + fiveDigit.format(b[2]) + "  " +
+      fiveDigit.format(b[3]) + "  " + fiveDigit.format(b[4]));
+    System.out.println("Sign(Det) = " + (int)aux[1] + 
+      "\nNumber of eliminations = " + (int)aux[3]);
+}
+
+    @Override
+    public Matrix copy() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
+    // Vector related static routines (we place here for convenient import static)
+    public static Vec  sin(Vec v) {
+    double [] rv = new double[v.length()];
+    double [] sv = v.getv();
+    for (int k=0; k<v.length(); k++) 
+        rv[k] = Math.sin(sv[k]);
+    return new Vec(rv, true);
+}
+
+public static Vec  cos(Vec v) {
+    double [] rv = new double[v.length()];
+    double [] sv = v.getv();
+    for (int k=0; k<v.length(); k++) 
+        rv[k] = Math.cos(sv[k]);
+    return new Vec(rv, true);
+}
+
+public static Vec  tan(Vec v) {
+    double [] rv = new double[v.length()];
+    double [] sv = v.getv();
+    for (int k=0; k<v.length(); k++) 
+        rv[k] = Math.tan(sv[k]);
+    return new Vec(rv, true);
+}
+
+
+public static Vec  asin(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.asin(v.v[k]));
+    return rv;
+}
+
+public static Vec  acos(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.acos(v.v[k]));
+    return rv;
+}
+
+public static Vec  atan(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.atan(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  tanh(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.tanh(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  cosh(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.cosh(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  sinh(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.sinh(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  round(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.round(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  floor(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.floor(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  ceil(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.ceil(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  sqrt(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.sqrt(v.v[k]));
+    return rv;
+}
+
+
+
+public static Vec  exp(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.exp(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  log(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.log(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  log10(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.log10(v.v[k]));
+    return rv;
+}
+
+
+public static Vec  log1p(Vec v) {
+    Vec rv = new Vec(v.length());
+    for (int k=0; k<v.length(); k++) 
+        rv.putAt(k,  Math.log1p(v.v[k]));
+    return rv;
+}
+
+public static int length(Vec v) {
+    return v.length();
+}
+
+public static int length(Matrix m) {
+    return m.Nrows();
+}
+
+
+}
+        
+
+
+}}}
