@@ -25,12 +25,12 @@
       	cpdata = data.copy()  // copy data since FFT is done in-place
 
         	isign=1
-        	groovySci.NR.NRFFT.four1(cpdata, isign);
+        	NR.NRFFT.four1(cpdata, isign);
         	figure(1); subplot(2,1,1);     plot(data, Color.BLUE,  "Real-Valued even function");
         	subplot(2,1,2); plot(cpdata, Color.RED, "H(n) = H(N-n) and Real")
 
 // print the smallest FFT coefficients up to 5
-     groovySci.NR.NRFFT.printft(cpdata, 5)
+     NR.NRFFT.printft(cpdata, 5)
 
 
 	println "TEST 2"
@@ -45,7 +45,7 @@
 	 	
 
         	isign=1
-        	groovySci.NR.NRFFT.four1(cpdata, isign);
+        	NR.NRFFT.four1(cpdata, isign);
         	figure(2); subplot(2,1,1);     plot(data, Color.BLUE,  "Imaginary-Valued even function");
         	subplot(2,1,2); plot(cpdata, Color.RED, "H(n) = H(N-n) ad Imaginary")
 
@@ -63,7 +63,7 @@
  realparts = new double[NN]
  imparts  = new double[NN]
 
- groovySci.NR.NRFFT.four1S(data, realparts, imparts)
+ NR.NRFFT.four1S(data, realparts, imparts)
  
 	
 
