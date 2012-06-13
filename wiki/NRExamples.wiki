@@ -1,0 +1,56 @@
+#summary Examples using Numerical Recipe routines from GroovyLab.
+
+= Introduction =
+
+*`Numerical Recipes`* `is a classic text on Numerical Computation containing a lot of superb quality routines covering wide fields of numerical computing. Perhaps even more important, the book explains very well the algorithms on which the routines are based. Therefore, Numerical Recipes (NR) is excellent for students and researchers. Furthermore, generally NR routines are efficient, therefore they also fit for "production" applications. `
+
+`Thanks to Huang Wen Hui that performed a translation to Java, and to the authors of the Numerical Recipes book we can utilize that routines as a standard GroovyLab library and explore them in a Matlab-like way from GroovyLab. This page aims to provide some examples in order to practice the NR routines. We provide the page numbers of the Numerical Recipes book, Edition 3, where the routines are described.` 
+
+
+= Cholesky Decomposition =
+
+{{{
+
+
+
+
+import static com.nr.NRUtil.*
+import static com.nr.test.NRTestUtil.*
+
+import com.nr.la.Cholesky
+
+ diag=10.0
+ a = new double[50][50]
+    
+ r=new double[50]
+  
+ y=new double[50]
+ globalflag=false
+    
+ ranmat(a, diag)
+ ranvec(r)   
+
+println("Testing cholesky")
+
+// make a positive definite matrix
+aposdef = matmul(a, transpose(a).getArray())    
+
+// perform a Cholesky factorization of the matrix, p. 101 NR3
+ach = new Cholesky(aposdef)
+
+// solve using Cholesky factorization, p. 101 NR3
+ach.solve(r,y)
+
+sbeps = 5.0e-15
+localflag = maxel(vecsub(matmul(aposdef,y),r)) > sbeps
+    globalflag = globalflag || localflag
+    if (localflag) {
+      fail("*** cholesky: Error in solve() method");
+      
+    }
+
+residual = aposdef*y-r   // should be zero
+
+    
+
+}}}
