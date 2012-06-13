@@ -2,7 +2,7 @@
 
 = Introduction =
 
-*`Numerical Recipes`* `is a classic text on Numerical Computation containing a lot of superb quality routines covering wide fields of numerical computing. Perhaps even more important, the book explains very well the algorithms on which the routines are based. Therefore, Numerical Recipes (NR) is excellent for students and researchers. Furthermore, generally NR routines are efficient, therefore they also fit for "production" applications. `
+*`Numerical Recipes`* `is a classic text on Numerical Computation containing a lot of superb quality routines covering wide fields of numerical computing. Perhaps even more important,is that the book explains very well the algorithms on which the routines are based. Therefore, Numerical Recipes (NR) is excellent for students and researchers. Furthermore, generally NR routines are efficient, therefore they also fit for "production" applications. `
 
 `Thanks to Huang Wen Hui that performed a translation to Java, and to the authors of the Numerical Recipes book we can utilize that routines as a standard GroovyLab library and explore them in a Matlab-like way from GroovyLab. This page aims to provide some examples in order to practice the NR routines. We provide the page numbers of the Numerical Recipes book, Edition 3, where the routines are described.` 
 
