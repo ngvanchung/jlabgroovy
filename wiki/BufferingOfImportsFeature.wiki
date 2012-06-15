@@ -69,3 +69,6 @@ import com.nr.ran.Ran
 
 
 }}}
+
+
+`In order to execute first the import independent commands and after them in a separate script the import dependent commands the user should select the imports and buffer them by using from the "Imports" menu the "Buffer selected imports" option. Issuing multiple "Buffer selected imports" commands, accumulate all the import statements, unless we clear the import buffer. `
