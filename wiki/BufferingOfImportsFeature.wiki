@@ -2,15 +2,10 @@
 
 = Introduction =
 
-`The GroovyShell lacks a feature of keeping the imports from the previous statements. This can be a rather inconvenient in many cases, since we must issue manually the same import statements, before executing commands depending on them. For that reason we implemented in GroovyLab a simple import buffering that we think can facilitate the user's work.`
+`The GroovyShell lacks a feature of keeping the imports from the previous statements. This can be a rather inconvenient in many cases, since we must issue manually the same import statements, before executing commands depending on them. For that reason we implemented in GroovyLab a simple import buffering that we think can facilitate the user's work. `
 
 
-`For that reas 
 
+= The import buffering mechanism =
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+`GroovyLab prepends at the user's scripts some basic imports that extend the functionality, allowing for example to use commands as figure(), plot() etc. In order to allow specialized import statements to be kept during a user's session, the user can ` *`buffer`* `these import statements for that particular working session only. That can be accomplished by ` *`selecting the relevant import statements*` `and then using ` *`Buffer selected Imports`* `option from the ` *`Imports`* `menu. `
