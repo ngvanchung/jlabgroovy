@@ -7,7 +7,7 @@
 `Thanks to Huang Wen Hui that performed a translation to Java, and to the authors of the Numerical Recipes book we can utilize that routines as a standard GroovyLab library and explore them in a Matlab-like way from GroovyLab. This page aims to provide some examples in order to practice the NR routines. We provide the page numbers of the Numerical Recipes book, Edition 3, where the routines are described.` 
 
 
-== Laplace Interpolation ==
+== Laplace Interpolation (NR3, p. 150) ==
 
 {{{
 
@@ -58,7 +58,7 @@ import com.nr.ran.Ran
 }}}
 
 
-== RBF Interpolation  ==
+== RBF Interpolation NR3 p. 139 ==
 {{{
 
 import static com.nr.test.NRTestUtil.maxel
