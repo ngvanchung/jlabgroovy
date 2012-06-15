@@ -56,4 +56,16 @@ import com.nr.ran.Ran
     }
 
 
+    println("Testing RBF_interp with multiquadric function")
+    scale=3.0
+    multiquadric = new RBF_multiquadric(scale)
+    myRBFmqf = new RBF_interp(pts,y,multiquadric,false)
+    
+    for (i=0;i<M;i++) {
+      ppt[0]=pt[i][0]
+      ppt[1]=pt[i][1]
+      estim[i]=myRBFmqf.interp(ppt)
+    }
+
+
 }}}
