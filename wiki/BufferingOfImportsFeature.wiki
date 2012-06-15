@@ -1,0 +1,16 @@
+#summary The buffering of imports convenience feature of the GroovyLab editor.
+
+= Introduction =
+
+`The GroovyShell lacks a feature of keeping the imports from the previous statements. This can be a rather inconvenient in many cases, since we must issue manually the same import statements, before executing commands depending on them. For that reason we implemented in GroovyLab a simple import buffering that we think can facilitate the user's work.`
+
+
+`For that reas 
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
