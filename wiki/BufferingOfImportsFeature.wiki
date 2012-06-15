@@ -74,4 +74,4 @@ import com.nr.ran.Ran
 `In order to execute first the import independent commands (i.e. SECTION 3), and after them in a separate script, the import dependent commands (i.e. SECTION 2) the user should select the imports and buffer them by using from the "Imports" menu the "Buffer selected imports" option. Issuing multiple "Buffer selected imports" commands, accumulate all the import statements, unless we clear the import buffer. `
 
 
-`As we expect the script as a whole executes correctly. However, if we do not buffer the imports and try to execute statements that depend on the imports, without prepending the code with them we fail. However, if we ` *`buffer the necessary imports`*, we can execute our script conveniently command-by-command. `
+`As we expect the script as a whole executes correctly. However, if we do not buffer the imports and try to execute statements that depend on the imports (e.g.    myran = new Ran(17)), without prepending the code with them we fail. However, if we ` *`buffer the necessary imports`*, we can execute our script conveniently command-by-command. `
