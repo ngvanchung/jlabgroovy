@@ -14,7 +14,7 @@
 
 {{{
 
-// import section
+// SECTION 1:  import section
 import static com.nr.test.NRTestUtil.maxel
 import static com.nr.test.NRTestUtil.vecsub
 import static java.lang.Math.cos
@@ -26,7 +26,7 @@ import com.nr.interp.RBF_thinplate
 import com.nr.ran.Ran
 
 
-// import independent commands section
+// SECTION 2: import independent commands section
     NPTS=100; NDIM=2; N=10; M=10;
     sbeps=0.05
     pts =new double[NPTS][NDIM]
@@ -37,7 +37,7 @@ import com.nr.ran.Ran
     globalflag=false
 
     
-    // import dependent command section
+    // SECTION 3:  import dependent command section
     // Test RBF_interp
     myran = new Ran(17)
     pt = new double[M][2]
@@ -71,4 +71,4 @@ import com.nr.ran.Ran
 }}}
 
 
-`In order to execute first the import independent commands and after them in a separate script the import dependent commands the user should select the imports and buffer them by using from the "Imports" menu the "Buffer selected imports" option. Issuing multiple "Buffer selected imports" commands, accumulate all the import statements, unless we clear the import buffer. `
+`In order to execute first the import independent commands (i.e. SECTION 3), and after them in a separate script, the import dependent commands (i.e. SECTION 2) the user should select the imports and buffer them by using from the "Imports" menu the "Buffer selected imports" option. Issuing multiple "Buffer selected imports" commands, accumulate all the import statements, unless we clear the import buffer. `
