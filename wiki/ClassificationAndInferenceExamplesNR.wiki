@@ -2,7 +2,7 @@
 
 `This page presents examples performing Classification and Inference adapted from Numerical Recipes Ed. 3.`
 
-= Gaussian Mixture Models and k-Means Clustering =
+= Gaussian Mixture Models and k-Means Clustering, p. 842 NR3 =
 
 {{{
 
@@ -102,4 +102,3 @@ gmix = new Gaumixmod(x,guess)
 
 
 }}}
-
