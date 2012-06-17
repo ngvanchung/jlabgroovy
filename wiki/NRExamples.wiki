@@ -443,7 +443,7 @@ import com.nr.la.Cholesky
 println("Testing cholesky")
 
 // make a positive definite matrix
-aposdef = matmul(a, transpose(a).getArray())    
+aposdef = a*t(a)   // multiply matrix with its transpose
 
 // perform a Cholesky factorization of the matrix, p. 101 NR3
 ach = new Cholesky(aposdef)
