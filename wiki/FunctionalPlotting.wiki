@@ -1,0 +1,42 @@
+#summary Plotting in GroovyLab with a functional style.
+
+= Introduction =
+
+*`Closures`* `in Groovy is a powerful feature that allows to explore a functional programming style. This page describes how closures are used to implement convenient functional style plotting in GroovyLab. `
+
+= One dimensional function plotting =
+
+`The following function implements plotting of a one-dimensional function in GroovyLab.`
+
+{{{
+public static void  fplot(Closure f1d,  double  low,  double high, java.awt.Color color, boolean  linePlotsFlag,  int  nP ) {
+    double  dx = (high-low)/nP;
+    double  []valsx = new double[nP];
+    double  []valsy = new double [nP];
+    
+    double   currx = low;
+    for (int k=0; k<nP; k++)  {
+      valsx[k] = currx;
+      valsy[k] = (double)f1d.call(currx);
+      currx =  currx+dx;
+    }
+    
+    if (linePlotsFlag) 
+       plot.linePlotsOn();
+     else
+       plot.scatterPlotsOn();
+    groovySci.math.plot.plot.plot(valsx, valsy, color);
+    
+  }
+
+}}}
+
+`For example, we can use ` _`fplot()`_ `as the following script illustrates:`
+
+{{{
+  cube = { x -> x*x*x}   // a cube function
+  low = -5;  high= 5; color = Color.RED; linePlotsFlag = false; nP = 2000
+  fplot(cube, low, high, color, linePlotsFlag, nP)
+}}}
+
+
