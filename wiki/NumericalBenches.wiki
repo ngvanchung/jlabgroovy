@@ -1,0 +1,13 @@
+#summary This page has some numerical benches.
+
+= Introduction =
+
+'Some simple numerical benches that can be used to test improvements with static compilation, and with invoke dynamic mode.`
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
