@@ -5,9 +5,21 @@
 `Some simple numerical benches that can be used to test improvements with static compilation, and with invoke dynamic mode.`
 
 
-= Details =
+= Simple Maths =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+{{{
+
+tic(); 
+sm = 0;
+N=100;
+M=100;
+K=50;
+for (k in 1..N) {
+ for (m in 1..M) {
+  for (r in 1..K) {
+   sm += sin(k*m)/sin(r);
+   sm = sin(sm-cos(k*m));
+   }
+ }
+}
+tm = toc();
