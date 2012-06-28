@@ -2,7 +2,7 @@
 
 = Introduction =
 
-'Some simple numerical benches that can be used to test improvements with static compilation, and with invoke dynamic mode.`
+`Some simple numerical benches that can be used to test improvements with static compilation, and with invoke dynamic mode.`
 
 
 = Details =
