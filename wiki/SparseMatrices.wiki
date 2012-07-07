@@ -60,7 +60,7 @@ s.putAt(1,2, 12)
  sMs = s*s
 }}}
 
-`The transpose of a sparse matrix is obtained with the operator: ~ `
+`The transpose of a sparse matrix is obtained with the` _`sparse_t`_ `routine: ~ `
 
 {{{
  ts = sparse_t(t)
