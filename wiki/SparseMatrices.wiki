@@ -63,5 +63,5 @@ s.putAt(1,2, 12)
 `The transpose of a sparse matrix is obtained with the` _`sparse_t`_ `routine: ~ `
 
 {{{
- ts = sparse_t(t)
+ ts = sparse_t(s)
 }}}
