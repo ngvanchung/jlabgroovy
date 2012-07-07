@@ -60,6 +60,11 @@ s.putAt(1,2, 12)
  sMs = s*s
 }}}
 
+`We can convert the sparse matrix to a double [][] array, as `
+{{{
+  ds = toDouble(s)
+}}}
+
 `The transpose of a sparse matrix is obtained with the` _`sparse_t`_ `routine: ~ `
 
 {{{
