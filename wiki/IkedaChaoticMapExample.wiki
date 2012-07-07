@@ -1,4 +1,4 @@
-#summary Example illustrated computation of a chaotic map and he @CompileStatic annotation also
+#summary Example illustrated computation of a chaotic map and the @CompileStatic annotation also
 
 = Ikeda Chaotic Map =
 
