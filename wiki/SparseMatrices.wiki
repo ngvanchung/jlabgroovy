@@ -70,3 +70,20 @@ s.putAt(1,2, 12)
 {{{
  ts = sparse_t(s)
 }}}
+
+` We can add and multiply at a sparse matrix a number, e.g. `
+{{{
+
+s10 = s+10
+sm10 = s*10
+}}}
+
+`We can convert a double [][] to a sparse matrix, e.g. `
+{{{
+
+da = new double[10][20]
+da[1][2] = 12
+da[2][1] = 21
+dasparse = fromDoubleArray(da)
+
+}}}
