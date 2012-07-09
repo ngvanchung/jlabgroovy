@@ -100,3 +100,17 @@ sm10a = 10+s
 sm10s = 10-s
 sm10m = 10*s
 }}}
+
+
+`Applying a closure to all the elements of a sparse matrix can be very convenient: `
+{{{
+// define a closure cube that performs x^3
+ cube= { a -> return (double)a*(double)a*(double)a}
+
+// map the closure to all the elements of the sparse matrix
+ scube = s.map(cube)
+
+// display the matrix
+ scube.display()
+
+}}}
