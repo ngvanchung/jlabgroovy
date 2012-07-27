@@ -4,8 +4,8 @@
 
 `In this page we provide small examples of using GroovySci, in scientific applications. The code can be executed either:`
 
-  *  `by pasting it at the Glab's  command console `
-  *  `by pasting the code within the Glab's programmer's editor, select the code and pressing F6`
+  *  `by pasting it at the GroovyLabs's  command console `
+  *  `by pasting the code within the GroovyLab's programmer's editor, select the code and pressing F6`
  
 
                                                                                            
