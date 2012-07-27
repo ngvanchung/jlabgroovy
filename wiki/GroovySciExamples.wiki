@@ -548,3 +548,22 @@ eplot(xy);
 eplot(xy, 2, 2, 2, "Sine Plot");
 
 }}}
+
+== A marked plot ==
+
+{{{
+
+t=inc(0, 1, 10)
+
+x= sin(2.3*t)
+
+plotMarks(t,x)
+hold( "on" )
+t2=inc(0, 0.1, 10)
+
+x= sin(2.3*t2)
+
+plot(t2,x) 
+
+}}}
+            
