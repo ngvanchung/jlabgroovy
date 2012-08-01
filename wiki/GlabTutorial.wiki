@@ -137,6 +137,34 @@ subplot(2,1,2); plot(a[0],  Color.GREEN, "Daubechies Wavelet transformed");
 
 }}}
 
+== Plotting points ==
+{{{
+
+
+
+         t=inc(0, 1, 10)
+        
+         x= sin(2.3*t)
+
+         color = Color.BLUE 
+         font = new java.awt.Font("Arial", java.awt.Font.BOLD, 12)
+         skipPoints = 1
+         ch  = (char)'x'
+         plotPoints("", color,  (char)'x', font,  skipPoints,  t,x)
+          hold( "on" )
+          t2=inc(0, 0.1, 10)
+        
+        
+          x2= sin(2.3*t2)
+        
+          plot(t2,x2)
+
+          color = Color.GREEN
+          plotPoints("dense", color, (char)'#', font, skipPoints, t2, x2)  
+        
+   }}}    
+
+
 == Plotting with the JFreeChart Library ==
 {{{
 jfigure(1)
