@@ -9,7 +9,7 @@
 
 `The file ` *`jzy3DToolboxAndNativeLibs.zip`* ` contains within two files, each of which is handled as we describe below: `
 
-`a. the ` *`jzy3D.jar`* `which is the Java part of the jzy3D system. That requires installation as any other GroovyLab toolbox (see the appropriate wiki page on how to install any GroovyLab toolbox. `
+`a. the ` *`jzy3D.jar`* `which is the Java part of the jzy3D system. That requires installation as any other GroovyLab toolbox, but we must only "Append it to ClassPath" (see the appropriate wiki page on how to install any GroovyLab toolbox. `
 
 `b. the ` *`jzy3DNativeLibs.zip`* `is the file that contains the machine dependent parts, since jzy3D is based on OpenGL. You should extract the relevant files for your platform at the same directory as you have the jzy3D.jar  file (e.g. for 64-bit Linux the files are: gluegen-rt-natives-linux-amd64.jar and jogl-all-natives-linux-amd64.jar)`
 
