@@ -1,0 +1,76 @@
+#summary Using the jzy3D system for scientific plotting in GroovyLab.
+
+= Introduction =
+
+`The jzy3D project system allows high quality plotting of data. In GroovyLab it is easy to use that system and to combine it with the other libraries. Here we describe the few steps required for installation and we present examples of its use. `
+
+
+= `Installation in GroovyLab` =
+
+`The file ` *`jzy3DToolboxAndNativeLibs.zip`* ` contains within two files, each of which is handled as we describe below: `
+
+`a. the ` *`jzy3D.jar`* `which is the Java part of the jzy3D system. That requires installation as any other ScalaLab toolbox (see the appropriate wiki page on how to install any GroovyLab toolbox. `
+
+`b. the ` *`jzy3DNativeLibs.zip`* `is the file that contains the machine dependent parts, since jzy3D is based on OpenGL. You should extract the relevant files for your platform at the same directory as you have the jzy3D.jar  file (e.g. for 64-bit Linux the files are: gluegen-rt-natives-linux-amd64.jar and jogl-all-natives-linux-amd64.jar)`
+
+= Examples =
+
+` If you performed the above two steps (e.g. jar toolbox installation and native libraries extraction to the proper directory] here are some superb plots with jzy3D in GroovyLab. `
+
+
+== 3-D Plotting of a function  ==
+
+{{{
+
+
+import org.jzy3d.chart.Chart
+import org.jzy3d.colors.Color
+import org.jzy3d.colors.ColorMapper
+import org.jzy3d.colors.colormaps.ColorMapRainbow
+import org.jzy3d.demos.AbstractDemo
+import org.jzy3d.demos.Launcher
+import org.jzy3d.maths.Range
+import org.jzy3d.plot3d.builder.Builder
+import org.jzy3d.plot3d.builder.Mapper
+import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid
+import org.jzy3d.plot3d.primitives.Shape
+import org.jzy3d.plot3d.rendering.legends.colorbars.ColorbarLegend
+
+	
+// define a function to plot
+ mapper = new Mapper(){
+            double  f(x: Double,  y: Double )   {
+      return   10*Math.sin(x/10)*Math.cos(y/20)*x
+            }
+        }
+
+// define range and precision fort the function to plot
+range = new Range(-150, 150)
+
+steps = 50
+
+// create the object to represent the function over the given range
+surface = Builder.buildOrthonormal(new OrthonormalGrid(range, steps, range, steps), mapper).asInstanceOf[Shape]
+
+surface.setColorMapper(new ColorMapper(new ColorMapRainbow(), surface.getBounds().getZmin(), surface.getBounds().getZmax(),
+new Color(1,1,1, 0.5f)))
+
+surface.setFaceDisplayed(true)
+
+surface.setWireframeDisplayed(true)
+surface.setWireframeColor(Color.BLACK)
+
+// create a chart and add surface
+chart = new Chart(org.jzy3d.plot3d.rendering.canvas.Quality.Advanced)
+
+chart.getScene().getGraph().add(surface)
+
+// setup a colorbar
+cbar = new ColorbarLegend(surface, chart.getView().getAxe().getLayout())
+surface.setLegend(cbar)
+
+org.jzy3d.ui.ChartLauncher.openChart(chart)
+
+
+
+}}}
