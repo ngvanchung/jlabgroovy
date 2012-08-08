@@ -74,7 +74,6 @@ org.jzy3d.ui.ChartLauncher.openChart(chart)
 
 
 import org.jzy3d.demos.animation.ParametrizedMapper;
-;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -687,4 +686,3 @@ public class UserChosenContoursDemo extends AbstractDemo{
 
 
 }}}
-
