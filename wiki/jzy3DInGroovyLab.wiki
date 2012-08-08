@@ -63,3 +63,279 @@ org.jzy3d.ui.ChartLauncher.openChart(chart)
 
 
 }}}
+
+== Executing a Java example (with F9 keystroke) ==
+
+`Java examples of jzy3D can be executed easily from the editor with the F9 keystroke. Java classes should not be placed in a package. We present some examples.`
+
+=== Animated Surface ===
+
+{{{
+
+
+import org.jzy3d.demos.animation.ParametrizedMapper;
+;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.List;
+
+import org.jzy3d.chart.Chart;
+import org.jzy3d.colors.Color;
+import org.jzy3d.colors.ColorMapper;
+import org.jzy3d.colors.colormaps.ColorMapRainbow;
+import org.jzy3d.demos.AbstractDemo;
+import org.jzy3d.demos.IRunnableDemo;
+import org.jzy3d.demos.Launcher;
+import org.jzy3d.maths.Coord3d;
+import org.jzy3d.maths.Range;
+import org.jzy3d.maths.TicToc;
+import org.jzy3d.maths.Utils;
+import org.jzy3d.plot3d.builder.Builder;
+import org.jzy3d.plot3d.builder.Mapper;
+import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
+import org.jzy3d.plot3d.primitives.AbstractDrawable;
+import org.jzy3d.plot3d.primitives.Point;
+import org.jzy3d.plot3d.primitives.Polygon;
+import org.jzy3d.plot3d.primitives.Shape;
+import org.jzy3d.plot3d.rendering.legends.colorbars.ColorbarLegend;
+import org.jzy3d.plot3d.rendering.view.Renderer2d;
+
+
+public class AnimatedSurfaceDemo extends AbstractDemo implements IRunnableDemo{
+
+	public static void main(String[] args) throws Exception{
+		IRunnableDemo demo = new AnimatedSurfaceDemo();
+		Launcher.openDemo(demo);
+		demo.start();
+	}
+	
+	public AnimatedSurfaceDemo(){
+		mapper = new ParametrizedMapper(0.9){
+			public double f(double x, double y) {
+				return 10*Math.sin(x*p)*Math.cos(y*p)*x;
+			}
+		};
+		Range range = new Range(-150,150);
+		int steps   = 50;
+		
+		// Create the object to represent the function over the given range.
+		surface = (Shape)Builder.buildOrthonormal(new OrthonormalGrid(range, steps, range, steps), mapper);
+		surface.setColorMapper(new ColorMapper(new ColorMapRainbow(), surface.getBounds().getZmin(), surface.getBounds().getZmax(), new Color(1,1,1,.5f)));
+		surface.setFaceDisplayed(true);
+		surface.setWireframeDisplayed(true);
+		surface.setWireframeColor(Color.BLACK);
+		
+		// Create a chart 
+		chart = new Chart("awt");
+		surface.setLegend(new ColorbarLegend(surface, 
+							chart.getView().getAxe().getLayout().getZTickProvider(), 
+							chart.getView().getAxe().getLayout().getZTickRenderer()));
+		chart.getScene().getGraph().add(surface);
+
+		// display FPS
+		fpsText = "";
+		chart.addRenderer(new Renderer2d(){
+			public void paint(Graphics g) {
+				Graphics2D g2d = (Graphics2D)g;
+				g2d.setColor(java.awt.Color.BLACK);
+				g2d.drawString(fpsText, 50, 50);
+			}
+		});
+	}
+	
+	public Chart getChart(){
+		return chart;
+	}
+	
+	public void start(){
+		fpsText = "";
+		t = new Thread(){
+			TicToc tt = new TicToc();
+			@Override
+			public void run() {
+				while(true){
+					try {
+						sleep(25);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					tt.tic();
+					mapper.setParam( mapper.getParam() + 0.0001 );
+					remap(surface, mapper);
+					//chart.render();
+					tt.toc();
+					fpsText = Utils.num2str(1/tt.elapsedSecond(), 4) + " FPS";
+				}
+			}
+		};
+		t.start();
+	}
+	
+	public void stop(){
+		if(t!=null)
+			t.interrupt();
+	}
+	
+	protected void remap(Shape shape, Mapper mapper){
+		List<AbstractDrawable> polygons = shape.getDrawables();		
+		for(AbstractDrawable d: polygons){
+			if(d instanceof Polygon){
+				Polygon p = (Polygon) d;				
+				for(int i=0; i<p.size(); i++){
+					Point pt = p.get(i);
+					Coord3d c = pt.xyz;
+					c.z = (float) mapper.f(c.x, c.y);
+				}
+			}
+		}
+	}
+	
+	protected Chart chart;
+	protected Shape surface;
+	protected ParametrizedMapper mapper;	
+	protected String fpsText;
+	
+	protected Thread t;
+}
+
+
+}}}
+
+
+=== Contour Demo ===
+
+{{{
+
+
+
+
+import org.jzy3d.chart.Chart;
+
+import org.jzy3d.colors.ColorMapper;
+
+import org.jzy3d.colors.colormaps.ColorMapRainbow;
+
+import org.jzy3d.contour.MapperContourPictureGenerator;
+
+import org.jzy3d.demos.AbstractDemo;
+
+import org.jzy3d.demos.Launcher;
+
+import org.jzy3d.maths.Coord3d;
+
+import org.jzy3d.maths.Range;
+
+import org.jzy3d.plot3d.builder.Mapper;
+
+import org.jzy3d.plot3d.primitives.MultiColorScatter;
+
+import org.jzy3d.plot3d.rendering.legends.colorbars.ColorbarLegend;
+
+
+
+
+
+public class Contour3DDemo extends AbstractDemo{
+
+	public static void main(String[] args) throws Exception{
+
+		Launcher.openDemo(new Contour3DDemo());
+
+	}
+
+
+
+	public Contour3DDemo(){
+
+		// Define a function to plot
+
+		Mapper mapper = new Mapper(){
+
+			public double f(double x, double y) {
+
+				return 10*Math.sin(x/10)*Math.cos(y/20)*x;
+
+			}
+
+		};
+
+
+
+		// Define range and precision for the function to plot
+
+		Range xrange = new Range(-100,100);   //To get some more detail.
+
+		Range yrange = new Range(-100,100);   //To get some more detail.
+
+		
+
+		// Compute an image of the contour
+
+		MapperContourPictureGenerator contour = new MapperContourPictureGenerator(mapper, xrange, yrange);
+
+		int nPoints= 1000;
+
+		double[][] contours= contour.getContourMatrix(nPoints, nPoints, 40);
+
+		
+
+		// Create the dot cloud scene and fill with data
+
+		int size = nPoints*nPoints;
+
+		Coord3d[] points = new Coord3d[size];
+
+		
+
+		for (int x = 0; x < nPoints; x++)
+
+			for (int y = 0; y < nPoints; y++){
+
+				if (contours[x][y]>-Double.MAX_VALUE){ // Non contours points are -Double.MAX_VALUE and are not painted
+
+					points[x*nPoints+y] = new Coord3d((float)x,(float)y,(float)contours[x][y]);									
+
+				}
+
+				else
+
+					points[x*nPoints+y] = new Coord3d((float)x,(float)y,(float)0.0);  									
+
+//				points[x*400+y] = new Coord3d((float)x,(float)y,(float)mapper.f(x, y));				
+
+			}
+
+
+
+		chart = new Chart();
+
+		MultiColorScatter scatter = new MultiColorScatter( points, new ColorMapper( new ColorMapRainbow(), -600.0f, 600.0f ) );
+
+		chart.getScene().add(scatter);
+
+		scatter.setLegend( new ColorbarLegend(scatter, 
+
+				chart.getView().getAxe().getLayout().getZTickProvider(), 
+
+				chart.getView().getAxe().getLayout().getZTickRenderer()) );
+
+		scatter.setLegendDisplayed(true);
+
+	}
+
+	
+
+	public Chart getChart(){
+
+		return chart;		
+
+	}
+
+	protected Chart chart;
+
+}
+
+}}}
+
+{{
