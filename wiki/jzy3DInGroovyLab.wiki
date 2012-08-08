@@ -68,7 +68,7 @@ org.jzy3d.ui.ChartLauncher.openChart(chart)
 
 `Java examples of jzy3D can be executed easily from the editor with the F9 keystroke. Java classes should not be placed in a package. We present some examples.`
 
-=== Animated Surface ===
+=== `Animated Surface (Java code - F9 keystroke to execute) ` ===
 
 {{{
 
@@ -202,7 +202,7 @@ public class AnimatedSurfaceDemo extends AbstractDemo implements IRunnableDemo{
 }}}
 
 
-=== Contour Demo ===
+=== `Contour Demo  (Java code - F9 keystroke to execute) ` ===
 
 {{{
 
@@ -338,7 +338,7 @@ public class Contour3DDemo extends AbstractDemo{
 }}}
 
 
-=== Contour Plots Demo ===
+=== `Contour Plots Demo   (Java code - F9 keystroke to execute) `===
 {{{ 
 
 
@@ -417,7 +417,7 @@ public class ContourPlotsDemo extends AbstractDemo{
 
 }}}
 
-=== FilledContoursDemo ===
+=== `FilledContoursDemo   (Java code - F9 keystroke to execute)` ===
 
 {{{
 
@@ -505,7 +505,7 @@ public class FilledContoursDemo extends AbstractDemo{
 
 }}}
 
-=== HeightMapDemo ===
+=== `HeightMapDemo  (Java code - F9 keystroke to execute) `===
 
 {{{
 
@@ -592,7 +592,7 @@ public class HeightMapDemo extends AbstractDemo{
 }}}
 
 
-=== UserChoosenContoursDemo ====
+=== `UserChoosenContoursDemo  (Java code - F9 keystroke to execute)` ===
 
 {{{
 
