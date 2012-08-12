@@ -64,6 +64,20 @@ org.jzy3d.ui.ChartLauncher.openChart(chart)
 
 }}}
 
+== A Matlab like interface for plotting == 
+`A Matlab-like interface for plotting with jzy3D is in development, implemented with the jzy3dPlot.jzy3dPlot class. This is in a very early stage, however here is a simple plotting example using this class. `
+
+{{{
+
+
+N = 200
+t =  linspace(0, 10, N)
+F1 = 3.3; F2 = 4.5; A1= 2.3; A2 = 0.44;
+x = A1*sin(F1*t)+A2*cos(A2*t)
+
+plot3d(x, y)
+
+}}}
 == Executing a Java example (with F9 keystroke) ==
 
 `Java examples of jzy3D can be executed easily from the editor with the F9 keystroke. Java classes should not be placed in a package. We present some examples.`
