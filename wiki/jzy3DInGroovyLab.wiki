@@ -75,7 +75,7 @@ t =  linspace(0, 10, N)
 F1 = 3.3; F2 = 4.5; A1= 2.3; A2 = 0.44;
 x = A1*sin(F1*t)+A2*cos(A2*t)
 
-plot3d(x.getv(), y.getv())
+plot3d(t.v, x.v)   // plot the matrices t,x using the double [][] v public member
 
 }}}
 == Executing a Java example (with F9 keystroke) ==
