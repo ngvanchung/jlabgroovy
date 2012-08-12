@@ -64,7 +64,7 @@ org.jzy3d.ui.ChartLauncher.openChart(chart)
 
 }}}
 
-== A Matlab like interface for plotting == 
+== A Matlab like interface for plotting with jzy3D == 
 `A Matlab-like interface for plotting with jzy3D is in development, implemented with the jzy3dPlot.jzy3dPlot class. This is in a very early stage, however here is a simple plotting example using this class. `
 
 {{{
