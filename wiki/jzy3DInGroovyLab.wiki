@@ -70,14 +70,30 @@ org.jzy3d.ui.ChartLauncher.openChart(chart)
 {{{
 
 
+
 N = 200
-t =  linspace(0, 10, N)
-F1 = 2.3; F2 = 1.5; A1= 2.3; A2 = 0.44;
-x = A1*sin(F1*t)+A2*cos(A2*t)
+x =  linspace(0, 10, N)
+F1 = 3.3; F2 = 4.5; A1= 2.3; A2 = 0.44;
+y= A1*sin(F1*x)+A2*cos(A2*x)
+z =  cos(0.678*y)
 
-plot3d(t.getv(), x.getv())   // plot the matrices t,x using the getv() method that extracts the first row as double []
-
+plot3d(x.v, y.v, z.v)
 }}}
+
+
+`And another example for scatterplots. `
+
+{{{
+
+N = 200
+x =  linspace(0, 10, N)
+F1 = 3.3;  F2 = 4.5;  A1= 2.3;  A2 = 0.44;
+y = A1*sin(F1*x)+A2*cos(A2*x)
+ZF1 = 3.3;  ZF2 = 4.5; ZA1= 2.3; ZA2 = 0.44;
+z = ZA1*sin(ZF1*x)+ZA2*cos(ZA2*x)
+scatter3d(x.getv(), y.getv(), z.getv(), new java.awt.Rectangle(100, 100, 500, 500), "Scatter Plot", 1)
+}}}
+
 == Executing a Java example (with F9 keystroke) ==
 
 `Java examples of jzy3D can be executed easily from the editor with the F9 keystroke. Java classes should not be placed in a package. We present some examples.`
