@@ -186,7 +186,7 @@ x.browse()  // browse them using a JTable, editing cells affects the contents of
 
 {{{
 myMatrix  = rand(10, 15)
-x.browse("myMatrix")  // browse them using a JTable, editing cells affects the contents of the matrix
+myMatrix.browse("myMatrix")  // browse them using a JTable, editing cells affects the contents of the matrix
 
 }}}
 
