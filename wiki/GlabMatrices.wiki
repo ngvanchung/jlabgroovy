@@ -160,7 +160,7 @@ dot(A, A)  // the dot product of A by itself
 `For example, to return all the even numbered rows and columns of a matrix:` 
     {{{
       x = rand(10, 13)
-      isEven = {  int n -> = if (n % 2 == 0) true else false  }  // define the predicate
+      isEven = {  int n ->  if (n % 2 == 0) true else false  }  // define the predicate
       xevenRows = x.filterRows(isEven)
       xevenCols = x.filterColumns(isEven)
    
