@@ -4,6 +4,33 @@
 
 `The Numerical Recipes is a classic book, an excellent reference for any researcher and engineer in the field of numerical computation. GroovyLab present a Matlab-like interface to many routines from Numerical Recipes. Numerical Recipe routines are efficient and perhaps even more important they have extensive description in the book. We present some example code based on NR.`
 
+= FFT with Numerical Recipes based routine =
+
+{{{
+closeAll()
+ log2N = 12
+ N = 2 ** log2N
+ t = linspace(0, 1, N)
+ dx = t[0,1]-t[0,0]
+ SF = 1/dx
+ NF = 0.5*SF
+ 
+ F1  = NF/20
+
+ x1= sin(F1*t)+0.66*cos(2*F1*t)
+
+
+// Numerical Recipes FFT
+tic()
+fftResults = new com.nr.fft.FFTResults()
+com.nr.fft.FFT.fft(x1.getv(), SF, fftResults) 
+ 
+ tmNR = toc()
+ figure(1);  subplot(2,1,1); plot(fftResults.freqs, fftResults.realffts, "fft")
+   subplot(2, 1, 2); plot(x1, "Signal");
+   
+
+}}}
 
 = One-Dimensional FFT example =
 
