@@ -1,6 +1,6 @@
 #summary Transforming GroovyLab scripts to standalone applications
 
-= Transform GroovySci scripts to standalone applications =
+= `Transform GroovySci scripts to standalone applications` =
 
 Add your content here.
 
