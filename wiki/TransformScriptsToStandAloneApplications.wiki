@@ -18,7 +18,7 @@
 
 `The second step is to compile the automatically generated Groovy code that wraps our GroovySci script. For that step, we should save the code, e.g. in a file, e.g. ` _`plots.groovy`_ `and then compile the plots.groovy. We can use the GroovyLab's explorer to compile easily that file. `
 
-`The third (and final) step is to copy the plots.sh script, and the plots.class compiled class, to a directory that has the lib subdirectory with all the GroovyLab's libraries. Then we can run our standalone application using the script file, e.g. `
+`The third (and final) step is to copy the` _`plots.sh`_ `script, and the` _`plots.class`_ `compiled class, to a directory that has the lib subdirectory with all the GroovyLab's libraries. Then we can run our standalone application using the script file, e.g. `
 {{{ 
 sh plots.sh
 }}}
