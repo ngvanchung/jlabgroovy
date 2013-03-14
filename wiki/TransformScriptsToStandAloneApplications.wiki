@@ -16,9 +16,11 @@
 
 `The first step is to choose from the` *`Application`* `menu the ` *`StandAloneApplication`* ` option that transforms the Script to standalone application. GroovyLab asks for the name of the class that will wrap the script code, suppose that we use e.g. ` _`plots.`_ `Also a shell script file named with an extension .sh on Unix like systems and .bat on Windows, is created automatically. That file can be used to execute the application directly from the operating system without GroovyLab.` 
 
-`The second step is to compile the automatically generated Groovy code that wraps our GroovySci script. For that step, we should save the code, e.g. in a file, e.g. ` _`plots.groovy`_ `and then compile the plots.groovy. We can use the GroovyLab's explorer to compile easily that file. `
+`GroovyLab compiles automatically the generated Groovy code that wraps our GroovySci script and produces a corresponding class file on disk. `
 
-`The third (and final) step is to copy the` _`plots.sh`_ `script, and the` _`plots.class`_ `compiled class, to a directory that has the lib subdirectory with all the GroovyLab's libraries. Then we can run our standalone application using the script file, e.g. `
+`The second (and final) step is to run our standalone application using the script file, e.g. `
 {{{ 
 sh plots.sh
 }}}
+
+`If we need to run our application (e.g. the ` _`plots`_ `application), to an arbitrary directory, we should be careful to copy the` _`plots.sh`_ `script, the` _`plots.class`_ `compiled class, and the ` _`lib`_ `directory also. The later directory is required, since it contains the GroovyLab's libraries and the Groovy .jar file. `
