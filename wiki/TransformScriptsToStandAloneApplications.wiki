@@ -14,7 +14,7 @@
 
 `We want to run that as a standalone application.`
 
-`The first step is to choose from the` *`Application`* `menu the ` *`StandAloneApplication`* ` option that transforms the Script to standalone application. GroovyLab asks for the name of the class that will wrap the script code, suppose that we use e.g. ` _`plots.`_ `Also a shell script file named with an extension .sh on Unix like systems and .bat on Windows, is created automatically. That file can be used to execute the application directly from the operating system without GroovyLab.` 
+`The first step is to choose from the` *`Application`* `menu the ` *`Create stand alone application from the GroovySci script code`* ` option that transforms the Script to standalone application. GroovyLab asks for the name of the class that will wrap the script code, suppose that we use e.g. ` _`plots.`_ `Also a shell script file named with an extension .sh on Unix like systems and .bat on Windows, is created automatically. That file can be used to execute the application directly from the operating system without GroovyLab.` 
 
 `GroovyLab compiles automatically the generated Groovy code that wraps our GroovySci script and produces a corresponding class file on disk. `
 
