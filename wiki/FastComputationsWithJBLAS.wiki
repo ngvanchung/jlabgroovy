@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`_JBLAS_` `is the fastest Java library (as far as I can know) for linear algebra. To obtain speed it utilizes native BLAS routines. `
+_`JBLAS`_ `is the fastest Java library (as far as I can know) for linear algebra. To obtain speed it utilizes native BLAS routines. `
 
 `GroovyLab automatically installs the relevant staff, therefore it is easy to perform fast computations using JBLAS. We give some examples. `
 
