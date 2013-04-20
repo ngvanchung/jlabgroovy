@@ -1,0 +1,38 @@
+#summary Using Native BLAS for fast computations using JBLAS.
+
+= Introduction =
+
+`_JBLAS_` `is the fastest Java library (as far as I can know) for linear algebra. To obtain speed it utilizes native BLAS routines. `
+
+`GroovyLab automatically installs the relevant staff, therefore it is easy to perform fast computations using JBLAS. We give some examples. `
+
+== Matrix multiplication ==
+
+{{{
+
+// Demonstrate the difference in performance beteen Native BLAS and Java
+// for matrix multiplication
+
+ import  org.jblas.*
+
+ n = 1000
+ 
+ x = DoubleMatrix.randn(n, n)
+ y = DoubleMatrix.randn(n, n)
+ z = DoubleMatrix.randn(n, n)        
+
+ println("Multiplying DOUBLE matrices of size "+ n)
+
+ tic()
+ SimpleBlas.gemm(1.0, x, y, 0.0, z)
+ tm = toc()
+
+// test with Java multiplication
+ xm = rand(n)
+ tic()
+ xmxm =xm*xm
+ tmJ = toc()
+        
+ println("Time Native = "+tm+", time Java = "+tmJ)
+
+}}}
