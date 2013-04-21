@@ -81,3 +81,8 @@ tmJ = toc()
 
 println("time for matrix multiplication using Native BLAS = "+tmJBLAS+", time with Java = "+tmJ)
 }}}
+
+`The results for my Linux based PC is: `
+{{{
+time for matrix multiplication using Native BLAS = 1.956, time with Java = 10.575
+}}}
