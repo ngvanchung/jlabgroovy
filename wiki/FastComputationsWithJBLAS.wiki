@@ -149,7 +149,7 @@ groovySci.math.array.Matrix.metaClass.jblas_symmetricEigenvalues = {
 //         diagonal elements of the second matrix.
 groovySci.math.array.Matrix.metaClass.jblas_symmetricEigenvectors = {
 	// transform the receiver to the JBLAS representation
-	dmthis = org.jblas.DoubleMatrix(delegate.toDoubleArray())
+	dmthis = new org.jblas.DoubleMatrix(delegate.toDoubleArray())
 	org.jblas.Eigen.symmetricEigenvectors(dmthis)
 }
 
@@ -163,7 +163,7 @@ groovySci.math.array.Matrix.metaClass.jblas_symmetricEigenvectors = {
 //      @return upper triangular matrix U such that  A = U' * U
  groovySci.math.array.Matrix.metaClass.jblas_cholesky = {
  	// transform the receiver to the JBLAS representation
-	dmthis = org.jblas.DoubleMatrix(delegate.toDoubleArray())
+	dmthis = new org.jblas.DoubleMatrix(delegate.toDoubleArray())
 	org.jblas.Decompose.cholesky(dmthis)    
  }
  }}}	
