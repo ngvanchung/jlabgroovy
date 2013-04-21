@@ -36,3 +36,14 @@ _`JBLAS`_ `is the fastest Java library (as far as I can know) for linear algebra
  println("Time Native = "+tm+", time Java = "+tmJ)
 
 }}}
+
+== Switching of the GroovySci Matrix class to use JBLAS ==
+
+`We can explore the metaprogramming facilities of the Groovy language, in order to dynamically bind the code of many important operations of the` *`Matrix`* `class, with the JBLAS implementations.`
+
+`Therefore, using native implementations offered by JBLAS, we can obtain significant speedup relative to the Java implementations (about 4 to 8 times speedup). `
+
+
+`For example, here is how we can reprogram the ` _`matrix multiplication`_ `routine of the ` _`Matrix`_ `class, in order to use JBLAS .`
+
+ 
