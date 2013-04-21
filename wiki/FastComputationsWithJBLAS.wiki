@@ -130,3 +130,28 @@ xs2 = rand(3,3)
 xeigvecs = xs2.jblasEigenVectors()
 
 }}}
+
+`Similarly for symmetric matrices. `
+
+{{{
+
+     
+//  Compute the eigenvalues for a symmetric matrix.
+groovySci.math.array.Matrix.metaClass.jblas_symmetricEigenvalues = {
+	// transform the receiver to the JBLAS representation
+	dmthis = new org.jblas.DoubleMatrix(delegate.toDoubleArray())
+	org.jblas.Eigen.symmetricEigenvalues(dmthis)
+}
+
+//  Computes the eigenvalues and eigenvectors for a symmetric matrix.
+//  returns an array of DoubleMatrix objects containing the eigenvectors
+//         stored as the columns of the first matrix, and the eigenvalues as
+//         diagonal elements of the second matrix.
+groovySci.math.array.Matrix.metaClass.jblas_symmetricEigenvectors = {
+	// transform the receiver to the JBLAS representation
+	dmthis = org.jblas.DoubleMatrix(delegate.toDoubleArray())
+	org.jblas.Eigen.symmetricEigenvectors(dmthis)
+}
+
+}}}
+	
