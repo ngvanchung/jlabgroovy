@@ -167,3 +167,34 @@ groovySci.math.array.Matrix.metaClass.jblas_symmetricEigenvectors = {
 	org.jblas.Decompose.cholesky(dmthis)    
  }
  }}}	
+
+== Solution of Linear Systems with JBLAS ==
+
+`Similarly we can use the fast LAPACK based routines for solving linear systems: `
+
+{{{
+
+/** Solves the linear equation A*X = B. */
+groovySci.math.array.Matrix.metaClass.jblas_solve = {
+  groovySci.math.array.Matrix B ->   // input is the B Matrix, the receiver is A
+
+	// transform the input Matrix B to the JBLAS representation
+	Bm =  new org.jblas.DoubleMatrix(B.toDoubleArray())
+	// transform the receiver to the JBLAS representation
+	dmthis = new org.jblas.DoubleMatrix(delegate.toDoubleArray())
+	// return the solution as a convenient GroovySci Matrix
+	groovySci.math.array.JBLASUtils.JBLASDoubleMatrixToDouble2D(org.jblas.Solve.solve(dmthis, Bm))
+	// groovySci.math.array.JBLASUtils.JBLASDoubleMatrixToMatrix(org.jblas.Solve.solve(dmthis, Bm))  // similar
+}
+
+}}}
+`and an example: `
+
+{{{
+
+ A = rand(3,3)
+ B = rand(3,3)
+ x = A.jblas_solve(B)
+ shouldBeZero = A*x-B
+
+}}}
