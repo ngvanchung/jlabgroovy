@@ -46,4 +46,38 @@ _`JBLAS`_ `is the fastest Java library (as far as I can know) for linear algebra
 
 `For example, here is how we can reprogram the ` _`matrix multiplication`_ `routine of the ` _`Matrix`_ `class, in order to use JBLAS .`
 
- 
+{{{
+// reimplement Matrix-Matrix  multiplication using JBLAS
+groovySci.math.array.Matrix.metaClass.multiply = { 
+   groovySci.math.array.Matrix m ->   // the input Matrix
+
+ // transform the input matrix to the JBLAS representation
+     dm =  new org.jblas.DoubleMatrix(m.toDoubleArray())
+ // transform the receiver to the JBLAS representation
+     dmthis = new org.jblas.DoubleMatrix(delegate.toDoubleArray())
+ // fast multiply using JBLAS Native BLAS
+     mulRes = dmthis.mmul(dm)
+
+ // return back result as a double [][] array
+    groovySci.math.array.JBLASUtils.JBLASDoubleMatrixToDouble2D(mulRes)
+}
+
+}}}
+
+`After executing the former script, we can test the speedup. Here, we note that JBLAS obtains significant speed for Linux and Win32 platforms (and MacOS I suppose but I can't test) but not for Win64, where the speed is similar to the Java implementation. Here is a test code: `
+
+{{{
+
+x = rand(2000, 2000) // a large 2000X2000 matrix  
+
+tic()
+y = x*x  // multiply with JBLAS Native BLAS
+tmJBLAS = toc()
+
+xx=Rand(2000, 2000)  // a large 2000X2000 double[][] array
+tic()
+yy=xx*xx  // multiply with Java
+tmJ = toc()
+
+println("time for matrix multiplication using Native BLAS = "+tmJBLAS+", time with Java = "+tmJ)
+}}}
