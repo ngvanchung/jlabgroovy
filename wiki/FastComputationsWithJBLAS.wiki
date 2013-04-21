@@ -154,4 +154,16 @@ groovySci.math.array.Matrix.metaClass.jblas_symmetricEigenvectors = {
 }
 
 }}}
-	
+
+`JBLAS also offers a routine for fast Cholesky Decomposition, which can be wrapped as: `
+{{{
+
+//  Compute Cholesky decomposition of A
+//      @param A symmetric, positive definite matrix (only upper half is used)
+//      @return upper triangular matrix U such that  A = U' * U
+ groovySci.math.array.Matrix.metaClass.jblas_cholesky = {
+ 	// transform the receiver to the JBLAS representation
+	dmthis = org.jblas.DoubleMatrix(delegate.toDoubleArray())
+	org.jblas.Decompose.cholesky(dmthis)    
+ }
+ }}}	
