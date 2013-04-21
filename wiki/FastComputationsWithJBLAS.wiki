@@ -86,3 +86,24 @@ println("time for matrix multiplication using Native BLAS = "+tmJBLAS+", time wi
 {{{
 time for matrix multiplication using Native BLAS = 1.956, time with Java = 10.575
 }}}
+
+== Eigendecomposition with JBLAS ==
+
+`Similarly we can utilize JBLAS for more complex tasks as eigendecomposition:`
+
+{{{
+
+// compute the eigenvalues of a general matrix using JBLAS
+groovySci.math.array.Matrix.metaClass.jblasEigenValues = {
+	// transform the receiver to the JBLAS representation
+	dmthis = new org.jblas.DoubleMatrix(delegate.toDoubleArray())
+	org.jblas.Eigen.eigenvalues(dmthis)
+ }
+
+}}}
+
+`To test our routine: `
+{{{
+xs = rand(4,4)
+xeigs = xs.jblasEigenValues()
+}}}
