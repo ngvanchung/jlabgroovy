@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`EJML (http://code.google.com/p/efficient-java-matrix-library/) is a powerful well designed Java library for linear algebra. Here, we extend the functionality of the GroovySci` _`Matrix`_ `class using EJML routines. These routines, sometimes replace the default routines, sometimes are new. `
+`EJML (http://code.google.com/p/efficient-java-matrix-library/) is a powerful, well designed Java library for linear algebra. Here, we extend the functionality of the GroovySci` _`Matrix`_ `class using EJML routines. These routines, sometimes replace the default routines, sometimes are new. `
 
 `In some cases, we estimate and the obtained speed advantages. `
 
@@ -58,10 +58,6 @@ groovySci.math.array.Matrix.metaClass.plus = {
    EJML2Matrix(plusRes) 
 }
 
-inv(x)
-x  = rand(3,3)
-xt = t(x)*x
-det(x)
 
 // reimplement determinant using EJML - Similar execution time with JAMA
 groovySci.math.array.Matrix.metaClass.det = {
@@ -73,6 +69,7 @@ groovySci.math.array.Matrix.metaClass.det = {
 
 
 // reimplement matrix invert using EJML - Faster than JAMA, EJML_time is about 0.7-0.8 * JAMA_time
+
 groovySci.math.array.Matrix.metaClass.inv = {
 	-> 
 	// transform the input matrix to the EJML DenseMatrix64F representation
@@ -84,19 +81,5 @@ groovySci.math.array.Matrix.metaClass.inv = {
 	EJML2Matrix(invMat)   // return the inverse as a Matrix
 }
 
-
-x = rand(1500)
-tic()
-xi = x.inv()
-tm=toc()
-
-tm/tmJ
-xx = x.getArray()
-tic()
-xxi = xx.inv()
-tmJ=toc()
-
-x.det()
-xx  =x.clone()
 
 }}}
