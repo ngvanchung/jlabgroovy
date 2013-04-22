@@ -1,4 +1,4 @@
-#summary `We extend the functionality of the GroovySci Matrix using EJML Routines.`
+#summary We extend the functionality of the GroovySci Matrix using EJML Routines.
 
 = Introduction =
 
