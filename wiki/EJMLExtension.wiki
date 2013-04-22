@@ -84,4 +84,19 @@ groovySci.math.array.Matrix.metaClass.inv = {
 }
 
 
+// computes the Moore-Penrose pseudo-inverse using EJML
+groovySci.math.array.Matrix.metaClass.pinv = {
+ ->
+ 	// transform the input matrix to the EJML DenseMatrix64F representation
+	dmthis = Matrix2EJML(delegate)  
+	// create a Matrix to store the pseudo-inverse
+	pinvMat = new org.ejml.data.DenseMatrix64F(dmthis.getNumCols(), dmthis.getNumRows())
+
+     // use EJML to compute the pseudo-inverse
+     org.ejml.ops.CommonOps.pinv(dmthis, pinvMat)
+
+     EJML2Matrix(pinvMat)   // return the pseudo-inverse as a Matrix
+}
+
+
 }}}
