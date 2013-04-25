@@ -10,6 +10,16 @@
 `The Matrix class implements zero-indexed two-dimensional dense matrices in GroovySci. That matrices are mostly based on the JAMA library.`
 
 
+`We implement the basic indexing of the Matrix as usual, e.g. `
+{{{
+x = rand(6, 9)
+x1_2 = x[1,2] // get the corresponding element
+x[1,2] = 12.12 // put a value
+x[1,2]  // display that value
+}}}
+
+`However, for complex operations that handle Matrix subranges, we have choosen at the new version of GroovyLab to use, the ` *`g(...)`* ` and ` *`p(...)`* `methods. These methods are efficient, and stable but their interface is not stabilized yet, so please if you need to use them see the source code.` 
+
 == Constructors ==
 
 `Matrix(rows: Integer, cols: Integer) // Creates a Matrix of size rows, cols initialized to zeros`
@@ -119,7 +129,7 @@ dot(A, A)  // the dot product of A by itself
 {{{
   testMat = M(" 1.0 2.0 3.0 4.0; 5.0 6.0 7.0 8.0; 9 10 11 12")
   colIndices = [true, false, true, false] as boolean []
-  extract0_2cols = testMat.getAt(":", colIndices)
+  extract0_2cols = testMat.g(":", colIndices)
 }}}
 
 `We can extract the rows specified with true values with an array ` _`rowIndices`_`. The new matrix is formed by using all the columns of the original matrix but with using only the specified rows. Example: `
@@ -127,7 +137,7 @@ dot(A, A)  // the dot product of A by itself
 {{{
  testMat = M(" 1.0 2.0 3.0 4.0; 5.0 6.0 7.0 8.0; 9 10 11 12")
  rowIndices = [true, false, true] as boolean []
- extract0_2rows = testMat.getAt( rowIndices, ":")
+ extract0_2rows = testMat.g rowIndices, ":")
 }}}
 
 
@@ -137,14 +147,14 @@ dot(A, A)  // the dot product of A by itself
 {{{
  testMat = M(" 1.0 2.0 3.0 4.0; 5.0 6.0 7.0 8.0; 9 10 11 12; 13 14 15 16; 17 18 19 20")
  rowIndices = [3, 1] as int []
- extract3_1rows = testMat.getAt(rowIndices, ":")
+ extract3_1rows = testMat.g(rowIndices, ":")
 }}}
 
 `We can extract the columns specified with true values with an array ` _`colIndices`_ `.The new matrix is formed by using all the rows of the original matrix but with using only the specified columns.`
  {{{
  testMat = M(" 1.0 2.0 3.0 4.0; 5.0 6.0 7.0 8.0; 9 10 11 12")
  colIndices = [true, false, true, false] as boolean[]
- extract0_2cols = testMat.getAt(":", colIndices)
+ extract0_2cols = testMat.g(":", colIndices)
  }}}
 
 == Filtering rows and columns of a matrix ==
