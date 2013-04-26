@@ -471,11 +471,11 @@ plot(t, x12, Color.BLUE, "x1 .* x2");
 }}}
 
 
-== `Using the Groovy's SwingBuilder to specify signal parameters and then perform FFT of the signal` ==
+== `Using the Groovy's SwingBuilder to specify signal parameters and then perform processing of the signal` ==
 
 {{{
 // demonstrates using swing builder for getting signal parameters 
-// and performing FFT on that signal
+// and perform processing on that signal
 
 
 swing = new SwingBuilder()
@@ -495,11 +495,11 @@ panel {
         n = pow(2, 12)
         t= t.getAt(true, 1, n )
         x = sin(f1*t)+noiseCoeff*rand(1,n)
-        y = fft(x)
+        y = sin(0.464*x)+0.78*cos(0.888*x)
         figure(1) 
-        title("signal and its FFT")
+        title("signal and its processed version")
         subplot(2,1,1); plot(x, Color.RED, "Signal"); 
-        subplot(2,1,2); plot(y, Color.BLUE, "FFT");
+        subplot(2,1,2); plot(y, Color.BLUE, "Processed Version");
 
       })
   }
