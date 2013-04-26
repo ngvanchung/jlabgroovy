@@ -204,8 +204,8 @@ class Functions {
      }
      slicesX = 2;
      slicesY = 2;
-     name = "Demo2d cloud_plot";
-     plot2d_cloud(cloud, slicesX, slicesY, name);
+     plotname = "Demo2d cloud_plot";
+     plot2d_cloud(cloud, slicesX, slicesY, plotname);
 		 
 }}}
 
