@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`The jzy3D project system allows high quality plotting of data. In GroovyLab it is easy to use that system and to combine it with the other libraries. Here we present examples of its use. `
+`The jzy3D project system allows high quality plotting of data. In GroovyLab it is easy to use that system and to combine it with the other libraries. Here we present examples of its use both with its native interface and with a MATLAB-like one that we develop. `
 
 
 = Examples =
