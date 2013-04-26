@@ -530,25 +530,6 @@ plot(t, xn, "noisy signal");
 }}}
 
 
-== A transparent plot, that produces some effects  ==
-{{{
-
-// to run this demo copy and paste the code 
-
-N=1000;
-xy = new double[2][N];
-f=0.02;
-dt=0.01;
-for (k in 0..N-1) {
-  xy[0][k] = k*dt;  xy[1][k] = sin(f*k);
-  }
-
-eplot(xy);
-
-eplot(xy, 2, 2, 2, "Sine Plot");
-
-}}}
-
 == A marked plot ==
 
 {{{
