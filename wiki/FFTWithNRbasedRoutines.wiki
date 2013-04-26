@@ -19,17 +19,16 @@ closeAll()
 
  x1= sin(F1*t)+0.66*cos(2*F1*t)
 
+realffts = new double[N]  // to accumulate real parts of FFTs
+imffts = new double[N]  // to accumulate imaginary parts of FFTs
 
 // Numerical Recipes FFT
-tic()
-fftResults = new com.nr.fft.FFTResults()
-com.nr.fft.FFT.fft(x1.getv(), SF, fftResults) 
- 
- tmNR = toc()
- figure(1);  subplot(2,1,1); plot(fftResults.freqs, fftResults.realffts, "fft")
-   subplot(2, 1, 2); plot(x1, "Signal");
-   
+NR.NRFFT.four1S(x1.getv(), realffts, imffts)   // perform the FFT
 
+
+ figure(1);  subplot(2,1,1); plot(realffts, "fft")
+ subplot(2, 1, 2); plot(x1, "Signal");
+   
 }}}
 
 = One-Dimensional FFT example =
