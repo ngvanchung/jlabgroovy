@@ -493,7 +493,7 @@ panel {
         figure(1)
         t = inc(0, 0.02, 90)
         n = pow(2, 12)
-        t= t.getAt(true, 1, n )
+        t= t.g(true, 1, n )
         x = sin(f1*t)+noiseCoeff*rand(1,n)
         y = sin(0.464*x)+0.78*cos(0.888*x)
         figure(1) 
