@@ -18,7 +18,7 @@ x[1,2] = 12.12 // put a value
 x[1,2]  // display that value
 }}}
 
-`However, for complex operations that handle Matrix subranges, we have choosen at the new version of GroovyLab to use, the ` *`g(...)`* ` and ` *`p(...)`* `methods. These methods are efficient, and stable but their interface is not stabilized yet, so please if you need to use them see the source code.` 
+`However, for complex operations that handle Matrix subranges, we have choosen at the new version of GroovyLab to use, the ` *`g(...)`* ` and ` *`s(...)`* `style methods. Below we describe the basics of their utilization. These methods are efficient, and stable but their interface is not stabilized yet, so please if you need to use them see the source code.` 
 
 == Constructors ==
 
