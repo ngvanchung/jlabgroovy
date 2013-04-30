@@ -151,7 +151,7 @@ A = Mat( 6, 4,
   Arr = A.gr(1, 3)   // get rows 1 to 3 all columns
 }}}
 
-*`Additionally, we can specify an increment:*`
+*`Additionally, we can specify an increment:`*
 
 {{{
   Acr =  A.gc(0, 2, 3)   // as MATLAB's  A(:, 0:2:3)
