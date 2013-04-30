@@ -72,19 +72,18 @@ println("element a[2, 3] is now "+a[2,3])
 
 
 
-== Matrix Indexing/Setting operations ==
+== `Matrix Indexing/Setting operations` ==
 
-`The ` _`GroovyLab Matrix`_ `class stores data using a double [][]  array. Generally, this representation is not the optimal, but it is simple and generally efficient. As a useful note, Java arrays storage is row based, and therefore is more efficient to work with work with fixed rows, i. e. the inner faster changed index should operate on columns. 
-We can perform indexing in three ways:`
+`The ` _`GroovyLab Matrix`_ `class stores data using a double [][]  array. Generally, this representation is not the optimal, but it is simple and generally efficient. As a useful note, Java arrays storage is row based, and therefore is more efficient to work with work with fixed rows, i. e. the inner faster changed index should operate on columns.  We can perform indexing in three ways:`
 
-`a. Exploiting the overloading of the array indexing operator [] by the methods getAt(), putAt()  of Groovy, as for example:`
+`a. Exploiting the overloading of the array indexing operator [] by the methods ` _`getAt()`_, _`putAt()`_  `of Groovy, as for example:`
 {{{
 A = rand(2,3) // a 2 X 3 Matrix
 a12 = A[1,2]  // get the element
 A[1,2] = 2.3  // put the value` 
 }}}
 
-`b. By directly accessing the Java double[][] internal representation, as for example:`
+`b. By directly accessing the Java` _`double[][]`_ `internal representation, as for example:`
 {{{
 A = rand(2,3) // a 2 X 3 Matrix
 a12 = A.d[1][2]  // get the element
@@ -93,12 +92,13 @@ A.d[1][2] = 2.3  // put the value
 
 `The second way, although not as elegant, is faster. `
  
-`c. By using the gr(), gc(), grc() methods.  We explain these methods: The group of overloaded methods named gr()  (named by the initials get row)  selects  rows of the matrix, i.e. for a specified group of rows, select all the columns.`
+`c. By using the` *`gr(), gc(), grc()`* `methods.  We explain these methods: The group of overloaded methods named` _`gr()`_  `(named by the initials get row)  selects  rows of the matrix, i.e. for a specified group of rows, select all the columns.`
 
-`The group of overloaded methods named gc()  (named by the initials get column) selects columns of the matrix, i.e. for a specified group of columns, select all the rows. `
+`The group of overloaded methods named` _`gc()`_  `(named by the initials get column) selects columns of the matrix, i.e. for a specified group of columns, select all the rows. `
 
-`The group of overloaded methods named grc()  (named by the initials get row-column) selects rows and columns of the matrix, i.e. for a specified group of rows/columns, select all that matrix part.
-Below we describe these methods for matrix subrange chores  in detail.`
+`The group of overloaded methods named` _`grc()`_  `(named by the initials get row-column) selects rows and columns of the matrix, i.e. for a specified group of rows/columns, select all that matrix part.`
+
+`Below we describe these methods for matrix subrange chores  in detail.`
 
 === `Matrix subrange operations` ===
 
