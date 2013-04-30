@@ -79,7 +79,7 @@ println("element a[2, 3] is now "+a[2,3])
 
 == `Matrix Indexing/Setting operations` ==
 
-`The ` _`GroovyLab Matrix`_ `class stores data using a double [][]  array. Generally, this representation is not the optimal, but it is simple and generally efficient. As a useful note, Java arrays storage is row based, and therefore is more efficient to work with work with fixed rows, i. e. the inner faster changed index should operate on columns.  We can perform indexing in three ways:`
+`The ` _`GroovyLab Matrix`_ `class stores data using a double [][]  array. Generally, this representation is not the optimal, but it is simple and generally efficient. As a useful note, Java arrays storage is row based, and therefore is more efficient to work with fixed rows, i. e. the inner faster changed index should operate on columns.  We can perform indexing in three ways:`
 
 `a. Exploiting the overloading of the array indexing operator [] by the methods ` _`getAt()`_, _`putAt()`_  `of Groovy, as for example:`
 {{{
