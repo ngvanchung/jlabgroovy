@@ -71,6 +71,170 @@ println("element a[2, 3] is now "+a[2,3])
 }}}
 
 
+
+== Matrix Indexing/Setting operations ==
+
+`The ` _`GroovyLab Matrix`_ `class stores data using a double [][]  array. Generally, this representation is not the optimal, but it is simple and generally efficient. As a useful note, Java arrays storage is row based, and therefore is more efficient to work with work with fixed rows, i. e. the inner faster changed index should operate on columns. 
+We can perform indexing in three ways:`
+
+`a. Exploiting the overloading of the array indexing operator [] by the methods getAt(), putAt()  of Groovy, as for example:`
+{{{
+A = rand(2,3) // a 2 X 3 Matrix
+a12 = A[1,2]  // get the element
+A[1,2] = 2.3  // put the value` 
+}}}
+
+`b. By directly accessing the Java double[][] internal representation, as for example:`
+{{{
+A = rand(2,3) // a 2 X 3 Matrix
+a12 = A.d[1][2]  // get the element
+A.d[1][2] = 2.3  // put the value 
+}}}
+
+`The second way, although not as elegant, is faster. `
+ 
+`c. By using the gr(), gc(), grc() methods.  We explain these methods: The group of overloaded methods named gr()  (named by the initials get row)  selects  rows of the matrix, i.e. for a specified group of rows, select all the columns.`
+
+`The group of overloaded methods named gc()  (named by the initials get column) selects columns of the matrix, i.e. for a specified group of columns, select all the rows. `
+
+`The group of overloaded methods named grc()  (named by the initials get row-column) selects rows and columns of the matrix, i.e. for a specified group of rows/columns, select all that matrix part.
+Below we describe these methods for matrix subrange chores  in detail.`
+
+=== `Matrix subrange operations` ===
+
+`These operations aim to provide convenient getting/setting of matrix ranges. They are implemented by the methods` _`gr(), gc(), grc()`_ `for getting and`  _`sr(), sc(), src()`_  `for setting values. The design is kept simple and symmetrical. It is also efficient, since it is coded in Java. `
+
+`It is better to understand these operations by means of examples. Let construct an example matrix:`
+
+{{{
+A = Mat( 6, 4,
+           1.2, -0.2, 5.6, -0.03,
+           4.5, 0.03, 2.3, 0.2,
+          0.12, -2.2, 15.6, -11.3,
+           5.34, 5.03, 1.3, 0.3,
+           0.022, -120.2, 6.778, -10.03,
+           145, 10.03, 13, -0.2)
+}}}
+
+`We proceed by describing the get style routines, and then the set style ones.`
+
+=== `Get Routines`===
+
+
+*`Single row/column select`*
+
+`We can get a column of the matrix as:`
+{{{
+  Ac =  A.gc(2)   // get  column 2
+}}}
+
+*`Similarly, for getting a row:`*
+{{{
+  Ar = A.gr(2)   // get row 2
+}}}
+
+*`Select a continuous range of rows/columns`*
+
+`We can get a column range of the matrix as:`
+{{{
+  Acr =  A.gc(1, 3)   // get  columns 1 to 3 all rows
+}}}
+
+*`Similarly, for getting a row range:`*
+
+{{{
+  Arr = A.gr(1, 3)   // get rows 1 to 3 all columns
+}}}
+
+*`Additionally, we can specify an increment:*`
+
+{{{
+  Acr =  A.gc(0, 2, 3)   // as MATLAB's  A(:, 0:2:3)
+}}}
+
+*`Similarly we can select rows specifying  an increment:`*
+
+{{{
+Arr = A.gr(0, 2, 4)  // as MATLAB's A(0:2:4, :)
+}}}
+
+`We can extract rectangular parts of the matrix as:`
+{{{
+Arc = A.grc(0, 2, 4, 1, 1, 3)  // as MATLAB's  A(0:2:4, 1:1:3)
+}}}
+
+*`Specifying particular rows to extract`*
+
+
+`We can specify particular rows to extract as:`
+{{{
+rowIndices = [3, 1] as int []  // specify the required rows in an int[] array
+ erows = A.gr(rowIndices)   // get the rows
+}}}
+
+*`Specifying particular columns to extract`*
+
+`Similarly, we can specify particular columns to extract as:`
+{{{
+colIndices = [1, 3, 2] as int []  // specify the required columns in an int[] array
+ecols = A.gc(colIndices)   // get the columns
+}}}
+ 
+*`Extracting submatrices using Groovy ranges`*
+
+`Groovy ranges allow a nice syntax. We can use them as  illustrated:`
+{{{
+Ar = A.gr(1..2)    // get rows 1 to 2
+Ac = A.gc(2..3)  // get columns 2 to 3
+Arc = A.grc(1..2, 2..3)  // get matrix subrange of rows 1 to 2 and columns 2 to 3
+}}}
+
+
+===`Set Routines`===
+
+*`Copy a matrix within another matrix`*
+{{{
+  x = rand(12, 15)  // a random matrix
+  y = ones(2, 3)   // a matrix of 1s
+  x.s(2, 2,  y)  // copy the matrix of 1s at the 2,2 position within the random matrix
+}}}
+
+*`Set a row range to a value`*
+{{{
+  a = rand(5,9)  // a random matrix
+  a.sr(1..2, 8)    // sets rows 1 and 2 to 8
+}}}
+
+*`Set a row submatrix  to a value`*
+{{{
+  a = rand(5,9)  // a random matrix
+  a.sr(1, 2, 8)    // sets rows 1 and 2 to 8
+}}}
+
+*`Set a column  range to a value`*
+{{{
+  a = rand(5, 9)  // a random matrx
+  a.sc(2..3, 77.7)  sets cols 2 to 3 to 77.7
+}}}
+
+*`Set a column  submatrix  to a value`*
+{{{
+  a = rand(5, 9)  // a random matrix
+  a.sc(2, 3, 77.7)  sets cols 2 to 3 to 77.7
+}}}
+
+*`Set a row-column range to a value`*
+{{{
+ a = rand(10, 15)  // a random matrix
+a.src(2..5, 1..3, 11.2)  // sets rows 2 to 5 and columns 1 to 3 to 11.2
+}}}
+
+*`Set a row-column matrix part to a value`*
+{{{
+ a = rand(10, 15)  // a random matrix
+a.src(2, 5, 1, 3, 11.2)  // sets rows 2 to 5 and columns 1 to 3 to 11.2
+}}}
+
 == Operators ==
 
 `The following operators are available:  Matrix + Matrix, Matrix + Number, 	Matrix - Matrix, Matrix - Number, Matrix * Matrix, Matrix * Number, 		Matrix / Matrix, Matrix / Number, Number + Matrix, Number * Matrix`
