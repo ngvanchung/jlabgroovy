@@ -57,7 +57,7 @@ md = [ [4.5, 5.6, -4], [ 4.5, 3, -3.4],  [14.5, 2.2, -2.4], [ 40.5, 2.2, -3.4]] 
 m = new Matrix(md)
 }}}
 
-*`Construction using the static method` _`Mat()`_ `of the Matrix class: `* `The static method ` _`Mat()`_ `of the Matrix class, returns a constructed Matrix object from variable argument double parameters. The first two parameters specify the number of rows and columns. For example:`
+*`Construction using the static method` _`Mat()`_ ` of the Matrix class: `* `The static method ` _`Mat()`_ ` of the Matrix class, returns a constructed Matrix object from variable argument double parameters. The first two parameters specify the number of rows and columns. For example:`
 {{{
 x = 5.5; y = 73.3  // some values
 A = Mat( 3, 3,  // number of rows, and columns
