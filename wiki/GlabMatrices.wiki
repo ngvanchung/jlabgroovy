@@ -50,16 +50,23 @@ m = new Matrix(6,8, 6.8)
 }}}
 
 
-`Accessing matrix elements `
+`Construction with a double[][] array`
 
 {{{
 md = [ [4.5, 5.6, -4], [ 4.5, 3, -3.4],  [14.5, 2.2, -2.4], [ 40.5, 2.2, -3.4]] as double[][]
 m = new Matrix(md)
-x1 = m[0, 1]  // first row, second column
-a = rand(30, 40)   // a 30 rows by 40 cols random matrix
-x2 = a.g(1, 2, 4, 2, 2, 10)  // like matlab's a(1:2:4, 2:2:10)
-x3 = a.g(1, 2, 4, true)  // like matlab's a(1:2:4, :)
- x4 = a.g( true, 2, 2, 10)  // column select, all rows, as matlab's a(:, 2:2:10)
+}}}
+
+`Construction using the static method` _`Mat()`_ `of the Matrix class`
+
+`The static method ` _`Mat()`_ `of the Matrix class, returns a constructed Matrix object from variable argument double parameters. The first two parameters specify the number of rows and columns. For example:`
+{{{
+x = 5.5; y = 73.3  // some values
+A = Mat( 3, 3,  // number of rows, and columns
+        3.4*x, x, -0.4,  // first row
+        -cos(x+y), x- sin(x*y), x, // second row
+        x-0.3, x/x, y/(2*y)  // third column
+        )
 }}}
 
 `Updating matrix elements `
