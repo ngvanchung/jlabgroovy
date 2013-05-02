@@ -88,7 +88,7 @@ public class PlotController  {
 
 == Testing the Plot Controller Object ==
 
-`We can now test the plot controller object as: `
+`We can test the plot controller object as: `
 
 {{{
 
