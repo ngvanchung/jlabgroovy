@@ -4,9 +4,9 @@
 
 `Plotting routines tend to be complicated and can easily confuse the user. Therefore, we start to develop more convenient, object oriented plotting routines. These routines keep state information and permit the user to easily control the properties of the plots. A snapshot of such code is illustrated below. `
 
-`Note: The code for the` _`PlotController`_ `object exists in GroovyLab, therefore we can execute directly the application examples.`  
+`Note: The code for the` _`PlotController`_ `object exists in GroovyLab, therefore we can execute directly the testing code that follows. It is presented for illustration purposes.`  
 
-= Design of a Plot Facilitator Object =
+= Design of a Plot Facilitator Object (this code exists in GroovyLab source) =
 {{{
    package groovySci.math.plot;
 import java.awt.Color;
