@@ -6,7 +6,7 @@
 
 `Note: The code for the` _`PlotController`_ `object exists in GroovyLab, therefore we can execute directly the testing code that follows. It is presented for illustration purposes.`  
 
-= Design of a Plot Facilitator Object (this code exists in GroovyLab source) =
+= `Design of a Plot Facilitator Object (this code exists in GroovyLab source)` =
 {{{
    package groovySci.math.plot;
 import java.awt.Color;
