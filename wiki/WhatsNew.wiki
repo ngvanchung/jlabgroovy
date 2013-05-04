@@ -1,0 +1,9 @@
+#summary `Tracks some useful GroovyLab updates`
+
+= Abbreviations (May 04) =
+
+`GroovyLab rsyntaxtextarea based editor, support abbreviations. This can be a useful feature. When you like to use an abbreviation, type the text of the abbreviation and then ` *`F11`*`. Then the short abbreviated text is replaced with the full one.`
+
+`For example, if we type ` *`pu`*` and then F11 we have the replacement ` *`public`*
+
+`File ` *`Abbreviations.txt`* `defines a comma separated list of abbreviations. This file can be edited from the user to define the preferred abbreviations. `
