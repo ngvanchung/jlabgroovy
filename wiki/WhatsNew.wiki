@@ -1,4 +1,4 @@
-#summary `Tracks some useful GroovyLab updates`
+#summary Tracks some useful GroovyLab updates
 
 = Abbreviations (May 04) =
 
