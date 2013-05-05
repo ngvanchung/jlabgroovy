@@ -1,0 +1,21 @@
+#summary Thanks to the many implicit contributors of GroovyLab .
+
+= Many Thanks!!!  =
+
+*`GroovyLab`* `is based on many components implemented by outstanding engineers and programmers. The following list is by no means exhaustive. `
+
+`Therefore, special thanks to: `
+
+ * `The Groovy team.`*
+
+ * *`Yann Richet`* ` for the ` *`jmathplot`*
+
+ * *`Peter Abeles`* ` for ` *`EJML`*
+
+ * *`Mikio L. Braun`* ` for ` *`JBLAS`*
+
+ * *`Bjørn-Ove Heimsund`* ` for `* `MTJ`* 
+
+
+
+  
