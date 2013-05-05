@@ -6,7 +6,7 @@
 
 `Therefore, special thanks to: `
 
- * `The Groovy team.`*
+ * *`The Groovy team.`*
 
  *  *`Yann Richet`* ` for  ` *`jmathplot`*
 
