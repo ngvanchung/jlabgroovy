@@ -8,13 +8,13 @@
 
  * `The Groovy team.`*
 
- * *`Yann Richet`* ` for the ` *`jmathplot`*
+ *  *`Yann Richet`* ` for  ` *`jmathplot`*
 
- * *`Peter Abeles`* ` for ` *`EJML`*
+ *  *`Peter Abeles`* ` for ` *`EJML`*
 
- * *`Mikio L. Braun`* ` for ` *`JBLAS`*
+ *  *`Mikio L. Braun`* ` for ` *`JBLAS`*
 
- * *`Bjørn-Ove Heimsund`* ` for `* `MTJ`* 
+ *  *`Bjørn-Ove Heimsund`* ` for ` *`MTJ`* 
 
 
 
