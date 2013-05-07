@@ -1,5 +1,24 @@
 #summary Tracks some useful GroovyLab updates
 
+= Code Completion (May 07) =
+
+`Code completion for an identifier can be used with ` *`F4`*
+
+`For example for the code:`
+{{{
+randMat = rand(3,4)
+}}}
+
+`If we press ` *`F4`* `while we are within ` *`randMat`* `we get a completion list for the ` *`Matrix`* ` objects.`
+
+`If we type:  ` _`randMat.ei`_ `and then type ` *`F4`* ` we get a completion list of all the member variables starting with ` _`ei`_
+
+`If we press ` *`Shift-F4`* ` we get class completion help, for example we can examine the contents of the class` _`javax.swing.JFrame`_ `by typing ` _`Shift-F4`_
+
+
+
+
+
 = Abbreviations (May 04) =
 
 `GroovyLab rsyntaxtextarea based editor, support abbreviations. This can be a useful feature. When you like to use an abbreviation, type the text of the abbreviation and then ` *`F11`*`. Then the short abbreviated text is replaced with the full one.`
