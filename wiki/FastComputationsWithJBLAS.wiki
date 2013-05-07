@@ -14,7 +14,7 @@ _`JBLAS`_ `is the fastest Java library (as far as I can know) for linear algebra
 
 {{{
 A = rand(20)
-eigdecomp = A.eigenvectors()
+eigdecomp = A.jblas_eigenvectors()
 
 }}}
 
