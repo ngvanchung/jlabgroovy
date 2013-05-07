@@ -8,7 +8,17 @@ _`JBLAS`_ `is the fastest Java library (as far as I can know) for linear algebra
 
 == JBLAS operations supported with the Matrix class ==
 
-`The ` *`Matrix`* ` class supports some JBLAS native operations, that are significantly faster than Java based implementations (e.g. about 3 to 7 times, depending on the operation). These are displayed below (is the relevant part of the ` *`Matrix`* `implementation:`
+`The ` *`Matrix`* ` class supports some JBLAS native operations, that are significantly faster than Java based implementations (e.g. about 3 to 7 times, depending on the operation). `
+
+`Therefore we can use the fast JBLAS eigendecomposition for a ` *`Matrix`* ` object as:`
+
+{{{
+A = rand(20)
+eigdecomp = A.eigenvectors()
+
+}}}
+
+The JBLAS routines are displayed below (is the relevant part of the ` *`Matrix`* `implementation:`
 
 
 {{{
