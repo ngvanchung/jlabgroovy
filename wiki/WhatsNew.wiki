@@ -19,6 +19,15 @@ randMat = rand(3,4)
 
 
 
+`The autocompletion feature can be very useful, for example, suppose that we want to use the ` _`NormalDistribution`_ ` class of the Apache Common Maths library as follows: `
+{{{
+
+ x = new org.apache.commons.math3.distribution.NormalDistribution()
+}}}
+
+`Now we can easily reveal the contents of that class by pressing ` *`F4`* ` above x`, ` or by typing a substring, as method name, e.g. x.sa`
+
+
 
 
 = Abbreviations (May 04) =
