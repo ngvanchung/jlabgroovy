@@ -17,7 +17,7 @@ randMat = rand(3,4)
 
 `If we press ` *`Shift-F4`* ` we get class completion help, for example we can examine the contents of the class` _`javax.swing.JFrame`_ `by typing ` _`Shift-F4`_
 
-`Also code completion, displays ` _`static`_  `members in boldface and the` _`instance`_ `members in plain text. `
+`Also code completion, displays ` _`static`_  `members in ` *`boldface`*` `and the` _`instance`_ `members in plain text. `
 
 
 
