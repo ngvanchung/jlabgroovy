@@ -4,7 +4,7 @@
 
 `Code completion for an identifier can be used with ` *`F4`*
 
-`We can select an item from the completion list using ` *` ENTER `* ` and we can clear the completion's list window using ` *`ESC`*  `Instead of` *`ENTER `* `we can ` *`double click`* `the required entry.`
+`We can select an item from the completion list using ` *` ENTER `* ` and we can clear the completion's list window using ` *`ESC`*  `Instead of` *`ENTER, `* `we can ` *`double click`* `the required entry.`
 
 `For example for the code:`
 {{{
