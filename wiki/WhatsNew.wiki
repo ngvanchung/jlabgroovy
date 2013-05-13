@@ -1,6 +1,6 @@
 #summary Tracks some useful GroovyLab updates
 
-= Code Completion (May 12) =
+= Code Completion (May 13) =
 
 `Code completion for an identifier can be used with ` *`F4`*
 
