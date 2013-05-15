@@ -1,5 +1,11 @@
 #summary Tracks some useful GroovyLab updates
 
+= `Customization of the pop-up menus of GroovyLab editor (May 15)` =
+
+`In order GroovyLab to be even more convenient and user friendly, we started to customize the popup menus. `
+
+`Started from May 15 version, we have a ` _`plot`_ `popup menu option, that directly plots the signal under the caret position.  `
+
 = Code Completion (May 13) =
 
 `Code completion for an identifier can be used with ` *`F4`*
