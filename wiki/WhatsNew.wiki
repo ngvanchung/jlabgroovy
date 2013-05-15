@@ -2,7 +2,7 @@
 
 = `Customization of the pop-up menus of GroovyLab editor (May 15)` =
 
-`In order GroovyLab to be even more convenient and user friendly, we started to customize the popup menus. `
+`In order GroovyLab to be even more convenient and user friendly, we started to customize the popup menu of the rsyntaxarea based editor. `
 
 `Started from May 15 version, we have a ` _`plot`_ `popup menu option, that directly plots the signal under the caret position.  `
 
