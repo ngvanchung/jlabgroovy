@@ -1,5 +1,30 @@
 #summary Tracks some useful GroovyLab updates
 
+ 
+= Adaptive Functional Plotting (May 23) = 
+
+`Generally, we can improve the plot of a function significantly by adjusting the sampling density according to the rate of function change. The ` _`faplot() ` `method is a first attempt towards adaptive functional plotting. We illustrate it by means of an example: `
+
+{{{
+f = {x ->  sin(x*x) }
+
+closeAll()
+Npoints = 200
+figure(1)
+linePlotsOn()
+subplot(2, 1, 1)
+fplot(f, 0, 10 )
+xlabel("Fixed sampling functional ploting")
+subplot(2, 1, 2)
+res  = faplot(f, 0, 10, nP = Npoints)
+xlabel("Adaptive sampling functional ploting")
+
+figure(2)
+linePlotsOn(); title("Functional plotting with adaptive sampling")
+plot(res)
+
+}}}
+
 = `Customization of the pop-up menus of GroovyLab editor (May 15)` =
 
 `In order GroovyLab to be even more convenient and user friendly, we started to customize the popup menu of the rsyntaxarea based editor. `
