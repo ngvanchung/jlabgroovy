@@ -16,7 +16,7 @@ subplot(2, 1, 1)
 fplot(f, 0, 10 )
 xlabel("Fixed sampling functional ploting")
 subplot(2, 1, 2)
-res  = faplot(f, 0, 10, nP = Npoints)
+res  = faplot(f, 0, 10,  Npoints)
 xlabel("Adaptive sampling functional ploting")
 
 figure(2)
