@@ -15,7 +15,7 @@ class Circle extends Function {
     public double  sEvaluate(double []x)  {
       checkArgument(x)
         
-      return   4 * Math.sqrt(1-x(0)*x(0))
+      return   4 * Math.sqrt(1-x[0]*x[0])
     }
 
    int inputDimension() {  return 1  }
