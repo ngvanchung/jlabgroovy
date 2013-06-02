@@ -16,6 +16,18 @@
 
  *  *`Bjørn-Ove Heimsund`* ` for ` *`MTJ`* 
 
+ * *`Apache Common Maths`* `development team.`*
 
+ * `CERN Colt`* `development team.`*
+
+ * `Huang Wen Hui`* ` for the Java translations to the superb Numerical Recipes 3nd edition routines. `*
+
+ * `JFreeChart`* `development team.`*
+
+ * `VISAD`* `development team.`*
+
+ * `jzy3D`* `development team.`*
+
+ * `symja (Java Computer Algebra)`* `development team.`*
 
   
