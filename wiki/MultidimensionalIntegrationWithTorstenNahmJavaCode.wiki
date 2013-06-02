@@ -40,19 +40,19 @@ class Circle extends Function {
 
 
 class Product extends Function {
-    override def sEvaluate(x: Array[Double]) = {
+    public double sEvaluate(double [] x)  {
         checkArgument(x)
         
-        var p = 1.0
-        for (i<-0 until x.length) p *= x(i)
+        double p = 1.0
+        for (i in  0 .. x.length-1) p *= x[i]
         p
     }
         
-    override def inputDimension() = 8
+    int  inputDimension() {  return 8 }
     }
     
-   var function2 = new Product
-   var result2 = integrator.integrateAbsTol(function2, 1e-6)
+   function2 = new Product()
+   result2 = integrator.integrateAbsTol(function2, 1e-6)
    
    println(result2.value)
 
