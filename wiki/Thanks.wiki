@@ -30,4 +30,9 @@
 
  * `symja (Java Computer Algebra)`* `development team.`*
 
+ * `Scientific Graphics for Java`*  `development team`*
+
+ * `JSci`* `development team`
+
+
   
