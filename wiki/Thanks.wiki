@@ -22,6 +22,8 @@
 
  * `Huang Wen Hui`* ` for the Java translations to the superb Numerical Recipes 3nd edition routines. `*
 
+ *`RSyntaxArea`* ` developers`*
+
  * `JFreeChart`* `development team.`*
 
  * `VISAD`* `development team.`*
