@@ -9,6 +9,7 @@
  * *`The Groovy team.`*
 
  * *`Google`* `for the excellent, free project hosting service`
+
  *  *`Yann Richet`* ` for  ` *`jmathplot`*
 
  *  *`Peter Abeles`* ` for ` *`EJML`*
