@@ -1,5 +1,13 @@
 #summary Tracks some useful GroovyLab updates
 
+
+= `Two useful code completion modes for RSyntaxArea editor (June 23)`=
+
+`The ` *`RSyntaxArea`* ` editor supports code completion (using ` *`CONTROL-SPACE`*` ) in two modes, that are switchable with a menu option of the ` _`Completion`_ `menu. These modes are: `
+
+ # *`Global completion mode. `* ` This mode is useful to remind the global GroovyLab methods, e.g. the many overloaded versions of ` _`plot().`_ `The global completion list can be extended, using library routines, that are detected using Java reflection. These libraries are available at the ` _`Completion`_ `menu. `
+ # *`Groovy completion mode. `* ` This mode works by exploiting the information acquired from  ` _`Java Reflection. `_ ` It is very useful to perform `  _`field and method`_ `completions.`
+
  
 = Adaptive Functional Plotting (May 23) = 
 
