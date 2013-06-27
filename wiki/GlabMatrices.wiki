@@ -149,6 +149,12 @@ A = Mat( 6, 4,
 
 {{{
   Arr = A.gr(1, 3)   // get rows 1 to 3 all columns
+  Arr = A[1..3]  // alternative
+}}}
+
+*`We can select a row and column range as`*
+{{{
+Arc = A[1..2, 2..3]
 }}}
 
 *`Additionally, we can specify an increment:`*
