@@ -1,6 +1,6 @@
 #summary Tracks some useful GroovyLab updates
 
-= `June 30`
+= `June 30` =
 ` Imports are issued to the GroovyShell with an ` _`ImportCustomizer`_ `This results in faster response to script execution.`
 
 `_`Package Completion`_ ` is supported in `_ `Global Completion Mode`_ 
