@@ -1,9 +1,9 @@
 #summary Tracks some useful GroovyLab updates
 
-= `June 30` =
+= `June 30 updates` =
 ` Imports are issued to the GroovyShell with an ` _`ImportCustomizer`_ `This results in faster response to script execution.`
 
-`_`Package Completion`_ ` is supported in `_ `Global Completion Mode`_ 
+_`Package Completion`_ ` is supported in `_ `Global Completion Mode`_ 
 
 = `Two useful code completion modes for RSyntaxArea editor (June 23)`=
 
