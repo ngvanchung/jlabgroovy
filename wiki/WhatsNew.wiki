@@ -6,7 +6,7 @@
 x = rand(12, 15)
 x[2..3, 0..1] = 6.5353  // a rectangulr subrange
 x[-1..-1, 2..4] = -773.44 // negative means all rows, assign columns 2 to 4
-x[5..6, -1..-1] = -0.45454  // assign rows 5 to 6 all columns
+x[4..5] = -0.45454  // assign rows 4 to 5 all columns
 }}}
 
 
