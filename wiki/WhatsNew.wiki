@@ -12,13 +12,15 @@ plot(sin(0.45*t))
 
 `Convenient assignment works for matrices, e.g. `
 {{{
+
 x = rand(80, 100)
-x[2..3, 0..1] = 6.5353  // a rectangulr subrange
+x[2..3, 0..1] = 6.5353  // a rectangular subrange
+x
 x[-1..-1, 2..4] = -773.44 // negative means all rows, assign columns 2 to 4
 x[4..5] = -0.45454  // assign rows 4 to 5 all columns
 
 row=2; col = 3
-y = x[row..row+2, col, col+5]  // get a matrix range
+y = x[row..row+2, col..col+5]  // get a matrix range
 
 yy = x[(row..row+50).by(2), (col..col+30).by(3)] // like MATLAB's x(row:2:row+50, col:3:col+30)
 
