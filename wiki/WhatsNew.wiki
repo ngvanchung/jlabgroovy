@@ -1,5 +1,48 @@
 #summary Tracks some useful GroovyLab updates
 
+=`Compilation of methods as pure Java code (July 06)`
+
+`Sometimes even the @CompileStatic annotation fails to produce code close to Java's speed. For that reason, and by exploiting the source compatibility of Java-Groovy we have an experimental Java compilation mode. Suppose for example that we have the script. `
+
+{{{
+
+
+
+public double[][]  mulj(double[][] v1, double[][] v2) {  
+        
+        int v1Rows = v1.length;  // # rows of the result matrix
+        int v2Cols = v2[0].length;  // # cols of the result matrix
+        double [][] result = new double[v1Rows][v2Cols];
+        int v1Cols = v1[0].length;
+       double[] v1Colj = new double[v1Cols];
+  
+    for (int j = 0; j < v2Cols; j++) {
+      for (int k = 0; k < v1Cols; k++) {
+        v1Colj[k] =v2[k][j];
+      }
+      for (int i = 0; i < v1Rows; i++) {
+        double[] Arowi = v1[i];
+        double s = 0;
+        for (int k = 0; k < v1Cols; k++) {
+          s += Arowi[k]*v1Colj[k];
+        }
+       result[i][j] = s;
+            }
+      }
+      return result;
+   }
+
+    N = 1000
+    x = Ones(N,N)
+    y = Ones(N, N)
+
+  tic()
+    z = mulj(x, y)
+    tm = toc()
+
+}}}
+
+
 =`July 04 updates` =
 
 `More convenient syntax for generating vectors`
