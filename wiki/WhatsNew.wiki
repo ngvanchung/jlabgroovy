@@ -42,7 +42,7 @@ public double[][]  mulj(double[][] v1, double[][] v2) {
 
 }}}
 
-`We can produce the fastest possible code for the method ` _`mulj`_ `by selecting its code and pressing ` *`F9`*
+`We can produce the fastest possible code for the method ` _`mulj`_ `by` *`selecting`* ` its code and pressing ` *`F9`*
 
 `GroovyLab wraps the code as a static method of a Java class, it compiles it and we have available the corresponding class in our classpath. Afterwards, we can execute easily the fast Java code from GroovyLab's scripts. `
 
