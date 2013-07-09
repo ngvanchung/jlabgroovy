@@ -1,5 +1,53 @@
 #summary Tracks some useful GroovyLab updates
 
+
+= `Adaptive combination of Java matrix libraries for solving basic linear algebra problems (July09)` =
+
+`We started to work on adaptively using the best library to accomplish basic linear algebra routines depending on the properties of the ` _`RichDouble2DArray`_ 
+
+`For example we can compare SVD decompositions: `
+{{{
+// SVD test
+
+// test Apache Common Maths
+N=500; M=300
+x = rand(N, M)
+tic()
+nrx = asvd(x)  // perform SVD
+tm = toc()
+shouldBeZero = nrx.U*diag(nrx.W)*t(nrx.V) - x
+ shouldBeIdentity = nrx.V*t(nrx.V)  // matrix V is orthogonal
+
+ 
+// test Numerical Recipes
+tic
+var nrx = nrsvd(x)  // perform SVD
+var tmnr = toc()
+
+var shouldBeZeroNR = nrx.U*diag(nrx.W)*(nrx.V~) - x
+var shouldBeIdentityNR = nrx.V*(nrx.V~)  // matrix V is orthogonal
+
+}}}
+
+`and QR decompositions`
+{{{
+// QR test
+
+// perform QR using Apache Commons
+ N=10; M=20
+ x = rand(N, M)
+ qrxac = aqr(x)
+ qrxac.Q* t(qrxacx.Q)-eye(N, N)  // matrix Q is orthogonal, should be 0
+ shouldBeZero = x-qrxac.Q*qrxac.R
+
+// perform QR using Numerical Recipes
+ qrxnr = qr(x)
+ zorth = qrxnr.Q* t(qrxnr.Q)-eye(N, N)  // matrix Q is orthogonal, should be 0
+ shouldBeZeronr = x-t(qrxnr.Q)*qrxnr.R
+ 
+
+}}}
+
 =`Compilation of methods as pure Java code (July 06)`  =
 
 `Sometimes even the @CompileStatic annotation fails to produce code close to Java's speed. For that reason, and by exploiting the source compatibility of Java-Groovy we have an experimental Java compilation mode. Suppose for example that we have the script. `
