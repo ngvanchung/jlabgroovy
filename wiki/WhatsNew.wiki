@@ -19,14 +19,6 @@ shouldBeZero = nrx.U*diag(nrx.W)*t(nrx.V) - x
  shouldBeIdentity = nrx.V*t(nrx.V)  // matrix V is orthogonal
 
  
-// test Numerical Recipes
-tic
-var nrx = nrsvd(x)  // perform SVD
-var tmnr = toc()
-
-var shouldBeZeroNR = nrx.U*diag(nrx.W)*(nrx.V~) - x
-var shouldBeIdentityNR = nrx.V*(nrx.V~)  // matrix V is orthogonal
-
 }}}
 
 `and QR decompositions`
