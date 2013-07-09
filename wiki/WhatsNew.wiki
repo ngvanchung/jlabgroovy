@@ -29,7 +29,7 @@ shouldBeZero = nrx.U*diag(nrx.W)*t(nrx.V) - x
  N=10; M=20
  x = rand(N, M)
  qrxac = aqr(x)
- qrxac.Q* t(qrxacx.Q)-eye(N, N)  // matrix Q is orthogonal, should be 0
+ qrxac.Q* t(qrxac.Q)-eye(N, N)  // matrix Q is orthogonal, should be 0
  shouldBeZero = x-qrxac.Q*qrxac.R
 
 // perform QR using Numerical Recipes
