@@ -4,6 +4,8 @@
 
 == Gaussian Mixture Models and k-Means Clustering, p. 842 NR3 ==
 
+ _`Gaussian  mixture models`_ `are one of the simplest examples of classification by ` _`unsupervised learning`_ `They are also one of the simplest examples where solution by the EM (`_expectation-maximization`_ `algorithm, proves highly successful.`
+
 {{{
 
 import static com.nr.NRUtil.SQR
