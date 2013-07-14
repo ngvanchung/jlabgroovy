@@ -17,7 +17,9 @@ import com.nr.ci.Gaumixmod
 import com.nr.ran.Normaldev
 
 
-    NDIM=2;   NMEANS=4; NPT=1000;
+    NDIM=2  // dimensionality of the space
+    NMEANS=4  // how many clusters to construct
+    NPT=1000  // the number of points
     flag=0; sqrt2=sqrt(2.0); 
     ffrac = [0.25,0.25,0.25,0.25] as double []
     mmeans = [0.0,0.0,0.75,0.0,-0.25,-0.25,0.33,0.66] as double []
