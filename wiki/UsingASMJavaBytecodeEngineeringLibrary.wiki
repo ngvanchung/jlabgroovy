@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`The ASM Java bytecode engineering library can be used easily from GroovyLab. We present some examples.
+`The ASM Java bytecode engineering library can be used easily from GroovyLab. We present some examples.`
 
 
 == Example 1: Generating an interface =
