@@ -7,7 +7,9 @@
 x= rand(30,30)  // a GroovyLab Matrix object 
 x[2][3] = 23.23  // update with a notation like Java's double [][] arrays
 }}}
-`Although, Java like that notation it works efficiently and we hope it is enough convenient. `
+`Although, that notation is Java like, it works efficiently and we hope it is enough convenient. `
+
+`Also, this accessing is very fast with Static Compilation, perhaps because it works using directly the Java double[][] array that keeps the data contents of the Matrix. `
 
 
 = `Adaptive combination of Java matrix libraries for solving basic linear algebra problems (July09)` =
