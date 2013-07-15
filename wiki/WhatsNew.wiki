@@ -4,8 +4,8 @@
 
 `We detected a significant problem with the basic matrix assignment, and we fixed by implementing GroovyLab matrix update as, e.g. `
 {{{
-x= rand(30,30)
-x[2][3] = 23.23
+x= rand(30,30)  // a GroovyLab Matrix object 
+x[2][3] = 23.23  // update with a notation like Java's double [][] arrays
 }}}
 `Although, Java like that notation it works efficiently and we hope it is enough convenient. `
 
