@@ -1,7 +1,6 @@
 #summary Tracks some useful GroovyLab updates
 
-
-*`Fixing a major problem in Matrix assignment (July 15) `=*
+=`Fixing a major problem in Matrix assignment (July 15) `=
 
 `We detected a significant problem with the basic matrix assignment, and we fixed by implementing GroovyLab matrix update as, e.g. `
 {{{
