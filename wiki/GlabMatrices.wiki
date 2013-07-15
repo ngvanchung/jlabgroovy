@@ -15,7 +15,7 @@
 x = rand(6, 9)
 x1_2 = x[1,2] // get the corresponding element
 x[1][2] = 12.12 // put a value
-               // Do not use x[1,1]=12.12 !!
+               // Do not use x[1,2]=12.12 !!
 x[1,2]  // display that value
 }}}
 
