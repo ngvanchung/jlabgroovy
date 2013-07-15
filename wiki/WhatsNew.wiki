@@ -1,6 +1,5 @@
 #summary Tracks some useful GroovyLab updates
 
-= `
 
 *`Fixing a major problem in Matrix assignment (July 15) `=*
 
