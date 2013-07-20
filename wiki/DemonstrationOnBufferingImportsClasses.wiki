@@ -1,8 +1,10 @@
-#summary We demonstrate how to use the convenient feature of buffering imports and code
+#summary `We demonstrate how to use the convenient feature of bufferingimports and code`
 
 = Introduction =
+
 `The Scala interpreter keeps both import and compiled code context.
 This is much convenient in ScalaLab.`
+
 `However, the GroovyShell does not keep previous imports
 and compiled code (e.g. classes).`
 `For that reason GroovyLab implements an external  buffering mechanism that allows the user to accumulate import statements
