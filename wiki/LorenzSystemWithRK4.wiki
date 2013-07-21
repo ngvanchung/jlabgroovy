@@ -1,4 +1,4 @@
-#summary Demonstration on implementing a Runge-Kutta 4th order in Groovy.
+#summary Demonstration on implementing a Runge-Kutta 4th order in GroovyLab.
 
 = Introduction =
 
