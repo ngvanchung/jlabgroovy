@@ -1,4 +1,4 @@
-#summary GroovyLab support for Embedded Java Runtime.
+#summary GroovyLab support for Embedded Java Runtime (July 26 and newer versions).
 
 = Introduction =
 
