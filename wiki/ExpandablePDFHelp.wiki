@@ -11,3 +11,5 @@
 {{{
 help("svd")
 }}}
+
+`This help system is user expandable, i.e. any PDF file that the user places at the ` *`help`* `folder, is viewable with the command ` *`help`*
