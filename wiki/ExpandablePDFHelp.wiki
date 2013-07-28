@@ -4,7 +4,7 @@
 
 `GroovyLab, started from July 28, has a ` *`help`* `folder, onto which PDF help files can be placed. `
 
-`Using an internal PDF Renderer, the command ` *`help(<filename>)` ` displays the corresponding pdf file . `
+`Using an internal PDF Renderer, the command ` *`help(<filename>)`* ` displays the corresponding pdf file . `
 
 `For example to have help on ` *`svd`* ` we can execute the command`
 
