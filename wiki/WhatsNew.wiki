@@ -30,6 +30,19 @@ x[2][3] = 23.23  // update with a notation like Java's double [][] arrays
 
 `Also, this accessing is very fast with Static Compilation, perhaps because it works using directly the Java double[][] array that keeps the data contents of the Matrix. `
 
+= `Row/Column Append/Prepend methods (July 31) ` =
+
+`We can easily append/prepend matrices using the ` *`RA(), RP(), CA(), CP()`* `methods. For example: `
+
+{{{
+x = rand(2,3)
+y = ones(2,3)
+xra = x.RA(y) // row append
+xrp = x.RP(y) // row prepend
+xca = x.CA(y) // column append
+xcp = x.CP(y) // column prepend
+}}}
+ 
 
 = `Adaptive combination of Java matrix libraries for solving basic linear algebra problems (July09)` =
 
