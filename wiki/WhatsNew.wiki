@@ -1,5 +1,24 @@
 #summary Tracks some useful GroovyLab updates
 
+
+= `New convenient constructors for matrices  (July31)` =
+
+`Matrices  can be constructed with M() by specifying their rows, separating each row with null, e.g. `
+
+{{{
+  xx = 8.3
+  am = M(xx, 1-xx, cos(xx), null, xx+0.3*xx, 5.6, -3.4)
+}}}
+
+
+`You can also use as elements any matrices, if however they are of the same size, e.g. `
+
+{{{
+   xx = rand(2,3)
+// append the matrix xx, two times as columns, three times as rows
+   yy = M(xx, xx, null, xx, xx, null, xx, xx) 
+}}}
+
 =`Fixing a major problem in Matrix assignment (July 15) `=
 
 `We detected a significant problem with the basic matrix assignment, and we fixed by implementing GroovyLab matrix update as, e.g. `
