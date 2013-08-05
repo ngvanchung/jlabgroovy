@@ -1,0 +1,40 @@
+
+import static com.nr.NRUtil.*
+import static com.nr.test.NRTestUtil.*
+
+import com.nr.la.Cholesky
+
+ diag=10.0
+
+ K=1000
+ 
+ a = new double[K][K]
+    
+ r=new double[K]
+  
+ y=new double[K]
+    
+ ranmat(a, diag)
+ ranvec(r)   
+
+
+// make a positive definite matrix
+aposdef = a*t(a)
+
+// perform a Cholesky factorization of the matrix, p. 101 NR3
+tic()
+ach = new Cholesky(aposdef)
+
+// solve using Cholesky factorization, p. 101 NR3
+ach.solve(r,y)
+tmNR = toc()
+
+residual = aposdef*y-r   // should be zero
+
+
+// solve wit JAMA
+tic()
+solJAMA = Cholesky_solve(aposdef, r)
+tmJAMA = toc()
+residualJAMA = aposdef*solJAMA-r   // should be zero
+
