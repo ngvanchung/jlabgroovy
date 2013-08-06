@@ -1,5 +1,7 @@
 #summary Tracks some useful GroovyLab updates
 
+= `defaultToolboxes folder  (Aug 06) ` =
+`The ` *`defaultToolboxes`* ` folder allows the user to place useful toolboxes that are installed by default automatically on startup. `
 
 = `New convenient constructors for matrices  (July31)` =
 
