@@ -170,6 +170,19 @@ import jcuda.jcublas.JCublas
         return (errorNorm / refNorm < 1e-6f)
     }
 
-        
+
  
+}}}
+
+`On my computer this script diaplays`
+
+{{{
+
+Creating input data...
+Performing Sgemm with Groovy ...
+Performing Sgemm with JCublas...
+testSgemm PASSED
+Time Groovy = 6.34, tmCUDA = 0.012 , speedup = 528.3333333333333
+
+
 }}}
