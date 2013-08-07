@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`GroovyLab can perform ultra parallel processing by exploiting the NVDIA CUDA framework and the JCUDA library that provides the Java bindkings. ` *`Version 5.0`* `of CUDA is required (JCUDA is not yet adapted to the newest 5.5). `
+`GroovyLab can perform ultra parallel processing by exploiting the NVDIA CUDA framework and the JCUDA library that provides the Java bindings. ` *`Version 5.0`* `of CUDA is required (JCUDA is not yet adapted to the newest 5.5). `
 
 
 `Currently, the download ` *`JCUDASupport.zip`* ` provides support only for Windows 64 bit. This download has a ` *`defaultToolboxes`* ` folder and a ` *`lib`* ` folder. The first one provides the necessary` *` .jar`* `files and the second the` *`.dll`* ` files. The ` *`installation`* ` is very simple, we simply copy these files to the corresponding GroovyLab's folders. `
