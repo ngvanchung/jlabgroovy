@@ -64,12 +64,12 @@ public class NROps
 xx = new NROps.NROps()
 
 N=8*512*512
-N2=N/2
+N2=(int)(N/2)
 data = vrand(N).getv()
 data2 = data.clone()
 
 tic()
-xx.cnrfft(data, N/2, 1)
+xx.cnrfft(data, N2, 1)
 tmNative = toc()
 
 tic()
@@ -92,10 +92,11 @@ while (i1<N) {
 tic()
 fftj = fft(data2)
 tmJava=toc()
+reJava = fftj.realFFTs
 
+figure(1); subplot(2,1,1); plot( (double[])  reJava[0..100], "Java FFT, time = "+tmJava)
+subplot(2,1,2); plot( (double[]) reNative[0..100], "Native FFT, time = "+tmNative)
 
-figure(1); subplot(2,1,1); plot( reJava(0,200), "Java FFT, time = "+tmJava)
-subplot(2,1,2); plot( reNative(0,200), "Native FFT, time = "+tmNative)
 }}}
 
 `We obtained: Java time = 0.59, Optimized C++ time = 0.58, with Microsoft's cl optimized compiler, with Linux gcc the results are very similar.`
