@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`We can evaluate Symbolic algebra formulas with the ` *`sym`* ` command. the results are displayed nicely by replacing at the main tab of the GroovyLab frame that keeps the basic menu. For example.`
+`We can evaluate Symbolic algebra formulas with the ` *`sym`* ` command. The results are displayed nicely by replacing at the main tab of the GroovyLab frame that keeps the basic menu. For example.`
 
 
 {{{
