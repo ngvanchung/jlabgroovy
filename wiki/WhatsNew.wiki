@@ -8,7 +8,7 @@
 sym("Integrate[x^a,x]")
 }}}
  
-`A threshold on matrix size for switching to the multithreadeded multiplication is computed automatically from GroovyLab, at the first run after its installation. It is stored in ` *`glab.props`* `configuration file. `
+`A threshold on matrix size for switching to the multithreaded multiplication is computed automatically from GroovyLab, at the first run after its installation. It is stored in ` *`glab.props`* `configuration file. `
  
 = `defaultToolboxes folder  (Aug 06) ` =
 `The ` *`defaultToolboxes`* ` folder allows the user to place useful toolboxes that are installed by default automatically on startup. `
