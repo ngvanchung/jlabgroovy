@@ -1,5 +1,18 @@
 #summary Tracks some useful GroovyLab updates
 
+= `Nov 07` =
+
+`FFT based on JCUDA is supported. For example: `
+
+{{{
+N = 2 << 16
+x = vrand(N).v
+fx = jcufft(x)
+subplot(2,1,1); plot(x, "Signal");
+subplot(2,1,2); plot(fx, "FFT");
+}}}
+
+
 = `Oct 27 ` =
 
 `Latex displaying of evaluated formulas with the ` *`sym`* ` command, e.g. `
