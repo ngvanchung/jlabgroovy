@@ -5,7 +5,7 @@
 
 `Discrete Wavelet Transform using CUDA (currently Win 64 support only). For example: `
 
-= `Nov 07` =
+
 {{{
 // the in-development CUDA supported signal processing operations object
 
@@ -31,6 +31,7 @@ dwtObj.cudadwt(x, N, dwtx)
  
 }}}
 
+= `Nov 07` =
 `FFT based on JCUDA is supported. For example: `
 
 {{{
