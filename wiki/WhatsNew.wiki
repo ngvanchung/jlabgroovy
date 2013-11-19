@@ -1,6 +1,35 @@
 #summary Tracks some useful GroovyLab updates
 
+
+== `November 19 ` ==
+
+`Discrete Wavelet Transform using CUDA (currently Win 64 support only). For example: `
+
 = `Nov 07` =
+{{{
+// the in-development CUDA supported signal processing operations object
+
+dwtObj = gExec.Interpreter.GlobalValues.cudaSigObj
+
+ N = 2 << 18  // signal length
+ x = new float[N]
+
+ freq=0.000124
+ k=0
+while (k< N) { 
+  x[k] = (float) (0.56*sin(freq*k)+rand())
+  k++
+  }
+  
+ dwtx = new float[N]
+
+tic()
+dwtObj.cudadwt(x, N, dwtx) 
+  
+  figure(1); subplot(2,1,1); plot(x, "Signal");
+  subplot(2,1,2); plot( dwtx, "Wavelet Transform")
+ 
+}}}
 
 `FFT based on JCUDA is supported. For example: `
 
