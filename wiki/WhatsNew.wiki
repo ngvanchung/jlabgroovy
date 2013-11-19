@@ -25,6 +25,8 @@ while (k< N) {
 
 tic()
 dwtObj.cudadwt(x, N, dwtx) 
+tm=toc()
+
   
   figure(1); subplot(2,1,1); plot(x, "Signal");
   subplot(2,1,2); plot( dwtx, "Wavelet Transform")
