@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`Matrix multiplication is a basic operation that should be performed as fast as possible. We illustrate a method for fast matrix multiplication using the Pthreads library (currently we support Windows, we plan Linux support soon).`
+`Matrix multiplication is a basic operation that should be performed as fast as possible. We illustrate a method for fast matrix multiplication using the Pthreads library .`
 
 `The code for Pthread based matrix multiplication is illustrated below. `
 
