@@ -49,9 +49,9 @@ tmc = toc()
  isIdentity = U* t(U)  // check orthogonality, should be the identity matrix
 
 // use Java svd
-tic
-var jsvd = svd(xx)
-var tmj=toc
+tic()
+jsvd = svd(xx)
+tmj=toc()
 }}}
 
 `At the case above I obtained, 36.51 secs for the optimized C case, and 60.73 secs for the Java version, thus there is some benefit.`
