@@ -32,20 +32,21 @@
 
 
 {{{
-var N = 1100; var M = 1000
+ N = 1100;  M = 1000
 
-var xx = rand(N,M)
+ xx = rand(N,M)
 
 // use C svd
-tic
-var csvd = ccsvd(xx)
-var tmc = toc
+tic()
+csvd = ccsvd(xx)
+tmc = toc()
 
-var U = csvd._1
-var W = diag(csvd._2)
-var V = csvd._3
+// take parameters from csvd
+ U = csvd.U
+ W = diag(csvd.W)  // the singular values
+ V = csvd.V
 
-var isIdentity = U*(U~)  // check orthogonality, should be the identity matrix
+ isIdentity = U* t(U)  // check orthogonality, should be the identity matrix
 
 // use Java svd
 tic
