@@ -111,7 +111,7 @@ tmj = toc()
 
 == FFT ==
 
-`FFT in ScalaLab perfoms faster with the Java based implementation. However, the Java and C implementations compared are different, therefore we cannot conclude from these results about the quality of code. `
+`FFT in GroovyLab perfoms faster with the Java based implementation. However, the Java and C implementations compared are different, therefore we cannot conclude from these results about the quality of code. `
 
 {{{
 
@@ -138,6 +138,5 @@ var tmj = toc
 figure(1)
 subplot(2,1,1); plot(reCoeff(0, 100),"C FFT")
 subplot(2,1,2); plot(jfftR(0, 100),"Java FFT")
-
 
 }}}
