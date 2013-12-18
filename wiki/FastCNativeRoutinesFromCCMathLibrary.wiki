@@ -62,32 +62,22 @@ tmj=toc()
 
 {{{
 // test the C inverse operation
-var N = 1200
+ N = 1200
 
 // test for RichDouble2DArrays
-var x = rand(N,N)
-var xx = x.clone
+ x = rand(N,N)
+ xx = x.clone()
 
-tic
-var y = ccinv(x)
-var tmc = toc
-
-
-
-tic
-var yj = inv(xx)
-var tmj = toc
+tic()
+y = ccinv(x)
+tmc = toc()
 
 
 
-// test for EJML matrices
+tic()
+yj = inv(xx)
+tmj = toc()
 
-var ex = scalaSci.EJML.StaticMathsEJML.rand0(N,N)   // create an EJML random matrix
-var cex = ex.clone
-
-tic
-var yx = scalaSci.EJML.StaticMathsEJML.ccinv(ex)
-var tmcEJML = toc
 
 }}}
 
