@@ -115,28 +115,29 @@ tmj = toc()
 
 {{{
 
-var  x = 0::0.001::500
-var N = x.length
+  x = inc(0, 0.01, 500)
+  N = x.length()
 
-var y = 67*cos(0.123*x)+3.4*sin(0.0345*x)
+ y = 0.67*cos(0.123*x)+0.34*sin(0.0345*x)+Rand(1, N)
+
 
 plot(x, y)
 
-var xx = scalaExec.Interpreter.GlobalValues.ccObj
+ xx = gExec.Interpreter.GlobalValues.ccObj
 
-var reCoeff = new Array[Double](N)
-var imCoeff = new Array[Double](N)
+reCoeff = new double[N]
+imCoeff = new double[N]
 
-tic
-xx.ccfft(y, reCoeff, imCoeff, N)
-var tmc = toc
+tic()
+xx.ccfft(y[0],  reCoeff, imCoeff, N)
+tmc = toc()
 
-tic
-var (jfftR, jfftI) = fft(y)
-var tmj = toc
+tic()
+jfft = fft(y[0])
+tmj = toc()
+
 
 figure(1)
-subplot(2,1,1); plot(reCoeff(0, 100),"C FFT")
-subplot(2,1,2); plot(jfftR(0, 100),"Java FFT")
-
+subplot(2,1,1); plot(reCoeff,"C FFT")
+subplot(2,1,2); plot(jfft.realFFTs,"Java FFT")
 }}}
