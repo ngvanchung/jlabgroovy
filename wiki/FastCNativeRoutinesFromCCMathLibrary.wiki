@@ -13,7 +13,7 @@
 
 {{{
 
-
+ ccObj = gExec.Interpreter.GlobalValues.ccObj
  M = 300
  N = 300
  d = Zeros(N)
