@@ -1,0 +1,149 @@
+#summary GroovyLab utilization of CCMath library for fast maths.
+
+= Introduction =
+
+`The CCMath library is a fast C library. Although Java code is generally very fast, some routines can run faster with native C code, if we perform an intense optimization of  that code. `
+
+`We present some examples of optimized routines`
+
+*`The interface of CCMath is in development`  *
+
+== SVD decomposition ==
+
+
+{{{
+
+
+ M = 300
+ N = 300
+ d = Zeros(N)
+ MN=M*N
+ a = Rand(MN)
+ aa = a.clone()
+ u = Zeros(M*M)
+ v = Zeros(N*N)
+ tic()
+ ccObj.svduv(d, a, u, M, v, N)
+ tm = toc()
+
+}}}
+
+`Using a higher level interface`
+
+
+{{{
+var N = 1100; var M = 1000
+
+var xx = rand(N,M)
+
+// use C svd
+tic
+var csvd = ccsvd(xx)
+var tmc = toc
+
+var U = csvd._1
+var W = diag(csvd._2)
+var V = csvd._3
+
+var isIdentity = U*(U~)  // check orthogonality, should be the identity matrix
+
+// use Java svd
+tic
+var jsvd = svd(xx)
+var tmj=toc
+}}}
+
+`At the case above I obtained, 36.51 secs for the optimized C case, and 60.73 secs for the Java version, thus there is some benefit.`
+
+
+== Inverse Operation ==
+`Also, the matrix inverse operation, runs slightly faster in optimized C compared to Java. Without full optimization of C code, Java outperforms C.`
+
+{{{
+// test the C inverse operation
+var N = 1200
+
+// test for RichDouble2DArrays
+var x = rand(N,N)
+var xx = x.clone
+
+tic
+var y = ccinv(x)
+var tmc = toc
+
+
+
+tic
+var yj = inv(xx)
+var tmj = toc
+
+
+
+// test for EJML matrices
+
+var ex = scalaSci.EJML.StaticMathsEJML.rand0(N,N)   // create an EJML random matrix
+var cex = ex.clone
+
+tic
+var yx = scalaSci.EJML.StaticMathsEJML.ccinv(ex)
+var tmcEJML = toc
+
+}}}
+
+== Square Linear Systems Solution ==
+
+`Here,optimized C performs faster from Java, but not significantly. `
+
+{{{
+
+
+var N=2000
+var A = rand(N, N)
+var b = Rand(N)
+
+// solve with C routine
+tic
+var x = ccsolv(A, b)
+var tmc= toc
+
+
+// solve with Java routine
+tic
+var xj = solve(A,b)
+var tmj = toc
+
+}}}
+
+
+== FFT ==
+
+`FFT in ScalaLab perfoms faster with the Java based implementation. However, the Java and C implementations compared are different, therefore we cannot conclude from these results about the quality of code. `
+
+{{{
+
+var  x = 0::0.001::500
+var N = x.length
+
+var y = 67*cos(0.123*x)+3.4*sin(0.0345*x)
+
+plot(x, y)
+
+var xx = scalaExec.Interpreter.GlobalValues.ccObj
+
+var reCoeff = new Array[Double](N)
+var imCoeff = new Array[Double](N)
+
+tic
+xx.ccfft(y, reCoeff, imCoeff, N)
+var tmc = toc
+
+tic
+var (jfftR, jfftI) = fft(y)
+var tmj = toc
+
+figure(1)
+subplot(2,1,1); plot(reCoeff(0, 100),"C FFT")
+subplot(2,1,2); plot(jfftR(0, 100),"Java FFT")
+
+
+}}}
