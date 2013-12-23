@@ -231,7 +231,7 @@ Arc = A.grc(1..2, 2..3)  // get matrix subrange of rows 1 to 2 and columns 2 to 
 *`Set a column  range to a value`*
 {{{
   a = rand(5, 9)  // a random matrx
-  a.sc(2..3, 77.7)  sets cols 2 to 3 to 77.7
+  a.sc(2..3, 77.7) // sets cols 2 to 3 to 77.7
 }}}
 
 *`Set a column  submatrix  to a value`*
