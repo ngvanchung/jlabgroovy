@@ -306,7 +306,7 @@ ama = a*a85
 
 == Static operations == 
 
-`The following static operations are available: `
+`Some available static operations : `
 
 {{{
 oo = ones(4, 10)   // a matrix with all ones
