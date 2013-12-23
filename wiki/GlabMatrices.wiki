@@ -347,7 +347,7 @@ dot(A, A)  // the dot product of A by itself
 {{{
   testMat = M(" 1.0 2.0 3.0 4.0; 5.0 6.0 7.0 8.0; 9 10 11 12")
   colIndices = [true, false, true, false] as boolean []
-  extract0_2cols = testMat.g(":", colIndices)
+  extract0_2cols = testMat.gc(colIndices)
 }}}
 
 `We can extract the rows specified with true values with an array ` _`rowIndices`_`. The new matrix is formed by using all the columns of the original matrix but with using only the specified rows. Example: `
@@ -355,7 +355,7 @@ dot(A, A)  // the dot product of A by itself
 {{{
  testMat = M(" 1.0 2.0 3.0 4.0; 5.0 6.0 7.0 8.0; 9 10 11 12")
  rowIndices = [true, false, true] as boolean []
- extract0_2rows = testMat.g rowIndices, ":")
+ extract0_2rows = testMat.gr(rowIndices)
 }}}
 
 
