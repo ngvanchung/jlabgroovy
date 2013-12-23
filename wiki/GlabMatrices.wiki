@@ -156,9 +156,13 @@ A = Mat( 6, 4,
 
 *`We can select a row and column range as`*
 {{{
-Arc = A[1..2][2..3]   // !! not A[1..2, 2..3]
+Arc = A[1..2][2..3]  
 }}}
 
+`or`
+{{{
+Arc = A[1..2, 2..3]  
+}}}
 *`Additionally, we can specify an increment:`*
 
 {{{
