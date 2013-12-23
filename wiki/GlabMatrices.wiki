@@ -365,14 +365,14 @@ dot(A, A)  // the dot product of A by itself
 {{{
  testMat = M(" 1.0 2.0 3.0 4.0; 5.0 6.0 7.0 8.0; 9 10 11 12; 13 14 15 16; 17 18 19 20")
  rowIndices = [3, 1] as int []
- extract3_1rows = testMat.g(rowIndices, ":")
+ extract3_1rows = testMat.gr(rowIndices)
 }}}
 
 `We can extract the columns specified with true values with an array ` _`colIndices`_ `.The new matrix is formed by using all the rows of the original matrix but with using only the specified columns.`
  {{{
  testMat = M(" 1.0 2.0 3.0 4.0; 5.0 6.0 7.0 8.0; 9 10 11 12")
  colIndices = [true, false, true, false] as boolean[]
- extract0_2cols = testMat.g(":", colIndices)
+ extract0_2cols = testMat.gc(colIndices)
  }}}
 
 == Filtering rows and columns of a matrix ==
