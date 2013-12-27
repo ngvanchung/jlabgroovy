@@ -262,6 +262,8 @@ x[2..3, 0..1] = 6.5353  // a rectangular subrange
 
 yx = x[2..3][0..1]    // get back the assigned range, all elements should be 6.5353
 
+y = x[2..3, 0..1]    // another way to get back the assigned range, all elements should be 6.5353
+
 x[4..5] = -0.45454  // assign rows 4 to 5 all columns
 
 
