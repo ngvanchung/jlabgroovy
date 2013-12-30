@@ -451,4 +451,7 @@ xejml = solveEJML(A, b)
 xmtj = solveMTJ(A, b)
 
 
+// solve using Apache Commons library
+xac = solveAC(A, b)
+
 }}}
