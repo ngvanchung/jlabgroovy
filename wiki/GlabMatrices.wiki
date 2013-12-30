@@ -447,4 +447,8 @@ xs = solve(A, b)
 xejml = solveEJML(A, b)
 
 
+// solve using MTJ library
+xmtj = solveMTJ(A, b)
+
+
 }}}
