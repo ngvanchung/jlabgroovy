@@ -422,4 +422,29 @@ myMatrix.browse("myMatrix")  // browse them using a JTable, editing cells affect
 
 == `Linear Algebra operations from JAMA`  ==
 
-`to be continued `
+=== `Solving linear systems` ===
+
+`We can solve linear systems using routines from many libraries. For example. `
+
+{{{
+
+// create a 3X3 matrix
+A =  Mat(3, 3, 2.3, 0.23, -1.1,  0.02, -0.7, 6, 0.45, -7.8, 8.9)
+
+// the right hand side
+b = Mat(3, 1, 5, 4.5, -0.9)
+
+// solve using QR decomposition
+xqr = QR_solve(A, b)
+
+// solve using LU decomposition
+xlu = LU_solve(A, b)
+
+// default solver uses LU decomposition
+xs = solve(A, b)
+
+// solve using EJML library
+xejml = solveEJML(A, b)
+
+
+}}}
