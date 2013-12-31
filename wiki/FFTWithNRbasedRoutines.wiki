@@ -62,3 +62,32 @@ subplot(2, 1, 2); plot(freq, spec, "spectrum")
 
 
 }}}
+
+== `FFTs with the integrated FFT code within the GroovyLab source` ==
+
+`We can perform FFTs and with the Java DSP code integrated within the GroovyLab's source. For example. `
+
+{{{
+import  DSP.fft.*
+        
+       N = 16384
+       log2N  = 14
+       xr = new double [N]
+       xi = new  double [N]
+       Xr = new double [N]
+       Xi = new double [N]
+       Xfm = new CDFT( log2N )
+ 
+     for (i in  0..N-1) {
+        xr[i] = sin(0.43*i)
+        xi[i] =  cos(0.28*i)
+     }
+    // evaluate transform of data
+     Xfm.evaluate( xr, xi, Xr, Xi )
+
+ figure(1)
+ subplot(2,1,1); plot(xr, "signal");
+ subplot(2,1,2); plot(Xr, "FFT")
+
+
+}}}
