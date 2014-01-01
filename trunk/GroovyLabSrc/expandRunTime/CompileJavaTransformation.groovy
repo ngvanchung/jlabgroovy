@@ -50,7 +50,7 @@ public class CompileJavaTransformation extends AbstractASTTransformation impleme
         Map<String,String> newClassDefinition = createNewClassDefinition(annotatedMethod, sourceUnit)
         String newClassName = newClassDefinition.className
         JavaFileObject newClassFileObject = getJavaFileObject(newClassName, newClassDefinition.classDefinition)
-        println "${newClassDefinition.classDefinition}"
+        //println "${newClassDefinition.classDefinition}"
 
         //
         // Compile the new class and save it to disk.
@@ -62,8 +62,10 @@ public class CompileJavaTransformation extends AbstractASTTransformation impleme
         if(!classOutputDir) {
             classOutputDir = new File(".").getAbsolutePath()
         }
+        def rootLoader = loader.rootLoader
+        String classpath = rootLoader?.URLs.collect({it.toString().replaceAll("^file:/","")}).join(";")
         DiagnosticListener listener = new CompilationListener(annotatedMethod)
-        compile(newClassFileObject, classOutputDir, listener)
+        compile(newClassFileObject, classpath, classOutputDir, listener)
 
         //
         // Remove any old compiled classes that are hanging around.
@@ -171,10 +173,14 @@ public static $methodText
    }
 
 
-   private static void compile(JavaFileObject file, String classOutputDir, DiagnosticListener listener) {
+   private static void compile(JavaFileObject file, String classpath, String classOutputDir, DiagnosticListener listener) {
        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler()
        StandardJavaFileManager fileManager = compiler.getStandardFileManager(listener, Locale.ENGLISH, null)
        Iterable options = ["-d", classOutputDir]
+       if(classpath) {
+           options += ["-classpath", classpath]
+       }
+       //println "options=${options}"
 //       JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, listener, options, null, [file])
        Writer writer = new StringWriter()
        JavaCompiler.CompilationTask task = compiler.getTask(writer, fileManager, null, options, null, [file])
