@@ -4,6 +4,7 @@
 
 `The GroovyShell lacks a feature of keeping the imports from the previous statements. This can be a rather inconvenient in many cases, since we must issue manually the same import statements, before executing commands depending on them. For that reason, we implemented in GroovyLab a simple import buffering, that we think can facilitate the user's work. `
 
+*`The import and code buffering mechanisms are very important, since they allow to work conveniently.`*
 
 
 = The import buffering mechanism =
