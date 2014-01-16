@@ -2,7 +2,7 @@
 
 = Introduction =
 
-` _`LAPACK`_ `is used in GroovyLab with its` _`JLAPACK`_ `translation to Java. The following script demonstrates how the ` _`DGELS`_ `JLAPACK routine can be used in GroovyLab to solve both overdetermined and underdetermined systems. `
+ _`LAPACK`_ `is used in GroovyLab with its` _`JLAPACK`_ `translation to Java. The following script demonstrates how the ` _`DGELS`_ `JLAPACK routine can be used in GroovyLab to solve both overdetermined and underdetermined systems. `
 
 {{{
  
