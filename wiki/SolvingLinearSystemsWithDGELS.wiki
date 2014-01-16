@@ -34,7 +34,7 @@ lssolOverDetermined = DGELS(ARowsMoreThanCols, bRowsMoreThanCols)
 {{{
 // test underdetermined case, i.e. more unknowns than equations
 AColsMoreThanRows= [[13.5, 5.6,  9.3, -2], [3.5, 3.7, 9.4, -0.7],[2.3, -2.3, 0.9, 9.4]] as double [][]
-bColsMoreThanRows=  [[-0.4], [0.5], [-3.4]] as double [][]
+bColsMoreThanRows=  [[-0.4], [0.5], [-3.4], [-7.8]] as double [][]
 
 lssolUnderDetermined = DGELS(AColsMoreThanRows, bColsMoreThanRows)
 
