@@ -1,6 +1,7 @@
 #summary Tracks some useful GroovyLab updates
 
-
+== `February 10` ==
+`The ` *`encog`* ` neural network library of Jeff Heaton, available as a GroovyLab toolbox, file: encog.jar at the SourceForge downloads. `
 == `November 19 ` ==
 
 `Discrete Wavelet Transform using CUDA (currently Win 64 support only). For example: `
