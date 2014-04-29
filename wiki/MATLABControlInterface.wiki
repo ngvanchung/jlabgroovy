@@ -13,6 +13,27 @@ http://code.google.com/p/matlabcontrol
 `We present some examples of using MATLAB from GroovyLab. `
  
 
+== Summing the elements of a GroovySci vector using MATLAB ==
+{{{
+
+
+initMatlabConnection() // init connection to MATLAB
+
+x = vrand(2000)  // create a GroovySci vector
+
+mcode = "sm = sum(x)"   // the MATLAB code to evaluate
+
+// at the following meval() call the whole meaningful 
+// context of GroovyShell is passed to MATLAB.
+// MATLAB uses it to evaluate the script assigned to the mcode String
+// MATLAB then returns the parameters of the output list to GroovyLab,
+// in the particular case the variable sm
+meval(mcode, ["sm"])  
+sm
+
+}}}
+
+
 == SVD using MATLAB ==
 
 {{{
