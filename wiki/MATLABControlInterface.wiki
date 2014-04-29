@@ -13,7 +13,7 @@ http://code.google.com/p/matlabcontrol
 `We present some examples of using MATLAB from GroovyLab. `
  
 
-== Summing the elements of a GroovySci vector using MATLAB ==
+== `Summing the elements of a GroovySci vector using MATLAB` ==
 {{{
 
 
