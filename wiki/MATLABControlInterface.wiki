@@ -29,7 +29,8 @@ mcode = "sm = sum(x)"   // the MATLAB code to evaluate
 // MATLAB then returns the parameters of the output list to GroovyLab,
 // in the particular case the variable sm
 meval(mcode, ["sm"])  
-sm
+sm[0][0] == x.sum()  // verify using GroovySci, results from MATLAB are                  
+    // returned as double[][] arrays, thus we access sm as double [][] 
 
 }}}
 
