@@ -82,6 +82,9 @@ public class MatlabComplex {
   double [][]im;
 }
 
+`We use the ` *`MatlabComplex`* ` type to retrive the results that MATLAB returns at the following eigendecomposition example.`
+
+
 }}}
 
 {{{
