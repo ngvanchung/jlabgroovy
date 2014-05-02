@@ -86,13 +86,12 @@ public class MatlabComplex {
 
 {{{
 
-// perform an FFT using MATLAB
+
+// perform an eigenvalue computation using MATLAB
 
 initMatlabConnection()  // init connection to MATLAB
 
-N=2^20
-t = linspace(0, 1, N)
-x = vrand(N)
+N=100
 A = Rand(N, N)
 
 
@@ -133,8 +132,6 @@ imPartsEvecs = evecs.im   // the imaginary parts of the computed eigenvectors
 tic()
 jeA = eig(A)
 tmJ = toc()
-
-
 }}}
 
 
