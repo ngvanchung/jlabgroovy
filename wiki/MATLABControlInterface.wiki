@@ -84,7 +84,7 @@ public class MatlabComplex {
 
 }}}
 
-`We use the ` *`MatlabComplex`* ` type to retrive the results that MATLAB returns at the following eigendecomposition example.`
+`We use the ` *`MatlabComplex`* ` type to retrieve the results that MATLAB returns at the following eigendecomposition example.`
 
 
 
