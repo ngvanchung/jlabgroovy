@@ -71,6 +71,19 @@ tmJava = toc()  // 221.122
 
 == `Computing eigenvalues and eigenvectors` ==
 
+`The ` *`MatlabComplex`* ` type is used to keep the complex results returned from MATLAB as real and imaginary arrays. That type is very simple: `
+
+{{{
+
+package gExec.Interpreter;
+
+public class MatlabComplex {
+  double [][] re;
+  double [][]im;
+}
+
+}}}
+
 {{{
 
 // perform an FFT using MATLAB
@@ -151,4 +164,3 @@ yj = fft(x)
 tmj = toc()
 
 }}}
-
