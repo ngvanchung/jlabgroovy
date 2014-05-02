@@ -67,3 +67,88 @@ tmJava = toc()  // 221.122
 
 
 }}}
+
+
+== `Computing eigenvalues and eigenvectors` ==
+
+{{{
+
+// perform an FFT using MATLAB
+
+initMatlabConnection()  // init connection to MATLAB
+
+N=2^20
+t = linspace(0, 1, N)
+x = vrand(N)
+A = Rand(N, N)
+
+
+// solve with MATLAB, eigenvalues only
+mstr = "eA = eig( A) "
+
+// evaluate the eigenvalues with the mceval() that permits the returning
+// of complex values with the MatlabComplex class
+// The MatlabComplex class keeps the real values with the re field which is double [][]
+// and the imaginary with the im field which is also double [][[]
+tic()
+mceval(mstr,  ["A"], ["eA"] )
+tmm = toc()
+
+realParts = eA.re   // the real parts of the computed eigenvalues
+imParts = eA.im   // the imaginary parts of the computed eigenvalues
+
+// solve with MATLAB, eigenvalues and eigenvectors
+mallstr = "[evals, evecs] = eig( A) "
+
+// evaluate the eigenvalues with the mceval() that permits the returning
+// of complex values with the MatlabComplex class
+// The MatlabComplex class keeps the real values with the re field which is double [][]
+// and the imaginary with the im field which is also double [][[]
+tic()
+mceval(mallstr,  ["A"], ["evals",  "evecs"] )
+tmmall = toc()
+
+realPartsEvals = evals.re   // the real parts of the computed eigenvalues
+imPartsEvals = evals.im   // the imaginary parts of the computed eigenvalues
+realPartsEvecs = evecs.re   // the real parts of the computed eigenvectors
+imPartsEvecs = evecs.im   // the imaginary parts of the computed eigenvectors
+
+
+
+
+// solve with Java
+tic()
+jeA = eig(A)
+tmJ = toc()
+
+
+}}}
+
+
+== `Performing FFT computations` ==
+
+{{{
+// perform an FFT using MATLAB
+
+initMatlabConnection()  // init connection to MATLAB
+
+N=2**20
+t = linspace(0, 1, N)
+
+x = cos(23.6*t)+rand(1, N)
+x=x.getArray()
+fftstr = " y = fft(x); "
+
+tic()
+mceval(fftstr, ["x"], ["y"])  // perform the FFT using MATLAB
+tmMatlab = toc()
+
+yre = y.re   // the real values of the FFT
+yim = y.im  // the imaginary values of the FFT
+
+tic()
+yj = fft(x)
+tmj = toc()
+
+}}}
+
