@@ -121,7 +121,7 @@ mallstr = "[evals, evecs] = eig( A) "
 // The MatlabComplex class keeps the real values with the re field which is double [][]
 // and the imaginary with the im field which is also double [][[]
 tic()
-mceval(mallstr,  ["A"], ["evals",  "evecs"] )
+meval(mallstr,  ["A"], ["evals",  "evecs"] )
 tmmall = toc()
 
 realPartsEvals = evals.re   // the real parts of the computed eigenvalues
@@ -154,7 +154,7 @@ x=x.getArray()
 fftstr = " y = fft(x); "
 
 tic()
-mceval(fftstr, ["x"], ["y"])  // perform the FFT using MATLAB
+meval(fftstr, ["x"], ["y"])  // perform the FFT using MATLAB
 tmMatlab = toc()
 
 yre = y.re   // the real values of the FFT
