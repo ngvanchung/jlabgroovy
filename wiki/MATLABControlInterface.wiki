@@ -107,7 +107,7 @@ mstr = "eA = eig( A) "
 // The MatlabComplex class keeps the real values with the re field which is double [][]
 // and the imaginary with the im field which is also double [][[]
 tic()
-mceval(mstr,  ["A"], ["eA"] )
+meval(mstr,  ["A"], ["eA"] )
 tmm = toc()
 
 realParts = eA.re   // the real parts of the computed eigenvalues
