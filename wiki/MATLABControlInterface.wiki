@@ -102,7 +102,7 @@ A = Rand(N, N)
 // solve with MATLAB, eigenvalues only
 mstr = "eA = eig( A) "
 
-// evaluate the eigenvalues with the mceval() that permits the returning
+// evaluate the eigenvalues with the meval() that permits the returning
 // of complex values with the MatlabComplex class
 // The MatlabComplex class keeps the real values with the re field which is double [][]
 // and the imaginary with the im field which is also double [][[]
@@ -116,7 +116,7 @@ imParts = eA.im   // the imaginary parts of the computed eigenvalues
 // solve with MATLAB, eigenvalues and eigenvectors
 mallstr = "[evals, evecs] = eig( A) "
 
-// evaluate the eigenvalues with the mceval() that permits the returning
+// evaluate the eigenvalues with the meval() that permits the returning
 // of complex values with the MatlabComplex class
 // The MatlabComplex class keeps the real values with the re field which is double [][]
 // and the imaginary with the im field which is also double [][[]
