@@ -53,7 +53,7 @@ svdc = "[u, s, v] = svd(x);"   //  the MATLAB script for SVD computation
 // the third parameter of meval() is the list of output parameters from MATLAB to GroovyLab
 meval( svdc, ["x"], ["u", "s", "v"])
 
-tmMatlab = toc()  // 1.924
+tmMatlab = toc()  // 0.152 sec, i5 3.2 GHz
 
  shouldBeZero = u*s*t(v)-x  // from the definition of SVD
 
@@ -61,9 +61,7 @@ tmMatlab = toc()  // 1.924
 // perform SVD with Java
 tic()
 svdJ = svd(x)
-tmJava = toc()  // 221.122 
-
-
+tmJava = toc()  // 2.74 sec, i5 3.2 GHz
 
 
 }}}
