@@ -41,7 +41,7 @@ sm[0][0] == x.sum()  // verify using GroovySci, results from MATLAB are
 
 initMatlabConnection()  // init connection to MATLAB
 
-N=1500
+N=500
 x = Rand(N,N)  // a Java random 2D double array 
 
 tic()
