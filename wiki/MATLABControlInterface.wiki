@@ -147,8 +147,8 @@ initMatlabConnection()  // init connection to MATLAB
 N=2**20
 t = linspace(0, 1, N)
 
-x = cos(23.6*t)+rand(1, N)
-x=x.getArray()
+x = cos(23.6*t)+rand(1, N) // induce some noisy
+
 fftstr = " y = fft(x); "
 
 tic()
