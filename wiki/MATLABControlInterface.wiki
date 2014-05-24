@@ -164,7 +164,7 @@ tmj = toc()
 
 }}}
 
-`Integrating ODEs using MATLAB`
+== `Integrating ODEs using MATLAB`==
 
 {{{
 
