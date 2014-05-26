@@ -484,7 +484,7 @@ tms = toc()
 xxi = ones(n,n)
 tic()
 xxi.map(mul10)
-tms = toc()
+tmsi = toc()
 
 // parallel map in-place
 tic()
