@@ -455,3 +455,40 @@ xmtj = solveMTJ(A, b)
 xac = solveAC(A, b)
 
 }}}
+
+== `Matrix map operations` ==
+
+`We can map a closure to each element of the Matrix using the ` _`map, imap, pmap, pimap` `methods, that perform a map of the method returning a new matrix (i.e. map), a parallel map returning a new matrix (i.e. pmap), and the corresponding in-place operations (i.e. imap, pimap). The following example illustrates these functions.`
+
+{{{
+
+n = 3000
+
+x = ones(n, n)
+
+// the closure to be mapped to the Matrix
+ mul10 = { double x ->  x*10.0}
+
+// parallel map operation
+tic()
+xx = x.pmap(mul10)
+tmp = toc()
+
+
+// serial map operation
+tic()
+xx2 = x.map(mul10)
+tms = toc()
+
+// serial in-place map operation
+xxi = ones(n,n)
+tic()
+xxi.map(mul10)
+tms = toc()
+
+// parallel map in-place
+tic()
+ x.pimap(mul10)
+tmip = toc()
+
+}}} 
