@@ -13,7 +13,7 @@
 
 `Suppose it is installed on folder: ` _`d:\\SciLab`_ ` for example (as its is in my installation. `
 
-`The first step is to update the ` *`PATH`* ` environment variable, from the Control Panel, appending to it the directories:` *`d:\\SciLab\\bin`* *` and *`d:\\SciLab`* `(of course replacing d:\\SciLab with the directories of your own installation).`
+`The first step is to update the ` *`PATH`* ` environment variable, from the Control Panel, appending to it the directories:` *`d:\\SciLab\\bin`* ` and ` *`d:\\SciLab`* `(of course replacing d:\\SciLab with the directories of your own installation).`
 
 `The second (and final!) step is to update the GroovyLab startup script by appending the same directories to the java.library.path, for example for my own system:`
 
