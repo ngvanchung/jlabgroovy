@@ -1,0 +1,19 @@
+#summary SciLab interface in GroovyLab.
+
+= Introduction =
+
+*`SciLab`* ` is a powerful open source scientific programming environment. The recent versions of SciLab have efficient built-in operations, and a rich number of libraries and toolboxes. `
+
+`We demonstrate how the GroovyLab user can execute scripts using SciLab.`
+
+
+
+Add your content here.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
