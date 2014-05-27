@@ -7,13 +7,38 @@
 `We demonstrate how the GroovyLab user can execute scripts using SciLab.`
 
 
+==`Installing SciLab support for Windows. ` ==
 
-Add your content here.
+`The first step is to download and install SciLab for Windows. `
+
+`Suppose it is installed on folder: ` _`d:\\SciLab`_ ` for example (as its is in my installation. `
+
+`The first step is to update the ` *`PATH`* ` environment variable, from the Control Panel, appending to it the directories:` *`d:\\SciLab\\bin*` ` and *`d:\\SciLab`* `(of course replacing d:\\SciLab with the directories of your own installation).`
+
+`The second (and final!) step is to update the GroovyLab startup script by appending the same directories to the java.library.path, for example for my own system:`
+
+`java     -server  -d64   -XX:+TieredCompilation -XX:+UseNUMA -XX:+UseParallelGC -XX:+UseCompressedOops -XX:+AggressiveOpts -Djava.library.path=d://SciLab//bin;d://SciLab;./lib;./libMedia64;./libCUDA;. -Xss5m -Xms3000m -Xmx9900m  -jar GroovyLab.jar`
 
 
-= Details =
+`After these two simple steps, GroovyLab can utilize and cooperate with the SciLab engine!!`
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+== Examples ==
+
+{{{
+
+
+import org.scilab.modules.javasci.Scilab
+import org.scilab.modules.types.ScilabType
+import org.scilab.modules.types.ScilabDouble
+
+sci = new Scilab()
+sci.open()
+
+a = new ScilabDouble(Math.pi)
+str = sci.put("a", a)
+sci.exec("b = sin(a)")
+b = sci.get("b")
+b
+sci.close()
+
+}}}
