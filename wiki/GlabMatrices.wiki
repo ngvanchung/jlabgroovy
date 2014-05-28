@@ -492,3 +492,39 @@ tic()
 tmip = toc()
 
 }}} 
+
+== Parallel and in-place operations ==
+
+`GroovyLab started to support multithreaded and in-place operations on Matrix type. We demonstrate below these operations with the ` *`sin`* ` function. Similar is for the other basic functions, e.g. cos, tan, cosh, log, etc'
+
+{{{
+
+n=3000
+
+x = rand(n,n)
+
+//parallel sin operation
+tic()
+xx = x.psin()
+tmp = toc()
+
+// serial sin operation
+tic()
+xxs = x.sin()
+tms = toc()
+
+
+// parallel in-place sin operation
+tic()
+xxi = x.pisin()
+tmpi = toc()
+
+// serial in-place  sin operation
+tic()
+xxsi = x.isin()
+tmsi = toc()
+
+
+
+
+}}}
