@@ -495,7 +495,7 @@ tmip = toc()
 
 == Parallel and in-place operations ==
 
-`GroovyLab started to support multithreaded and in-place operations on Matrix type. We demonstrate below these operations with the ` *`sin`* ` function. Similar is for the other basic functions, e.g. cos, tan, cosh, log, etc'
+`GroovyLab started to support multithreaded and in-place operations on Matrix type. We demonstrate below these operations with the ` *`sin`* ` function. Similar is for the other basic functions, e.g. cos, tan, cosh, log, etc`
 
 {{{
 
