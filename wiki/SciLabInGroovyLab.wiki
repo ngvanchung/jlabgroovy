@@ -45,7 +45,7 @@ sci.close()
 
 }}}
 
-== SVD with SciLab ==
+== `SVD with SciLab` ==
 
 {{{
 
@@ -77,4 +77,3 @@ tmj = toc()
 	
 
 }}}
-
