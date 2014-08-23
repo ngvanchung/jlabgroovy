@@ -22,3 +22,27 @@ for (k in 0..N-1)
 
 
 }}}
+
+
+== Normal Distribution ==
+
+{{{
+// create a normal distribution with mean, stdv
+
+mean = 4.7
+stdv = 9.8
+
+nx  = new NormalDistribution(mean, stdv)
+
+t = Inc(mean-3*stdv,0.01, mean+3*stdv)
+N = t.length
+x = new double[N]
+// compute the cumulative distribution function
+for (k in 0..N-1) 
+  x[k] = nx.cumulativeProbability(t[k])
+        
+
+ plot(t, x, "Normal Distribution")
+
+
+}}}
