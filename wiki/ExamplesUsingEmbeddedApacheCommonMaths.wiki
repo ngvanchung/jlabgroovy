@@ -4,10 +4,11 @@
 
 
 == F - Distribution ==
+
 {{{
 
 
-fx  =new FDistribution(2, 4)
+fx  = new FDistribution(2, 4)
 
 t = Inc(0,0.01,10)
 N= t.length
