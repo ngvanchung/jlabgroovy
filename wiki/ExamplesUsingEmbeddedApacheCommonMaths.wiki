@@ -1,0 +1,21 @@
+#summary Apache Common Maths is a powerful open-source library embedded in GroovyLab. We demonstrate some examples.
+
+= Examples =
+
+
+== F - Distribution ==
+{{{
+
+
+fx  =new FDistribution(2, 4)
+
+t = Inc(0,0.01,10)
+N= t.length
+x = new double[N]
+for (k in 0..N-1) 
+	x[k] = fx.cumulativeProbability(t[k])
+	
+	plot(t, x)
+
+
+}}}
