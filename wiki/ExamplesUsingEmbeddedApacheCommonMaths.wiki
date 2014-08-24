@@ -46,3 +46,16 @@ for (k in 0..N-1)
 
 
 }}}
+
+== Using the Brent Solver to locate the zero of a function ==
+
+{{{
+
+       f = new Sin()
+        
+        solver = new BrentSolver()
+        // Somewhat benign interval. The function is monotone.
+        result = solver.solve(100, f, 3, 4)
+     
+
+}}}
