@@ -8,7 +8,7 @@
 
 `Using the Web Camera is very simple:`
 
-`1. Install ` *`webCamera.jar`* ` as GroovyLab toolbox.`
+`1. Install ` *`webcam.jar`* ` as GroovyLab toolbox.`
 
 `2. Start the Web camera viewing by executing`
 
