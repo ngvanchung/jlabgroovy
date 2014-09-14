@@ -1,0 +1,20 @@
+#summary Using Web Camera from GroovyLab.
+
+= Introduction =
+
+`The Web camera toolbox` *`webCamera.jar`* `is based on project`
+
+`https://github.com/sarxos/webcam-capture`
+
+`Using the Web Camera is very simple:`
+
+`1. Install ` *`webCamera.jar`* ` as GroovyLab toolbox.`
+
+`2. Start the Web camera viewing by executing`
+
+{{{
+ wcam = new com.github.sarxos.webcam.WebcamViewer()
+}}}
+
+
+`The Java programming interface of the project mentioned above, can be utilized from GroovyLab, to perform for example tasks as image capturing and motion detection.`
