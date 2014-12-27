@@ -1,5 +1,36 @@
 #summary This page illustrates examples using the Apache Commons library.
 
+#summary Examples on using routines from the Apache Commons Library.
+
+== Gumbel Distribution ==
+
+{{{
+
+
+import org.apache.commons.math3.distribution.GumbelDistribution
+
+
+mu = 7.8
+beta = 2.3
+
+
+gd = new GumbelDistribution(mu, beta)
+
+
+x =  vinc(0, 0.01, 30)
+
+Nx = x.length()
+y= new double[Nx]
+
+for (k in 0..Nx-1)
+ y[k]  = gd.density(x[k])
+
+ plot(x, y)
+
+
+}}}
+
+
 = Curve Fitting =
 == Overview ==
 `The fitting package deals with curve fitting for univariate real functions. When a univariate real function y = f(x) does depend on some unknown parameters p_0,  p_1..., pn-1, curve fitting can be used to find these parameters. It does this by fitting the curve so it remains very close to a set of observed points (x0, y0), (x1, y1) ... (xk-1, yk-1). This fitting is done by finding the parameters values that minimizes the objective function Σ(yi - f(xi))2. This is actually a least-squares problem.`
