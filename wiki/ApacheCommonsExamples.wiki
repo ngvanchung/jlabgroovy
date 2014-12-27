@@ -1,6 +1,5 @@
 #summary This page illustrates examples using the Apache Commons library.
 
-#summary Examples on using routines from the Apache Commons Library.
 
 == Gumbel Distribution ==
 
