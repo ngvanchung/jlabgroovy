@@ -4,7 +4,7 @@
 
 `We can evaluate Symbolic algebra formulas with the ` *`sym`* ` command. The results are displayed nicely by replacing at the main tab of the GroovyLab frame that keeps the basic menu. You should press ` *`F6`* `after each command, to display the nice LaTeX formula.`
 
-`For example.`
+`For example, we illustrate some commands. We should press ` *`F6`* ` after each line, and ` *`not`* ` by selecting multiple commands at once.`
 
 
 {{{
