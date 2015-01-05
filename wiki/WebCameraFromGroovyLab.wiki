@@ -24,6 +24,7 @@
 
 {{{
 
+
 import java.io.IOException
 
 import com.github.sarxos.webcam.Webcam
@@ -43,9 +44,11 @@ class MotionListener implements WebcamMotionListener {
         void  motionDetected(  WebcamMotionEvent  wme) {
                 //println("Detected motion I, alarm turn on you have");
   //java.awt.Toolkit.getDefaultToolkit().beep()
-  tone(400,1000)
+  org.sound.SoundUtils.tone(400,1000)
 
         }
+}
+
 }
 
 }}}
