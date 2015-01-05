@@ -20,7 +20,7 @@
 `The Java programming interface of the project mentioned above, can be utilized from GroovyLab, to perform for example tasks as image capturing and motion detection.`
 
 
-== Motion detection with GroovyLab ==
+== `Motion detection with GroovyLab` ==
 
 {{{
 
