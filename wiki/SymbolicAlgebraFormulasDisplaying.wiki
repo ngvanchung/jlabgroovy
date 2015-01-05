@@ -6,6 +6,7 @@
 
 `For example, we illustrate some commands. We should press ` *`F6`* ` after each line, and ` *`not`* ` by selecting multiple commands at once.`
 
+`If we select multiple formulas at once, only the last formula is displayed.`
 
 {{{
 
