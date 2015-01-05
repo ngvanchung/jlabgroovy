@@ -13,11 +13,13 @@ mu = 7.8
 beta = 2.3
 
 
+// create a Gumbel distribution using the latest Apache Common Maths library
 gd = new GumbelDistribution(mu, beta)
 
 
-x =  vinc(0, 0.01, 30)
+x =  vinc(0, 0.01, 30)  // sample the axis, as MATLAB's 0:0.01:30
 
+// now evaluate the density over the x-axis
 Nx = x.length()
 y= new double[Nx]
 
