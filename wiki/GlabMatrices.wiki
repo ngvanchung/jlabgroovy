@@ -1,8 +1,8 @@
-#summary Tutorial on the Matrix class of Glab
+#summary Tutorial on the Matrix class of GroovyLab
 
 = Introduction =
 
-`This tutorial describes by means of examples the Matrix class of Glab. `
+`This tutorial describes by means of examples the Matrix class of GroovyLab. `
 
 
 = Tutorial on Matrix class =
@@ -20,7 +20,7 @@ x[1,2]  // display that value
 }}}
 
 
-`However, for complex operations that handle Matrix subranges, we have choosen at the new version of GroovyLab to use, the ` *`g(...)`* ` and ` *`s(...)`* `style methods. Below we describe the basics of their utilization. These methods are efficient, and stable but their interface is not stabilized yet, so the source code is the most objective documentation.` 
+`However, for complex operations that handle Matrix subranges, we have chosen at the new version of GroovyLab to use, the ` *`g(...)`* ` and ` *`s(...)`* `style methods. Below we describe the basics of their utilization. These methods are efficient, and stable but their interface is not stabilized yet, so the source code is the most objective documentation.` 
 
 == Constructors ==
 
