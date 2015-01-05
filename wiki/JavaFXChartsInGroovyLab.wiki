@@ -2,7 +2,7 @@
 
 = Introduction =
 
-`JavaFX comes with the ChartFX component that performs nice looking charting. In GroovyLab we develop an easier interface t utilize ChartFX for plotting. We demonstrate examples. This examples run the Java 8 based version of GroovyLab. JavaFX functionality can be exploited within the Swing based user interface of Groovylab, but that requires provisions, such as considering the threading issues of the two environments. `
+`JavaFX comes with the ChartFX component that performs nice looking charting. In GroovyLab we develop an easier interface to utilize ChartFX for plotting. We demonstrate examples. This examples run the Java 8 based version of GroovyLab. JavaFX functionality can be exploited within the Swing based user interface of GroovyLab, but that requires provisions, such as considering the threading issues of the two environments. `
 
 
 == `Line Plots` ==
