@@ -64,7 +64,7 @@ tmj=toc()
 // test the C inverse operation
  N = 1200
 
-// test for RichDouble2DArrays
+// test for Matrix
  x = rand(N,N)
  xx = x.clone()
 
