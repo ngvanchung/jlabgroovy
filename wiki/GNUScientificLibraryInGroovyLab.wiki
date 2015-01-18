@@ -1,0 +1,22 @@
+#summary MATLAB-like inteface of GNU Scientific Library in GroovyLab.
+
+= Introduction =
+
+`GroovyLab utilizes the project:`
+
+https://github.com/bytedeco/javacpp-presets/tree/master/gsl
+
+`in order to provide MATLAB-like access to the powerful GNU scientific library.`
+
+`We provide some examples.`
+
+= `Example 1 =
+
+
+{{{
+  x = 5.6
+
+  y = gsl_sf_bessel_J1(x)  // use the GSL library
+
+}}}
+ 
