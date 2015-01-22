@@ -46,9 +46,9 @@ println("multiplication results, C[0,0] = "+C[0]+" C[0,1] = "+C[1]+" C[1, 0] = "
 
 
 ==`Example 3 ` ==
-`Matrix Multiplication using CBLAS compared to the native GroovyLab multiplication.
+`Matrix Multiplication using CBLAS compared to the native GroovyLab multiplication.`
 
-GroovyLab here finishes much faster, since it combines Native BLAS with Java multithreading. `
+`GroovyLab here finishes much faster, since it combines Native BLAS with Java multithreading. `
 
 {{{
 
