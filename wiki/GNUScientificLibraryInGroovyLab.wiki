@@ -208,3 +208,20 @@ import org.bytedeco.javacpp.DoublePointer
         gsl_matrix_complex_free(evec)
         
 }}}
+
+==`Eigenvalue computation directly from GroovyLab's Matrix` ==
+{{{
+ N=800
+ x = rand(N,N)
+
+tic()
+xgsl = x.gsleig()  // compute eigenvalues using GSL
+tmgsl = toc()
+
+
+tic()
+xjava = x.eig()  // compute eigenvalues using Java
+tmjava = toc()
+
+}}}
+
